@@ -20,3 +20,5 @@
 18. As a student shopper, I want my preferences saved so that I do not need to re-enter them every time.
 19. As a developer, I want shopping and pricing data stored in a database so that the application has persistence.
 20. As a developer, I want unit tests for pricing and budget calculations so that the smart logic remains correct.
+21. As a student shopper, I want to create an account so that my shopping lists, budget, and preferences are saved securely.
+22. As a student shopper, I want to sign in to my account so that I can access my saved shopping data later.
