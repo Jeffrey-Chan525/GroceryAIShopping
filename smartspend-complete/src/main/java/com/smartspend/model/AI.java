@@ -1,11 +1,15 @@
 package com.smartspend.model;
 
+import dev.langchain4j.agent.tool.ToolSpecification;
 import dev.langchain4j.agentic.AgenticServices;
+import dev.langchain4j.agentic.UntypedAgent;
 import dev.langchain4j.agentic.observability.AgentListener;
 import dev.langchain4j.agentic.observability.AgentRequest;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.service.AiServices;
+
+import java.util.Map;
 
 public class AI {
     private final ChatModel model;
@@ -19,22 +23,29 @@ public class AI {
                 .modelName(MODEL_NAME)
                 .build();
 
-
         RecipeCuratorAgent RecipeCurator = AgenticServices.agentBuilder(RecipeCuratorAgent.class)
                 .chatModel(model)
                 .outputKey("Recipe")
                 .listener(new AgentListener() {
                     @Override
                     public void beforeAgentInvocation(AgentRequest agentRequest) {
-                        System.out.println("Invoking Creative with URL: " + agentRequest.inputs().get("URL"));
+                        System.out.println("Scraping URL: " + agentRequest.inputs().get("URL"));
                     }
                 })
+                .tools(new webScraper())
+                .build();
+
+        UntypedAgent controllerAgent = AgenticServices
+                .sequenceBuilder()
+                .subAgents(RecipeCurator)
+                .outputKey("Recipe")
                 .build();
 
 //        String testing = "Say 'Hi this is Qwen running locally'";
 //        System.out.print(prompt_model(testing));
-
-        String result = RecipeCurator.getRecipe("https://www.recipetineats.com/egg-fried-rice/");
+        String url =  "https://www.recipetineats.com/egg-fried-rice/";
+        Map<String, Object> input = Map.of("URL", url);
+        String result = (String) controllerAgent.invoke(input);
 
         System.out.println(result);
 
