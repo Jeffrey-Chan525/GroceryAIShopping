@@ -13,5 +13,3 @@ Thumbs.db
 # Logs
 *.log
 
-# files that will only be local to me
-src/main/java/com/smartspend/test.java
