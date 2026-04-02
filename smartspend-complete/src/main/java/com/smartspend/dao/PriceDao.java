@@ -1,5 +1,33 @@
 package com.smartspend.dao;
 
-public class PriceDao {
+import com.smartspend.model.Price;
+
+import java.util.List;
+
+public class PriceDao implements DAO<Price>{
+    @Override
+    public void create(Price value) {
+
+    }
+
+    @Override
+    public void update(Price value) {
+
+    }
+
+    @Override
+    public void delete(Price value) {
+
+    }
+
+    @Override
+    public List<Price> getAll() {
+        return List.of();
+    }
+
+    @Override
+    public Price get(int id) {
+        return null;
+    }
     // DAO implementation will be added later.
 }
