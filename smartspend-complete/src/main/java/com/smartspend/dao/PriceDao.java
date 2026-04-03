@@ -6,7 +6,7 @@ import java.util.List;
 
 public class PriceDao implements DAO<Price>{
     @Override
-    public void create(Price value) {
+    public void insert(Price value) {
 
     }
 

@@ -12,7 +12,7 @@ public interface DAO<T> {
     /**
      * this is to insert the data into the table
      */
-    public void create(T value);
+    public void insert(T value);
 
     /**
      * updates an Existing record in the database

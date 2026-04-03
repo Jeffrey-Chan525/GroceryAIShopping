@@ -9,16 +9,40 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class ItemDao implements DAO<Item> {
+public class ItemDao implements DAO<Item> {
     private static final Logger log = LoggerFactory.getLogger(ItemDao.class);
-    Connection connection = SqliteConnection.getInstance();
+    Connection connection;
+
+    /**
+     * instantiates with the default sqliteConnection instance
+     */
+    public ItemDao(){
+        this.connection = SqliteConnection.getInstance();
+    }
+
+    /**
+     * Instantiates with the connection you specify
+     * @param connection the connection to the database
+     */
+    public ItemDao(Connection connection){
+        this.connection = connection;
+    }
 
     @Override
-    public void create(Item value) {
+    public void insert(Item value) {
         String query = "INSERT INTO items (name, category, brand, default_unit) VALUES (?,?,?,?)";
+        int NAME = 1;
+        int CATEGORY = 2;
+        int BRAND = 3;
+        int DEFAULT_UNIT = 4;
         try{
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(NAME, value.getName());
+            statement.setString(CATEGORY, value.getCategory());
+            statement.setString(BRAND, value.getBrand());
+            statement.setString(DEFAULT_UNIT, value.getDefaultUnit());
             statement.execute();
+
         } catch (SQLException e){
             log.error("An sqliteException has occurred", e);
         }
@@ -26,7 +50,7 @@ public abstract class ItemDao implements DAO<Item> {
 
     @Override
     public void update(Item value) {
-
+        String query = "UPDATE items SET ";
     }
 
     @Override

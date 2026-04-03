@@ -6,7 +6,7 @@ import java.util.List;
 
 public class PreferenceDao implements DAO<UserPreferences> {
     @Override
-    public void create(UserPreferences value) {
+    public void insert(UserPreferences value) {
 
     }
 

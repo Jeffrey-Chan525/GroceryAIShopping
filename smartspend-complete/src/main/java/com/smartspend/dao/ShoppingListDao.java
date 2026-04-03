@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ShoppingListDao implements DAO<ShoppingListEntry> {
     @Override
-    public void create(ShoppingListEntry value) {
+    public void insert(ShoppingListEntry value) {
 
     }
 
