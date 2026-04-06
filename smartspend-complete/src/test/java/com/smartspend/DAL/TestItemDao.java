@@ -3,15 +3,13 @@ package com.smartspend.DAL;
 
 import com.smartspend.dao.ItemDao;
 import com.smartspend.model.Item;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class TestItemDao {
 
@@ -53,8 +51,31 @@ public class TestItemDao {
     }
 
     @Test
-    public void testInsert() {
+    void testInsert() {
+        // inserting the item
         Item item = new Item(1,"toilet paper", "Household Essentials","Quilton","roll");
         itemDao.insert(item);
+
+        //checking if the item is inserted
+        String query = "SELECT * FROM items WHERE item_id = 1";
+        try{
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                int item_id = resultSet.getInt(1);
+                String name = resultSet.getString(2);
+                String category = resultSet.getString(3);
+                String brand = resultSet.getString(4);
+                String defaultUnit = resultSet.getString(5);
+                Item inserteditem = new Item(item_id, name, category, brand, defaultUnit);
+                Assertions.assertEquals(item, inserteditem);
+            }
+        } catch (SQLException e){
+            log.error("Error has occurred");
+        }
+    }
+
+    @Test
+    void testUpdate(){
     }
 }
