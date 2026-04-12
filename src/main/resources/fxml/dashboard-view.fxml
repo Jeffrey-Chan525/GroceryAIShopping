@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.smartspend.controller.DashboardController"
+      spacing="16" styleClass="root" prefWidth="1100" prefHeight="720">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox spacing="12">
+        <Label text="SMARTSPEND" styleClass="title" />
+        <Button text="Settings" onAction="#handleSettings" />
+    </HBox>
+
+    <HBox spacing="10">
+        <TextField fx:id="quickAddField" promptText="Quick Add Local Item" prefWidth="320" />
+        <Button text="Add" onAction="#handleQuickAdd" />
+    </HBox>
+
+    <HBox spacing="16">
+        <VBox spacing="8" styleClass="card" prefWidth="300">
+            <Label fx:id="budgetLabel" text="Weekly Budget: $100.00" />
+            <ProgressBar progress="0.72" prefWidth="260" />
+        </VBox>
+        <VBox spacing="8" styleClass="card" prefWidth="300">
+            <Label fx:id="totalLabel" text="Current Basket Total: $72.40" />
+            <Label text="Remaining: $27.60" />
+        </VBox>
+    </HBox>
+
+    <VBox spacing="8" styleClass="card" prefWidth="700">
+        <Label text="Frugal Briefing" styleClass="subtitle" />
+        <Label fx:id="briefingLabel" wrapText="true" text="Your basket is cheapest at Aldi this week." />
+        <Label fx:id="statusLabel" wrapText="true" styleClass="status" text="Status messages will appear here." />
+    </VBox>
+
+    <HBox spacing="20">
+        <VBox spacing="10" styleClass="card" prefWidth="520">
+            <Label text="Search Real Product Data" styleClass="subtitle" />
+            <HBox spacing="10">
+                <TextField fx:id="searchField" promptText="Search Open Food Facts e.g. milk" prefWidth="320" />
+                <Button fx:id="searchButton" text="Search" onAction="#handleSearch" />
+            </HBox>
+            <ListView fx:id="resultsListView" prefHeight="260" VBox.vgrow="ALWAYS" />
+            <Button text="Import Selected Product" onAction="#handleImportSelected" />
+        </VBox>
+
+        <VBox spacing="10" styleClass="card" prefWidth="420">
+            <Label text="Local Items in SQLite" styleClass="subtitle" />
+            <ListView fx:id="localItemsListView" prefHeight="320" VBox.vgrow="ALWAYS" />
+            <HBox spacing="10">
+                <Button text="View Shopping List" onAction="#handleViewShoppingList" />
+                <Button text="View Price Trends" onAction="#handleViewPriceTrends" />
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>
