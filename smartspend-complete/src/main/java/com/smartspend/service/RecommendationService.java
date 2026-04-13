@@ -2,7 +2,7 @@ package com.smartspend.service;
 
 import com.smartspend.model.Price;
 import com.smartspend.model.PriceHistoryEntry;
-import com.smartspend.utils.PriceUtils;
+import com.smartspend.util.PriceUtils;
 
 import java.util.List;
 

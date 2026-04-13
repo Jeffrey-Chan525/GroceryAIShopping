@@ -1,5 +1,10 @@
 package com.smartspend.service;
 
+import com.smartspend.model.Price;
+import com.smartspend.model.ShoppingListEntry;
+
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PriceComparisonService {
@@ -25,8 +30,8 @@ public class PriceComparisonService {
 
         for (ShoppingListEntry entry : entries) {
             for (Price price : prices) {
-                if (price.getItemId() == entry.getItemID()) {
-                    String store = price.getStore();
+                if (price.getItemId() == entry.getItemId()) {
+                    String store = price.getStoreName();
                     double cost = price.getPrice() * entry.getQuantity();
                     totals.put(store, totals.getOrDefault(store, 0.0) + cost);
                 }
