@@ -1,5 +1,11 @@
 package com.smartspend.service;
 
+import com.smartspend.model.Price;
+import com.smartspend.model.PriceHistoryEntry;
+import com.smartspend.utils.PriceUtils;
+
+import java.util.List;
+
 public class RecommendationService {
     public String buildFrugalBriefing(String cheapestStore, double basketTotal, double budget) {
         double remaining = budget - basketTotal;
