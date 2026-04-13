@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Map;
 
 public class ShoppingList {
 
@@ -91,8 +92,15 @@ public class ShoppingList {
         return false;
     }
 
-    public double calculateTotal() {
-        return entries.size();
+    public double calculateTotal(Map<Integer, Double> priceByItemId) {
+        double total = 0.0;
+        for (ShoppingListEntry entry : entries) {
+            Double price = priceByItemId.get(entry.getItemId());
+            if (price != null) {
+                total += price * entry.getQuantity();
+            }
+        }
+        return total;
     }
 
     public double getRemainingBudget(double currentTotal) {
