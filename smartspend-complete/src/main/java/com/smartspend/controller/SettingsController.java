@@ -1,4 +1,4 @@
 package com.smartspend.controller;
 
-public class SettingsController {
+public class SettingsController extends BaseController {
 }
