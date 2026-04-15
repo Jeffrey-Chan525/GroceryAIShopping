@@ -39,6 +39,44 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!--These dependencies are for the AI stuff -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-ollama</artifactId>
+            <version>1.12.2</version>
+        </dependency>
+        <!--this is to import AI agents into -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j</artifactId>
+            <version>1.12.2</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-agentic</artifactId>
+            <version>1.12.2-beta22</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--this is to import docker for building the image for the LLM -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>ollama</artifactId>
+            <version>1.21.4</version>
+        </dependency>
+        <!--This is to update the dependency so that there are no vulnerability -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.28.0</version>
+            <scope>compile</scope>
+        </dependency>
+<!--        web scraping tool for Ai-->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.22.1</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
