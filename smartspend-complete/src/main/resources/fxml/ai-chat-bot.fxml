@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #fafcfa;">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #d4e4d4; -fx-border-color: #88a088; -fx-border-width: 0 0 2 0;" prefHeight="56.0">
+            <padding>
+                <Insets left="24" right="24" top="8" bottom="8"/>
+            </padding>
+            <Label text="SmartSpend - AI Chatbot" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;">
+                <font>
+                    <Font name="Monospaced" size="18"/>
+                </font>
+            </Label>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <HBox alignment="CENTER" spacing="4" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-padding: 4 12;">
+                <Label text="AI-powered" style="-fx-text-fill: #555;">
+                    <font>
+                        <Font name="Monospaced" size="12"/>
+                    </font>
+                </Label>
+                <Label text="v" style="-fx-text-fill: #999;">
+                    <font>
+                        <Font name="Monospaced" size="12"/>
+                    </font>
+                </Label>
+            </HBox>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox spacing="4" style="-fx-background-color: #f0f5f0; -fx-border-color: #88a088; -fx-border-width: 0 2 0 0;" prefWidth="176">
+            <padding>
+                <Insets top="12" right="12" bottom="12" left="12"/>
+            </padding>
+
+            <Label text="MENU" style="-fx-text-fill: #5a6a5a; -fx-font-weight: bold;">
+                <font>
+                    <Font name="Monospaced" size="10"/>
+                </font>
+            </Label>
+
+            <Region prefHeight="8"/>
+
+            <Button text="Dashboard" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-text-fill: #333;"/>
+            <Button text="Shopping List" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-text-fill: #333;"/>
+            <Button text="Price Comparison" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-text-fill: #333;"/>
+            <Button text="Basket/Budget" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-text-fill: #333;"/>
+            <Button text="AI Advisor" maxWidth="Infinity" style="-fx-background-color: #7a9a7a; -fx-border-color: #5a7a5a; -fx-border-width: 2; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            <Button text="Pantry" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-text-fill: #333;"/>
+            <Button text="Settings" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-text-fill: #333;"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Label text="JavaFX VBox with Button components" wrapText="true" style="-fx-border-color: #88a088; -fx-border-style: dashed; -fx-text-fill: #5a6a5a; -fx-padding: 8;">
+                <font>
+                    <Font name="Monospaced" size="9"/>
+                </font>
+            </Label>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="12" style="-fx-background-color: #fafcfa;">
+            <padding>
+                <Insets top="16" right="16" bottom="16" left="16"/>
+            </padding>
+
+            <GridPane hgap="12" vgap="0">
+                <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 12;">
+                    <Label text="Budget Optimisation" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold; -fx-border-color: #ccc; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 4 0;">
+                        <font>
+                            <Font name="Monospaced" size="12"/>
+                        </font>
+                    </Label>
+                    <Label text="Compare item prices across stores" wrapText="true" style="-fx-text-fill: #555;">
+                        <font>
+                            <Font name="Monospaced" size="12"/>
+                        </font>
+                    </Label>
+                </VBox>
+
+                <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 12;">
+                    <Label text="Price Alerts" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold; -fx-border-color: #ccc; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 4 0;">
+                        <font>
+                            <Font name="Monospaced" size="12"/>
+                        </font>
+                    </Label>
+                    <VBox spacing="4">
+                        <Label text="- Aldi is cheapest for 5 items" style="-fx-text-fill: #555;"/>
+                        <Label text="- Coles has best price on milk" style="-fx-text-fill: #555;"/>
+                    </VBox>
+                </VBox>
+
+                <VBox spacing="8" GridPane.columnIndex="2" GridPane.rowIndex="0" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 12;">
+                    <Label text="Stock-up Suggestions" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold; -fx-border-color: #ccc; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 4 0;">
+                        <font>
+                            <Font name="Monospaced" size="12"/>
+                        </font>
+                    </Label>
+                    <VBox spacing="4">
+                        <Label text="- Pasta on sale at Aldi" style="-fx-text-fill: #555;"/>
+                        <Label text="- Stock up on rice" style="-fx-text-fill: #555;"/>
+                    </VBox>
+                </VBox>
+            </GridPane>
+
+            <VBox spacing="8" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 12;">
+                <Label text="CHAT INTERFACE" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold; -fx-border-color: #ccc; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 8 0;">
+                    <font>
+                        <Font name="Monospaced" size="12"/>
+                    </font>
+                </Label>
+
+                <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true" style="-fx-background-color: white;">
+                    <VBox spacing="12" style="-fx-padding: 8;">
+
+                        <HBox spacing="8" alignment="TOP_LEFT">
+                            <Label text="AI" style="-fx-background-color: #7a9a7a; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 32; -fx-pref-height: 32; -fx-alignment: center; -fx-border-color: #5a7a5a;"/>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <VBox style="-fx-background-color: #e8f5e8; -fx-border-color: #88a088; -fx-padding: 8;">
+                                    <Label text="Hello! I can help you optimise your grocery spending. Ask me about price comparisons, store totals, or budget recommendations." wrapText="true" style="-fx-text-fill: #2d4a2d;"/>
+                                </VBox>
+                                <Label text="10:45 AM" style="-fx-text-fill: #999;"/>
+                            </VBox>
+                        </HBox>
+
+                        <HBox spacing="8" alignment="TOP_RIGHT">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS" alignment="TOP_RIGHT">
+                                <VBox style="-fx-background-color: white; -fx-border-color: #aaa; -fx-padding: 8;" maxWidth="600">
+                                    <Label text="How can I reduce my basket total?" wrapText="true" style="-fx-text-fill: #333;"/>
+                                </VBox>
+                                <Label text="10:46 AM" style="-fx-text-fill: #999;"/>
+                            </VBox>
+                            <Label text="U" style="-fx-background-color: #d0d0d0; -fx-text-fill: #555; -fx-font-weight: bold; -fx-pref-width: 32; -fx-pref-height: 32; -fx-alignment: center; -fx-border-color: #aaa;"/>
+                        </HBox>
+
+                        <HBox spacing="8" alignment="TOP_LEFT">
+                            <Label text="AI" style="-fx-background-color: #7a9a7a; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 32; -fx-pref-height: 32; -fx-alignment: center; -fx-border-color: #5a7a5a;"/>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <VBox spacing="8" style="-fx-background-color: #e8f5e8; -fx-border-color: #88a088; -fx-padding: 8;">
+                                    <Label text="I analyzed your basket and found these savings:" wrapText="true" style="-fx-text-fill: #2d4a2d;"/>
+                                    <VBox spacing="4">
+                                        <Label text="- Switch milk from Woolworths to Aldi: Save \$1.20" style="-fx-text-fill: #2d4a2d;"/>
+                                        <Label text="- Buy bread at Coles instead: Save \$0.80" style="-fx-text-fill: #2d4a2d;"/>
+                                        <Label text="- Eggs are cheapest at Aldi: Save \$1.50" style="-fx-text-fill: #2d4a2d;"/>
+                                    </VBox>
+                                    <Label text="Total potential savings: \$3.50" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold; -fx-border-color: #88a088; -fx-border-width: 1 0 0 0; -fx-padding: 8 0 0 0;"/>
+                                </VBox>
+                                <Label text="10:46 AM" style="-fx-text-fill: #999;"/>
+                            </VBox>
+                        </HBox>
+
+                    </VBox>
+                </ScrollPane>
+
+                <VBox spacing="4" style="-fx-border-color: #e0e0e0; -fx-border-width: 2 0 0 0; -fx-padding: 8 0 0 0;">
+                    <HBox spacing="8">
+                        <TextField promptText="Ask how to reduce your basket total..." HBox.hgrow="ALWAYS" prefHeight="36" style="-fx-background-color: #fafafa; -fx-border-color: #aaa; -fx-border-width: 2;"/>
+                        <Button text="Send" prefHeight="36" style="-fx-background-color: #7a9a7a; -fx-border-color: #5a7a5a; -fx-border-width: 2; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 80;"/>
+                    </HBox>
+                    <Label text="JavaFX TextField plus Button" style="-fx-text-fill: #5a6a5a;"/>
+                </VBox>
+            </VBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-background-color: #e8f5e8; -fx-border-color: #88a088; -fx-padding: 8;">
+                <Label text="Chat is secure. Your data is protected." style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;"/>
+            </HBox>
+        </VBox>
+    </center>
+
+    <right>
+        <VBox spacing="8" style="-fx-background-color: #f5faf5; -fx-border-color: #88a088; -fx-border-width: 0 0 0 2;" prefWidth="224">
+            <padding>
+                <Insets top="12" right="12" bottom="12" left="12"/>
+            </padding>
+
+            <Label text="QUICK ACTIONS" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold; -fx-border-color: #88a088; -fx-border-width: 0 0 2 0; -fx-padding: 0 0 8 0;">
+                <font>
+                    <Font name="Monospaced" size="12"/>
+                </font>
+            </Label>
+
+            <Button text="Compare store totals" maxWidth="Infinity" wrapText="true" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-text-fill: #2d4a2d; -fx-padding: 12;"/>
+            <Button text="Find cheapest basket" maxWidth="Infinity" wrapText="true" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-text-fill: #2d4a2d; -fx-padding: 12;"/>
+            <Button text="Explain price per unit" maxWidth="Infinity" wrapText="true" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-text-fill: #2d4a2d; -fx-padding: 12;"/>
+            <Button text="Suggest cheaper alternatives" maxWidth="Infinity" wrapText="true" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-text-fill: #2d4a2d; -fx-padding: 12;"/>
+
+            <Label text="JavaFX Button components in VBox layout" wrapText="true" style="-fx-border-color: #88a088; -fx-border-style: dashed; -fx-text-fill: #5a6a5a; -fx-padding: 8;">
+                <font>
+                    <Font name="Monospaced" size="9"/>
+                </font>
+            </Label>
+
+            <VBox spacing="8" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 8;">
+                <Label text="AI Features" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold; -fx-border-color: #ccc; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 4 0;">
+                    <font>
+                        <Font name="Monospaced" size="10"/>
+                    </font>
+                </Label>
+
+                <VBox spacing="4">
+                    <Label text="- Price comparison" style="-fx-text-fill: #555;"/>
+                    <Label text="- Budget optimisation" style="-fx-text-fill: #555;"/>
+                    <Label text="- Store analysis" style="-fx-text-fill: #555;"/>
+                    <Label text="- Savings tips" style="-fx-text-fill: #555;"/>
+                </VBox>
+            </VBox>
+        </VBox>
+    </right>
+
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #d4e4d4; -fx-border-color: #88a088; -fx-border-width: 2 0 0 0;" prefHeight="28">
+            <Label text="Low-to-Medium Fidelity Wireframe - SmartSpend - AI Chatbot (1280x800)" style="-fx-text-fill: #5a6a5a;">
+                <font>
+                    <Font name="Monospaced" size="9"/>
+                </font>
+            </Label>
+        </HBox>
+    </bottom>
+
+</BorderPane>
