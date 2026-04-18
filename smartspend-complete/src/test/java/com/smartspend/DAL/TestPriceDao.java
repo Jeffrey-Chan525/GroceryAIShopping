@@ -143,12 +143,12 @@ public class TestPriceDao {
 
         // updating the data
         // updated price id will be the expected value of this test
-        int UPDATED_PRICE_ID = 2;
-        Price updatePrice = new Price(UPDATED_PRICE_ID, EXPECTED_ITEM_ID, EXPECTED_STORE_NAME, EXPECTED_PRICE, EXPECTED_PACKAGE_QUANTITY, EXPECTED_PACKAGE_UNIT, EXPECTED_DATE, EXPECTED_IS_ON_SALE);
+        int UPDATED_ITEM_ID = 2;
+        Price updatePrice = new Price(EXPECTED_PRICE_ID, UPDATED_ITEM_ID, EXPECTED_STORE_NAME, EXPECTED_PRICE, EXPECTED_PACKAGE_QUANTITY, EXPECTED_PACKAGE_UNIT, EXPECTED_DATE, EXPECTED_IS_ON_SALE);
         priceDao.update(updatePrice);
 
         //checking what was updated to the database
-        String retrievePriceID = "SELECT * FROM prices WHERE price_id = 2";
+        String retrievePriceID = "SELECT * FROM prices WHERE price_id = 1";
         Price actualPrice = null;
         try{
             Statement statement = MOCK_CONNECTION.createStatement();
