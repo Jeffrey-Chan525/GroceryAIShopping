@@ -1,17 +1,12 @@
 package com.smartspend.dao;
 
 import com.smartspend.model.ShoppingListEntry;
-import dev.langchain4j.store.embedding.listener.EmbeddingStoreRequestContext;
-import org.junit.runners.JUnit4;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListDao implements DAO<ShoppingListEntry> {
-    private static final Logger log = LoggerFactory.getLogger(ShoppingListDao.class);
     Connection connection;
     public ShoppingListDao(Connection connection){
         this.connection = connection;
@@ -37,7 +32,7 @@ public class ShoppingListDao implements DAO<ShoppingListEntry> {
             statement.setString(ADDED_DATE, value.getAddedDate());
             statement.execute();
         }catch (SQLException e){
-            log.error("An error has occurred while inserting into shopping_list_items", e);
+            System.err.print("An error has occurred while inserting into shopping_list_items: " + e);
         }
     }
 
@@ -69,7 +64,7 @@ public class ShoppingListDao implements DAO<ShoppingListEntry> {
             statement.setInt(LIST_ITEM_ID, value.getListItemId());
             statement.execute();
         }catch (SQLException e){
-        log.error("An error has occurred when updating the table shopping_list_items", e);
+        System.err.print("An error has occurred when updating the table shopping_list_items: " + e);
     }
     }
 
@@ -82,7 +77,7 @@ public class ShoppingListDao implements DAO<ShoppingListEntry> {
             statement.setInt(LIST_ITEM_ID, value.getListItemId());
             statement.execute();
         } catch (SQLException e){
-            log.error("An error has occurred when deleting an item from Shopping_list_items", e);
+            System.err.print("An error has occurred when deleting an item from Shopping_list_items: " + e);
         }
     }
 
@@ -104,15 +99,15 @@ public class ShoppingListDao implements DAO<ShoppingListEntry> {
                 int listItemID = resultSet.getInt(LIST_ITEM_ID);
                 int userID = resultSet.getInt(USER_ID);
                 int itemID = resultSet.getInt(ITEM_ID);
-                Double quantity = resultSet.getDouble(QUANTITY);
+                double quantity = resultSet.getDouble(QUANTITY);
                 String unit = resultSet.getString(UNIT);
-                Boolean isCompleted = resultSet.getBoolean(IS_COMPLETED);
+                boolean isCompleted = resultSet.getBoolean(IS_COMPLETED);
                 String addedDate = resultSet.getString(ADDED_DATE);
                 ShoppingListEntry shoppingListEntry = new ShoppingListEntry(listItemID, userID, itemID, quantity, unit, isCompleted, addedDate);
                 shoppingListEntries.add(shoppingListEntry);
             }
         } catch (SQLException e ){
-            log.error("An error has occurred while retrieving all items from the table shopping_list_items", e);
+            System.err.print("An error has occurred while retrieving all items from the table shopping_list_items: " + e);
         }
         return shoppingListEntries;
     }
@@ -136,16 +131,15 @@ public class ShoppingListDao implements DAO<ShoppingListEntry> {
                 int listItemID = resultSet.getInt(LIST_ITEM_ID);
                 int userID = resultSet.getInt(USER_ID);
                 int itemID = resultSet.getInt(ITEM_ID);
-                Double quantity = resultSet.getDouble(QUANTITY);
+                double quantity = resultSet.getDouble(QUANTITY);
                 String unit = resultSet.getString(UNIT);
-                Boolean isCompleted = resultSet.getBoolean(IS_COMPLETED);
+                boolean isCompleted = resultSet.getBoolean(IS_COMPLETED);
                 String addedDate = resultSet.getString(ADDED_DATE);
                 shoppingListEntry = new ShoppingListEntry(listItemID, userID, itemID, quantity, unit, isCompleted, addedDate);
             }
         } catch (SQLException e){
-            log.error("An error has occurred while retrieving a single item from shopping_list_items",e );
+            System.err.print("An error has occurred while retrieving a single item from shopping_list_items: " + e);
         }
         return shoppingListEntry;
     }
-    // DAO implementation will be added later.
 }
