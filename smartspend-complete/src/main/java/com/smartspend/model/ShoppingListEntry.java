@@ -1,5 +1,7 @@
 package com.smartspend.model;
 
+import java.util.Objects;
+
 public class ShoppingListEntry {
     private int listItemId;
     private int userId;
@@ -26,4 +28,24 @@ public class ShoppingListEntry {
     public String getUnit() { return unit; }
     public boolean isCompleted() { return completed; }
     public String getAddedDate() { return addedDate; }
+
+    @Override
+    public boolean equals(Object object){
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+
+        ShoppingListEntry shoppingListEntry = (ShoppingListEntry) object;
+        boolean isListItemIDEqual = this.listItemId == shoppingListEntry.listItemId;
+        boolean isUserIDEqual = this.userId == shoppingListEntry.userId;
+        boolean isQuantityEqual = this.quantity == shoppingListEntry.quantity;
+        boolean isUnitEqual = this.unit.equals(shoppingListEntry.unit);
+        boolean isCompletedValueEqual = this.completed == shoppingListEntry.completed;
+        boolean isAddedDateEqual = this.addedDate.equals(shoppingListEntry.addedDate);
+        return isListItemIDEqual && isUserIDEqual && isQuantityEqual && isUnitEqual && isCompletedValueEqual && isAddedDateEqual;
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(listItemId);
+    }
 }

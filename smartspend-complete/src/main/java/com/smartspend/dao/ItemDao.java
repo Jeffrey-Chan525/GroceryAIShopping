@@ -32,13 +32,15 @@ public class ItemDao implements DAO<Item> {
 
     @Override
     public void insert(Item value) {
-        String query = "INSERT INTO items (name, category, brand, default_unit) VALUES (?,?,?,?)";
-        int NAME = 1;
-        int CATEGORY = 2;
-        int BRAND = 3;
-        int DEFAULT_UNIT = 4;
+        String query = "INSERT INTO items (item_id, name, category, brand, default_unit) VALUES (?,?,?,?,?)";
+        int ITEM_ID = 1;
+        int NAME = 2;
+        int CATEGORY = 3;
+        int BRAND = 4;
+        int DEFAULT_UNIT = 5;
         try{
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(ITEM_ID, value.getId());
             statement.setString(NAME, value.getName());
             statement.setString(CATEGORY, value.getCategory());
             statement.setString(BRAND, value.getBrand());
@@ -46,7 +48,7 @@ public class ItemDao implements DAO<Item> {
             statement.execute();
 
         } catch (SQLException e){
-            log.error("An sqliteException has occurred when inserting a new Item: ", e);
+            System.err.print("an error has occurred while inserting an item: "+ e);
         }
     }
 
@@ -127,6 +129,7 @@ public class ItemDao implements DAO<Item> {
         Item item = null;
         try{
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(ITEM_ID, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
                 int item_id = resultSet.getInt(ITEM_ID);

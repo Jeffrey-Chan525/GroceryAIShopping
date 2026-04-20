@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.List;
@@ -15,7 +13,6 @@ import java.util.List;
 public class TestPriceDao {
     private static final Connection MOCK_CONNECTION = MockSQLiteConnection.mockConnection;
     private static final PriceDao priceDao = new PriceDao(MOCK_CONNECTION);
-    private static final Logger log = LoggerFactory.getLogger(TestPriceDao.class);
 
     @BeforeAll
     static void beforeAll(){
@@ -34,7 +31,7 @@ public class TestPriceDao {
             statement.execute(createPricesTable);
 
         } catch (SQLException e){
-            log.error("A problem has occurred when creating the price table");
+            System.err.print("A problem has occurred when creating the price table");
         }
     }
 
@@ -45,7 +42,7 @@ public class TestPriceDao {
             Statement statement = MOCK_CONNECTION.createStatement();
             statement.execute(query);
         } catch (SQLException e ){
-            log.error("A problem has occurred when clearing the prices table");
+            System.err.print("A problem has occurred when clearing the prices table");
         }
     }
 
@@ -83,7 +80,7 @@ public class TestPriceDao {
             preparedStatement.setBoolean(IS_ON_SALE, EXPECTED_IS_ON_SALE);
             preparedStatement.execute();
         } catch (SQLException e){
-            log.error("An error has occurred when inserting the test data");
+            System.err.print("An error has occurred when inserting the test data");
         }
     }
 
@@ -129,8 +126,7 @@ public class TestPriceDao {
                Assertions.assertEquals(resultSet.getInt(1), EXPECTED_PRICE_ID);
            }
        } catch (SQLException e){
-           Assertions.assertThrows(SQLException.class,
-                   () -> log.error("something wrong has happened when retrieving price_id from the price table in testInsert"));
+           System.err.print("something wrong has happened when retrieving price_id from the price table in testInsert");
        }
     }
 
@@ -155,7 +151,7 @@ public class TestPriceDao {
             ResultSet resultSet = statement.executeQuery(retrievePriceID);
             actualPrice = turnResultSetIntoPrice(resultSet);
         }catch (SQLException e){
-            Assertions.assertThrows(SQLException.class, () -> log.error("an error occurred during testUpdate when trying to retrieve the updated dummy record"));
+            System.err.print("an error occurred during testUpdate when trying to retrieve the updated dummy record");
         }
 
         Assertions.assertEquals(actualPrice, updatePrice);
@@ -178,8 +174,7 @@ public class TestPriceDao {
             resultSet = statement.executeQuery(query);
             Assertions.assertFalse(resultSet.next());
         } catch (SQLException e){
-            Assertions.assertThrows(SQLException.class,
-                    () -> log.error("something went wrong when checking if the price table was empty"));
+            System.err.print("something went wrong when checking if the price table was empty");
         }
     }
 
@@ -192,7 +187,7 @@ public class TestPriceDao {
         Price actualPrice = priceDao.get(EXPECTED_PRICE_ID);
 
         //checking if the objects are the same
-        Assertions.assertEquals(actualPrice, EXPECTED_PRICE_OBJECT);
+        Assertions.assertEquals(EXPECTED_PRICE_OBJECT, actualPrice);
     }
 
     @Test

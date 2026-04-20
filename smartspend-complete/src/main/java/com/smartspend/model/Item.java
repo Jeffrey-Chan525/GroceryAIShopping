@@ -1,5 +1,7 @@
 package com.smartspend.model;
 
+import java.util.Objects;
+
 public class Item {
     private int id;
     private String name;
@@ -20,4 +22,18 @@ public class Item {
     public String getCategory() { return category; }
     public String getBrand() { return brand; }
     public String getDefaultUnit() { return defaultUnit; }
+
+    @Override
+    public boolean equals(Object object){
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Item item = (Item) object;
+        return (this.id == item.id) && this.name.equals(item.name) && this.category.equals(item.category) && (this.brand.equals(item.brand)) && this.defaultUnit.equals(item.defaultUnit);
+    }
+
+    @Override
+    public int hashCode(){
+        // generates a hashcode based on the id
+        return Objects.hash(id);
+    }
 }

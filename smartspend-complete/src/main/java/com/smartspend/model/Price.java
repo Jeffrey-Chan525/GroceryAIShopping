@@ -1,5 +1,7 @@
 package com.smartspend.model;
 
+import java.util.Objects;
+
 public class Price {
     private int priceId;
     private int itemId;
@@ -29,4 +31,24 @@ public class Price {
     public String getPackageUnit() { return packageUnit; }
     public String getLastUpdated() { return lastUpdated; }
     public boolean isOnSale() { return onSale; }
+
+    @Override
+    public boolean equals(Object object){
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+
+        Price priceObject = (Price) object;
+        boolean isPriceIDEqual = this.priceId == priceObject.priceId;
+        boolean isItemIDEqual = this.itemId == priceObject.itemId;
+        boolean isStoreNameEqual = this.storeName.equals(priceObject.storeName);
+        boolean isPriceEqual = this.price == priceObject.price;
+        boolean isPackageQuantityEqual = this.packageQuantity == priceObject.packageQuantity;
+        boolean isPackageUnitEqual = this.packageUnit.equals(priceObject.packageUnit);
+        boolean isLastUpdatedTimeEqual = this.lastUpdated.equals(priceObject.lastUpdated);
+        boolean isonSaleValueEqual = this.onSale == priceObject.onSale;
+        return isPriceIDEqual && isItemIDEqual && isStoreNameEqual && isPriceEqual && isPackageQuantityEqual && isPackageUnitEqual && isLastUpdatedTimeEqual && isonSaleValueEqual;
+    }
+
+    @Override
+    public int hashCode(){return Objects.hash(priceId);};
 }
