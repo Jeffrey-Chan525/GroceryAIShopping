@@ -9,6 +9,11 @@
 name: Nightly build
 
 on:
+  push:
+    branches: [ "nightly" ]
+  pull_request:
+    branches: [ "nightly" ]
+
   schedule:
   # this runs at UTC 00:00 every night
     - cron: '0 0 * * *'
