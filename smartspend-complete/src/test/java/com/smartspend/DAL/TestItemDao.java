@@ -4,32 +4,17 @@ package com.smartspend.DAL;
 import com.smartspend.dao.ItemDao;
 import com.smartspend.model.Item;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Assertions.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.List;
 
 public class TestItemDao {
 
-    private static final Connection connection = _initConnection();
-    private static final ItemDao itemDao = new ItemDao(connection);
+    private static final Connection MOCK_CONNECTION = MockSQLiteConnection.mockConnection;
+    private static final ItemDao itemDao = new ItemDao(MOCK_CONNECTION);
     private static final Logger log = LoggerFactory.getLogger(TestItemDao.class);
-
-    public static Connection _initConnection() {
-        // using in memory database for easy clean up
-        String url = "jdbc:sqlite::memory:";
-        Connection connection;
-        try {
-            connection = DriverManager.getConnection(url);
-            if (connection != null) {
-                System.out.print("Connected to sqlite in memory database");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return connection;
-    }
 
     private Item createItemFromQuery(ResultSet resultSet){
         // these values correspond to the column names in the table
@@ -54,6 +39,41 @@ public class TestItemDao {
         return null;
     }
 
+    int ITEM_ID_VALUE = 1;
+    String NAME_VALUE = "Toilet paper";
+    String CATEGORY_VALUE = "household items";
+    String BRAND_VALUE = "quilton";
+    String DEFAULT_VALUE = "rolls";
+
+    Item EXPECTED_VALUE = new Item(ITEM_ID_VALUE, NAME_VALUE, CATEGORY_VALUE, BRAND_VALUE, DEFAULT_VALUE);
+    /**
+     * this is a helper function to allow insertion of test data
+     * the specific test data inserted is EXPECTED DATA
+      */
+    private void insertTestData(){
+        int ITEM_ID = 1;
+        int NAME = 2;
+        int CATEGORY = 3;
+        int BRAND = 4;
+        int DEFAULT_UNIT = 5;
+
+        String insertTestData = "INSERT INTO items (item_id, name, category, brand, default_unit) values (?,?,?,?,?)";
+        try {
+
+            PreparedStatement preparedStatement = MOCK_CONNECTION.prepareStatement(insertTestData);
+            preparedStatement.setInt(ITEM_ID,ITEM_ID_VALUE);
+            preparedStatement.setString(NAME, NAME_VALUE);
+            preparedStatement.setString(CATEGORY, CATEGORY_VALUE);
+            preparedStatement.setString(BRAND, BRAND_VALUE);
+            preparedStatement.setString(DEFAULT_UNIT, DEFAULT_VALUE);
+            preparedStatement.execute();
+        } catch (SQLException e){
+            Assertions.assertThrows(SQLException.class, () -> {
+                throw new SQLException("Something went wrong with inserting the test data into the in memory database");
+            });
+        }
+    }
+
     private String ItemToString(Item item){
         String res = "";
         res += "Id: " + item.getId() + "\n";
@@ -75,7 +95,7 @@ public class TestItemDao {
                 + "default_unit TEXT NOT NULL"
                 + ");";
         try {
-            Statement stmt = connection.createStatement();
+            Statement stmt = MOCK_CONNECTION.createStatement();
             stmt.execute(query);
         } catch (SQLException e){
             log.error("e: ", e);
@@ -86,7 +106,7 @@ public class TestItemDao {
     void init(){
         String query = "DELETE FROM items";
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = MOCK_CONNECTION.createStatement();
             statement.execute(query);
         } catch (SQLException e ){
             log.error("something has happen while clearing the data from items", e);
@@ -102,7 +122,7 @@ public class TestItemDao {
         //checking if the item is inserted
         String query = "SELECT * FROM items WHERE item_id = 1";
         try{
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = MOCK_CONNECTION.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             Item insertedItem = createItemFromQuery(resultSet);
             Assertions.assertEquals(item, insertedItem);
@@ -119,7 +139,7 @@ public class TestItemDao {
                     """;
             try {
                 // inserting the test data into the table
-                PreparedStatement statement = connection.prepareStatement(TestDataQuery);
+                PreparedStatement statement = MOCK_CONNECTION.prepareStatement(TestDataQuery);
                 statement.setInt(1, 2);
                 statement.setString(2, "toilet Paper");
                 statement.setString(3, "household products");
@@ -128,7 +148,7 @@ public class TestItemDao {
 
                 // retrieving the inserted Test data
                 String query = "SELECT * from items WHERE item_id = 2";
-                Statement retrievedDataStatement = connection.createStatement();
+                Statement retrievedDataStatement = MOCK_CONNECTION.createStatement();
                 ResultSet resultSet = retrievedDataStatement.executeQuery(query);
                 // updating the data with ItemDAO
                 int ITEM_ID = 1;
@@ -165,7 +185,7 @@ public class TestItemDao {
         String BRAND_VALUE = "quilton";
         String DEFAULT_UNIT_VALUE = "rolls";
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement(insertTestData);
+            PreparedStatement preparedStatement = MOCK_CONNECTION.prepareStatement(insertTestData);
             int ITEM_ID = 1;
             int NAME = 2;
             int CATEGORY = 3;
@@ -186,13 +206,31 @@ public class TestItemDao {
 
         String selectTableQuery = "SELECT * FROM items";
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = MOCK_CONNECTION.createStatement();
             ResultSet resultSet = statement.executeQuery(selectTableQuery);
-            if (!resultSet.next()){
+            if (!resultSet.next() || resultSet.getInt(1) == 1){
                 Assertions.fail();
             }
         } catch (SQLException e){
             log.error("an error has occurred while selecting data from the table");
         }
+    }
+
+    @Test
+    void testGet(){
+        insertTestData();
+
+        Item ActualItem = itemDao.get(1);
+        Item ExpectedItem = new Item(ITEM_ID_VALUE, NAME_VALUE, CATEGORY_VALUE, BRAND_VALUE, DEFAULT_VALUE);
+        Assertions.assertEquals(ActualItem, EXPECTED_VALUE);
+    }
+
+    @Test
+    void testGetAll(){
+        insertTestData();
+
+        List<Item> ActualItems = itemDao.getAll();
+        List<Item> ExpectedItems = List.of(EXPECTED_VALUE);
+        Assertions.assertEquals(ActualItems, ExpectedItems);
     }
 }
