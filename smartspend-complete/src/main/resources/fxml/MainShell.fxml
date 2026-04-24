@@ -6,13 +6,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="rootPane" xmlns="http://javafx.com/javafx/17"
+<BorderPane fx:id="rootPane"
+            xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.smartspend.controller.ShellSidebarController"
             styleClass="root-pane">
 
     <left>
-        <VBox styleClass="sidebar" prefWidth="210" spacing="4">
+        <VBox styleClass="sidebar" prefWidth="210" spacing="6">
             <padding>
                 <Insets top="20" right="14" bottom="20" left="14"/>
             </padding>
@@ -20,55 +21,42 @@
             <Label text="SmartSpend" styleClass="brand-title"/>
             <Label text="Budget mode" styleClass="brand-sub"/>
 
-            <VBox spacing="2">
+            <VBox spacing="4">
                 <padding>
-                    <Insets top="20" bottom="0" left="0" right="0"/>
+                    <Insets top="20" right="0" bottom="0" left="0"/>
                 </padding>
 
-                <ToggleButton fx:id="navDashboard"
-                              text="Dashboard"
+                <ToggleButton fx:id="navDashboard" text="Dashboard"
                               styleClass="nav-item"
                               onAction="#loadDashboard"
                               maxWidth="Infinity"/>
 
-                <ToggleButton fx:id="navMyItems"
-                              text="My items"
+                <ToggleButton fx:id="navMyItems" text="My Items"
                               styleClass="nav-item"
                               onAction="#loadShoppingList"
                               maxWidth="Infinity"/>
 
-                <ToggleButton fx:id="navPriceCompare"
-                              text="Price compare"
+                <ToggleButton fx:id="navPriceCompare" text="Price Compare"
                               styleClass="nav-item"
-                              onAction="#loadPlaceholder"
+                              onAction="#loadPriceCompare"
                               maxWidth="Infinity"/>
 
-                <ToggleButton fx:id="navCartBudget"
-                              text="Cart &amp; budget"
+                <ToggleButton fx:id="navCartBudget" text="Cart &amp; Budget"
                               styleClass="nav-item"
-                              onAction="#loadPlaceholder"
+                              onAction="#loadCartBudget"
                               maxWidth="Infinity"/>
 
-                <ToggleButton fx:id="navAiAdvisor"
-                              text="AI advisor"
+                <ToggleButton fx:id="navAiAdvisor" text="AI Advisor"
                               styleClass="nav-item"
                               onAction="#loadAiAdvisor"
                               maxWidth="Infinity"/>
 
-                <ToggleButton fx:id="navPriceHistory"
-                              text="Price history"
+                <ToggleButton fx:id="navPriceHistory" text="Price History"
                               styleClass="nav-item"
                               onAction="#loadPriceHistory"
                               maxWidth="Infinity"/>
 
-                <ToggleButton fx:id="navPantry"
-                              text="Pantry"
-                              styleClass="nav-item"
-                              onAction="#loadPlaceholder"
-                              maxWidth="Infinity"/>
-
-                <ToggleButton fx:id="navSettings"
-                              text="Settings"
+                <ToggleButton fx:id="navSettings" text="Settings"
                               styleClass="nav-item"
                               onAction="#loadSettings"
                               maxWidth="Infinity"/>
