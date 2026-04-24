@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.smartspend.controller.AiAdvisorController"
+      spacing="16" styleClass="root" prefWidth="1000" prefHeight="700">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="AI ADVISOR" styleClass="title"/>
+
+    <VBox spacing="10" styleClass="card">
+        <Label text="Ask SmartSpend" styleClass="subtitle"/>
+        <TextField fx:id="questionField" promptText="Ask how to reduce your basket total..."/>
+        <Button text="Ask Advisor" onAction="#handleAsk"/>
+        <Label fx:id="answerLabel" wrapText="true" text="AI recommendations will appear here."/>
+    </VBox>
+
+    <VBox spacing="8" styleClass="card">
+        <Label text="Quick Suggestions" styleClass="subtitle"/>
+        <Button text="Find cheapest basket" onAction="#handleCheapestBasket"/>
+        <Button text="Explain price per unit" onAction="#handlePricePerUnit"/>
+        <Button text="Suggest cheaper alternatives" onAction="#handleAlternatives"/>
+    </VBox>
+</VBox>

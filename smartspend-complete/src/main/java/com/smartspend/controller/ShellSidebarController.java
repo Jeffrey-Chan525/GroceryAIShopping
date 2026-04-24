@@ -42,6 +42,11 @@ public class ShellSidebarController {
 
     @FXML private void loadDashboard()    { loadView("Dashboard.fxml"); }
     @FXML private void loadPriceHistory() { loadView("PriceHistory.fxml"); }
+    @FXML private void loadShoppingList() { loadView("ListView.fxml"); }
+    @FXML private void loadPriceCompare() { loadView("ListView.fxml"); }
+    @FXML private void loadCartBudget()   { loadView("Dashboard.fxml"); }
+    @FXML private void loadAiAdvisor()    { loadView("AiAdvisor.fxml"); }
+    @FXML private void loadSettings()     { loadView("Settings.fxml"); }
     @FXML private void loadPlaceholder()  { loadView("Placeholder.fxml"); }
 
     private void loadView(String fxml) {

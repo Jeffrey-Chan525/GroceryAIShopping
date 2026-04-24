@@ -13,21 +13,65 @@
 
     <left>
         <VBox styleClass="sidebar" prefWidth="210" spacing="4">
-            <padding><Insets top="20" right="14" bottom="20" left="14"/></padding>
+            <padding>
+                <Insets top="20" right="14" bottom="20" left="14"/>
+            </padding>
 
             <Label text="SmartSpend" styleClass="brand-title"/>
             <Label text="Budget mode" styleClass="brand-sub"/>
 
             <VBox spacing="2">
-                <padding><Insets top="20" bottom="0" left="0" right="0"/></padding>
-                <ToggleButton fx:id="navDashboard"    text="Dashboard"     styleClass="nav-item" onAction="#loadDashboard"    maxWidth="Infinity"/>
-                <ToggleButton fx:id="navMyItems"      text="My items"      styleClass="nav-item" onAction="#loadPlaceholder"  maxWidth="Infinity"/>
-                <ToggleButton fx:id="navPriceCompare" text="Price compare" styleClass="nav-item" onAction="#loadPlaceholder"  maxWidth="Infinity"/>
-                <ToggleButton fx:id="navCartBudget"   text="Cart &amp; budget" styleClass="nav-item" onAction="#loadPlaceholder" maxWidth="Infinity"/>
-                <ToggleButton fx:id="navAiAdvisor"    text="AI advisor"    styleClass="nav-item" onAction="#loadPlaceholder"  maxWidth="Infinity"/>
-                <ToggleButton fx:id="navPriceHistory" text="Price history" styleClass="nav-item" onAction="#loadPriceHistory" maxWidth="Infinity"/>
-                <ToggleButton fx:id="navPantry"       text="Pantry"        styleClass="nav-item" onAction="#loadPlaceholder"  maxWidth="Infinity"/>
-                <ToggleButton fx:id="navSettings"     text="Settings"      styleClass="nav-item" onAction="#loadPlaceholder"  maxWidth="Infinity"/>
+                <padding>
+                    <Insets top="20" bottom="0" left="0" right="0"/>
+                </padding>
+
+                <ToggleButton fx:id="navDashboard"
+                              text="Dashboard"
+                              styleClass="nav-item"
+                              onAction="#loadDashboard"
+                              maxWidth="Infinity"/>
+
+                <ToggleButton fx:id="navMyItems"
+                              text="My items"
+                              styleClass="nav-item"
+                              onAction="#loadShoppingList"
+                              maxWidth="Infinity"/>
+
+                <ToggleButton fx:id="navPriceCompare"
+                              text="Price compare"
+                              styleClass="nav-item"
+                              onAction="#loadPlaceholder"
+                              maxWidth="Infinity"/>
+
+                <ToggleButton fx:id="navCartBudget"
+                              text="Cart &amp; budget"
+                              styleClass="nav-item"
+                              onAction="#loadPlaceholder"
+                              maxWidth="Infinity"/>
+
+                <ToggleButton fx:id="navAiAdvisor"
+                              text="AI advisor"
+                              styleClass="nav-item"
+                              onAction="#loadAiAdvisor"
+                              maxWidth="Infinity"/>
+
+                <ToggleButton fx:id="navPriceHistory"
+                              text="Price history"
+                              styleClass="nav-item"
+                              onAction="#loadPriceHistory"
+                              maxWidth="Infinity"/>
+
+                <ToggleButton fx:id="navPantry"
+                              text="Pantry"
+                              styleClass="nav-item"
+                              onAction="#loadPlaceholder"
+                              maxWidth="Infinity"/>
+
+                <ToggleButton fx:id="navSettings"
+                              text="Settings"
+                              styleClass="nav-item"
+                              onAction="#loadSettings"
+                              maxWidth="Infinity"/>
             </VBox>
         </VBox>
     </left>
