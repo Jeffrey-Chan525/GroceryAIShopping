@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.smartspend.controller.ListViewController"
+      fx:controller="com.smartspend.controller.ShoppingListController"
       spacing="18" styleClass="page">
     <padding><Insets top="24" right="28" bottom="24" left="28"/></padding>
 
-    <!-- ── Header ── -->===========
+    <!-- ── Header ── -->
     <HBox alignment="CENTER_LEFT" spacing="12">
         <Label text="My Shopping List" styleClass="page-title"/>
         <Region HBox.hgrow="ALWAYS"/>
@@ -25,12 +27,12 @@
         </VBox>
         <VBox styleClass="card" HBox.hgrow="ALWAYS">
             <Label text="Best basket total" styleClass="card-label"/>
-            <Label fx:id="lblBasketTotal" text="$—" styleClass="card-value"/>
+            <Label fx:id="lblBasketTotal" text="\$—" styleClass="card-value"/>
             <Label fx:id="lblBestStore" text="at —" styleClass="card-sub"/>
         </VBox>
         <VBox styleClass="card" HBox.hgrow="ALWAYS">
             <Label text="Weekly budget" styleClass="card-label"/>
-            <Label fx:id="lblWeeklyBudget" text="$—" styleClass="card-value"/>
+            <Label fx:id="lblWeeklyBudget" text="\$—" styleClass="card-value"/>
             <Label fx:id="lblBudgetLeft" text="— remaining" styleClass="card-sub"/>
         </VBox>
     </HBox>
@@ -115,15 +117,15 @@
         <HBox spacing="24">
             <HBox spacing="8" alignment="CENTER_LEFT">
                 <Label text="Aldi:" styleClass="muted"/>
-                <Label fx:id="lblAldiTotal" text="$—" styleClass="muted-strong"/>
+                <Label fx:id="lblAldiTotal" text="\$—" styleClass="muted-strong"/>
             </HBox>
             <HBox spacing="8" alignment="CENTER_LEFT">
                 <Label text="Coles:" styleClass="muted"/>
-                <Label fx:id="lblColesTotal" text="$—" styleClass="muted-strong"/>
+                <Label fx:id="lblColesTotal" text="\$—" styleClass="muted-strong"/>
             </HBox>
             <HBox spacing="8" alignment="CENTER_LEFT">
                 <Label text="Woolworths:" styleClass="muted"/>
-                <Label fx:id="lblWooliesTotal" text="$—" styleClass="muted-strong"/>
+                <Label fx:id="lblWooliesTotal" text="\$—" styleClass="muted-strong"/>
             </HBox>
             <Region HBox.hgrow="ALWAYS"/>
             <Label fx:id="lblRecommendation" text="" styleClass="tip-text"/>
