@@ -3,282 +3,106 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #fafcfa;">
+<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.smartspend.controller.SettingsController"
+            fitToWidth="true" styleClass="page">
 
-    <top>
-        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #d4e4d4; -fx-border-color: #88a088; -fx-border-width: 0 0 2 0;" prefHeight="56.0">
-            <padding>
-                <Insets left="24" right="24" top="8" bottom="8"/>
-            </padding>
-            <Label text="SmartSpend - Settings" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;">
-                <font>
-                    <Font name="Monospaced" size="18"/>
-                </font>
-            </Label>
-        </HBox>
-    </top>
+    <VBox spacing="24" styleClass="page">
+        <padding><Insets top="24" right="28" bottom="24" left="28"/></padding>
 
-    <left>
-        <VBox spacing="4" style="-fx-background-color: #f0f5f0; -fx-border-color: #88a088; -fx-border-width: 0 2 0 0;" prefWidth="176">
-            <padding>
-                <Insets top="12" right="12" bottom="12" left="12"/>
-            </padding>
+        <!-- ── Header ── -->
+        <Label text="Settings" styleClass="page-title"/>
 
-            <Label text="MENU" style="-fx-text-fill: #5a6a5a; -fx-font-weight: bold;">
-                <font>
-                    <Font name="Monospaced" size="10"/>
-                </font>
-            </Label>
-
-            <Region prefHeight="8"/>
-
-            <Button text="Dashboard" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-text-fill: #333;"/>
-            <Button text="Shopping List" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-text-fill: #333;"/>
-            <Button text="Price Comparison" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-text-fill: #333;"/>
-            <Button text="Basket/Budget" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-text-fill: #333;"/>
-            <Button text="AI Advisor" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-text-fill: #333;"/>
-            <Button text="Pantry" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-text-fill: #333;"/>
-            <Button text="Settings" maxWidth="Infinity" style="-fx-background-color: #7a9a7a; -fx-border-color: #5a7a5a; -fx-border-width: 2; -fx-text-fill: white; -fx-font-weight: bold;"/>
-
-            <Region VBox.vgrow="ALWAYS"/>
-
-            <Label text="JavaFX VBox with Button components" wrapText="true" style="-fx-border-color: #88a088; -fx-border-style: dashed; -fx-text-fill: #5a6a5a; -fx-padding: 8;">
-                <font>
-                    <Font name="Monospaced" size="9"/>
-                </font>
-            </Label>
+        <!-- ── Account section ── -->
+        <VBox spacing="12" styleClass="tip-card">
+            <Label text="ACCOUNT" styleClass="section-label"/>
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <Label text="Logged in as" styleClass="muted"/>
+                    <Label fx:id="lblUsername" text="—" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1f2a1f;"/>
+                    <Label fx:id="lblEmail" text="—" styleClass="muted"/>
+                </VBox>
+                <Button fx:id="btnSignOut" text="Sign out"
+                        style="-fx-background-color: #f1f8f1; -fx-background-radius: 6; -fx-padding: 8 16 8 16; -fx-cursor: hand; -fx-border-color: #d8e8d8; -fx-border-radius: 6;"/>
+            </HBox>
         </VBox>
-    </left>
 
-    <center>
-        <ScrollPane fitToWidth="true" style="-fx-background-color: #fafcfa;">
-            <VBox spacing="12" style="-fx-background-color: #fafcfa;">
-                <padding>
-                    <Insets top="16" right="16" bottom="16" left="16"/>
-                </padding>
+        <!-- ── Shopping preferences ── -->
+        <VBox spacing="16" styleClass="tip-card">
+            <Label text="SHOPPING PREFERENCES" styleClass="section-label"/>
 
-                <VBox spacing="12" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 16;">
-                    <Label text="Account" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold; -fx-border-color: #ccc; -fx-border-width: 0 0 2 0; -fx-padding: 0 0 8 0;">
-                        <font>
-                            <Font name="Monospaced" size="14"/>
-                        </font>
-                    </Label>
-
-                    <HBox alignment="CENTER_LEFT" spacing="12">
-                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                            <Label text="Logged in as:" style="-fx-text-fill: #555;">
-                                <font>
-                                    <Font name="Monospaced" size="12"/>
-                                </font>
-                            </Label>
-
-                            <Label text="student@university.edu" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;">
-                                <font>
-                                    <Font name="Monospaced" size="14"/>
-                                </font>
-                            </Label>
-                        </VBox>
-
-                        <Button text="Sign out" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-border-width: 2; -fx-pref-width: 100; -fx-pref-height: 32;"/>
-                    </HBox>
-
-                    <Label text="JavaFX Label plus Button" style="-fx-border-color: #88a088; -fx-border-style: dashed; -fx-text-fill: #5a6a5a; -fx-padding: 8;">
-                        <font>
-                            <Font name="Monospaced" size="9"/>
-                        </font>
-                    </Label>
+            <HBox spacing="24">
+                <!-- Preferred store -->
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="Preferred store" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1f2a1f;"/>
+                    <ComboBox fx:id="cmbPreferredStore" maxWidth="Infinity">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Aldi"/>
+                                <String fx:value="Coles"/>
+                                <String fx:value="Woolworths"/>
+                                <String fx:value="No preference"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                    <Label text="Used for store recommendations" styleClass="muted"/>
                 </VBox>
 
-                <VBox spacing="12" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 16;">
-                    <Label text="Shopping Preferences" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold; -fx-border-color: #ccc; -fx-border-width: 0 0 2 0; -fx-padding: 0 0 8 0;">
-                        <font>
-                            <Font name="Monospaced" size="14"/>
-                        </font>
-                    </Label>
-
-                    <GridPane hgap="16" vgap="8">
-                        <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                            <Label text="Preferred store" style="-fx-text-fill: #555; -fx-font-weight: bold;"/>
-                            <ComboBox promptText="Aldi" prefHeight="36" maxWidth="Infinity" style="-fx-background-color: #fafafa; -fx-border-color: #aaa; -fx-border-width: 2;"/>
-                            <Label text="Aldi, Coles, Woolworths" style="-fx-text-fill: #888;"/>
-                        </VBox>
-
-                        <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            <Label text="Weekly budget" style="-fx-text-fill: #555; -fx-font-weight: bold;"/>
-                            <TextField text="\$50.00" prefHeight="36" style="-fx-background-color: #fafafa; -fx-border-color: #aaa; -fx-border-width: 2;"/>
-                            <Label text="Enter your weekly budget" style="-fx-text-fill: #888;"/>
-                        </VBox>
-
-                        <VBox spacing="8" GridPane.columnIndex="2" GridPane.rowIndex="0">
-                            <Label text="Currency" style="-fx-text-fill: #555; -fx-font-weight: bold;"/>
-                            <ComboBox promptText="AUD (\$)" prefHeight="36" maxWidth="Infinity" style="-fx-background-color: #fafafa; -fx-border-color: #aaa; -fx-border-width: 2;"/>
-                            <Label text="Select currency" style="-fx-text-fill: #888;"/>
-                        </VBox>
-                    </GridPane>
-
-                    <HBox spacing="12">
-                        <Button text="Save" style="-fx-background-color: #7a9a7a; -fx-border-color: #5a7a5a; -fx-border-width: 2; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 100; -fx-pref-height: 32;"/>
-                        <Button text="Cancel" style="-fx-background-color: white; -fx-border-color: #aaa; -fx-border-width: 2; -fx-pref-width: 100; -fx-pref-height: 32;"/>
-                    </HBox>
-
-                    <Label text="JavaFX ComboBox plus TextField plus Button components" style="-fx-border-color: #88a088; -fx-border-style: dashed; -fx-text-fill: #5a6a5a; -fx-padding: 8;">
-                        <font>
-                            <Font name="Monospaced" size="9"/>
-                        </font>
-                    </Label>
+                <!-- Weekly budget -->
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="Weekly budget ($)" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1f2a1f;"/>
+                    <TextField fx:id="txtWeeklyBudget" promptText="e.g. 100.00"/>
+                    <Label text="Enter your weekly grocery budget" styleClass="muted"/>
                 </VBox>
+            </HBox>
 
-                <VBox spacing="12" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 16;">
-                    <Label text="AI and Recommendations" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold; -fx-border-color: #ccc; -fx-border-width: 0 0 2 0; -fx-padding: 0 0 8 0;">
-                        <font>
-                            <Font name="Monospaced" size="14"/>
-                        </font>
-                    </Label>
+            <HBox spacing="8">
+                <Button fx:id="btnSavePreferences" text="Save preferences" styleClass="primary-button"/>
+                <Button fx:id="btnCancelPreferences" text="Cancel"
+                        style="-fx-background-color: #f1f8f1; -fx-background-radius: 6; -fx-padding: 8 16 8 16; -fx-cursor: hand; -fx-border-color: #d8e8d8; -fx-border-radius: 6;"/>
+            </HBox>
 
-                    <VBox spacing="12">
-                        <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: #fafafa; -fx-border-color: #ccc; -fx-padding: 12;">
-                            <Label text="Enable AI recommendations" HBox.hgrow="ALWAYS" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;"/>
-                            <ToggleButton text="ON" prefWidth="48" prefHeight="24" style="-fx-background-color: #7a9a7a; -fx-border-color: #5a7a5a; -fx-border-width: 2; -fx-text-fill: white;"/>
-                        </HBox>
-
-                        <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: #fafafa; -fx-border-color: #ccc; -fx-padding: 12;">
-                            <Label text="Stock-up suggestions" HBox.hgrow="ALWAYS" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;"/>
-                            <ToggleButton text="ON" prefWidth="48" prefHeight="24" style="-fx-background-color: #7a9a7a; -fx-border-color: #5a7a5a; -fx-border-width: 2; -fx-text-fill: white;"/>
-                        </HBox>
-
-                        <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: #fafafa; -fx-border-color: #ccc; -fx-padding: 12;">
-                            <Label text="Multi-store optimisation" HBox.hgrow="ALWAYS" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;"/>
-                            <ToggleButton text="OFF" prefWidth="48" prefHeight="24" style="-fx-background-color: #d0d0d0; -fx-border-color: #aaa; -fx-border-width: 2;"/>
-                        </HBox>
-                    </VBox>
-
-                    <Label text="JavaFX ToggleButton or CheckBox components" style="-fx-border-color: #88a088; -fx-border-style: dashed; -fx-text-fill: #5a6a5a; -fx-padding: 8;">
-                        <font>
-                            <Font name="Monospaced" size="9"/>
-                        </font>
-                    </Label>
-                </VBox>
-
-                <VBox spacing="12" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 16;">
-                    <Label text="Data and Storage" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold; -fx-border-color: #ccc; -fx-border-width: 0 0 2 0; -fx-padding: 0 0 8 0;">
-                        <font>
-                            <Font name="Monospaced" size="14"/>
-                        </font>
-                    </Label>
-
-                    <HBox alignment="CENTER_LEFT" spacing="12">
-                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                            <Label text="Database status:" style="-fx-text-fill: #555;"/>
-                            <HBox spacing="8" alignment="CENTER_LEFT">
-                                <Region prefWidth="12" prefHeight="12" style="-fx-background-color: #7a9a7a; -fx-border-color: #5a7a5a;"/>
-                                <Label text="Connected" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;"/>
-                            </HBox>
-                        </VBox>
-
-                        <Button text="Export data" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-pref-width: 120; -fx-pref-height: 32;"/>
-                    </HBox>
-
-                    <Label text="JavaFX Label plus Button" style="-fx-border-color: #88a088; -fx-border-style: dashed; -fx-text-fill: #5a6a5a; -fx-padding: 8;">
-                        <font>
-                            <Font name="Monospaced" size="9"/>
-                        </font>
-                    </Label>
-                </VBox>
-
-                <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-background-color: #e8f5e8; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 12;">
-                    <Label text="Shopping lists and preferences are saved between sessions" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;" wrapText="true"/>
-                </HBox>
-            </VBox>
-        </ScrollPane>
-    </center>
-
-    <right>
-        <VBox spacing="12" style="-fx-background-color: #f5faf5; -fx-border-color: #88a088; -fx-border-width: 0 0 0 2;" prefWidth="256">
-            <padding>
-                <Insets top="16" right="16" bottom="16" left="16"/>
-            </padding>
-
-            <Label text="CURRENT SETTINGS" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold; -fx-border-color: #88a088; -fx-border-width: 0 0 2 0; -fx-padding: 0 0 8 0;">
-                <font>
-                    <Font name="Monospaced" size="14"/>
-                </font>
-            </Label>
-
-            <VBox spacing="4" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 12;">
-                <Label text="Account" style="-fx-text-fill: #555; -fx-font-weight: bold;"/>
-                <Label text="student@university.edu" style="-fx-text-fill: #2d4a2d;"/>
-                <HBox spacing="8" alignment="CENTER_LEFT">
-                    <padding>
-                        <Insets top="8"/>
-                    </padding>
-                    <Region prefWidth="8" prefHeight="8" style="-fx-background-color: #7a9a7a;"/>
-                    <Label text="Logged in" style="-fx-text-fill: #555;"/>
-                </HBox>
-            </VBox>
-
-            <VBox spacing="8" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 12;">
-                <Label text="Preferences" style="-fx-text-fill: #555; -fx-font-weight: bold;"/>
-                <HBox alignment="CENTER_LEFT">
-                    <Label text="Store:" style="-fx-text-fill: #666;"/>
-                    <Region HBox.hgrow="ALWAYS"/>
-                    <Label text="Aldi" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;"/>
-                </HBox>
-                <HBox alignment="CENTER_LEFT">
-                    <Label text="Budget:" style="-fx-text-fill: #666;"/>
-                    <Region HBox.hgrow="ALWAYS"/>
-                    <Label text="\$50.00" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;"/>
-                </HBox>
-                <HBox alignment="CENTER_LEFT">
-                    <Label text="Currency:" style="-fx-text-fill: #666;"/>
-                    <Region HBox.hgrow="ALWAYS"/>
-                    <Label text="AUD" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;"/>
-                </HBox>
-            </VBox>
-
-            <VBox spacing="8" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 12;">
-                <Label text="AI Features" style="-fx-text-fill: #555; -fx-font-weight: bold;"/>
-                <HBox spacing="8" alignment="CENTER_LEFT">
-                    <Region prefWidth="8" prefHeight="8" style="-fx-background-color: #7a9a7a;"/>
-                    <Label text="AI recommendations" style="-fx-text-fill: #2d4a2d;"/>
-                </HBox>
-                <HBox spacing="8" alignment="CENTER_LEFT">
-                    <Region prefWidth="8" prefHeight="8" style="-fx-background-color: #7a9a7a;"/>
-                    <Label text="Stock-up suggestions" style="-fx-text-fill: #2d4a2d;"/>
-                </HBox>
-                <HBox spacing="8" alignment="CENTER_LEFT">
-                    <Region prefWidth="8" prefHeight="8" style="-fx-background-color: #d0d0d0;"/>
-                    <Label text="Multi-store (Off)" style="-fx-text-fill: #999;"/>
-                </HBox>
-            </VBox>
-
-            <VBox spacing="8" style="-fx-background-color: white; -fx-border-color: #88a088; -fx-border-width: 2; -fx-padding: 12;">
-                <Label text="Database" style="-fx-text-fill: #555; -fx-font-weight: bold;"/>
-                <HBox spacing="8" alignment="CENTER_LEFT">
-                    <Region prefWidth="12" prefHeight="12" style="-fx-background-color: #7a9a7a; -fx-border-color: #5a7a5a;"/>
-                    <Label text="Connected" style="-fx-text-fill: #2d4a2d; -fx-font-weight: bold;"/>
-                </HBox>
-                <Label text="Data auto-saved" style="-fx-text-fill: #666;"/>
-            </VBox>
-
-            <Label text="JavaFX Label components in VBox layout" wrapText="true" style="-fx-border-color: #88a088; -fx-border-style: dashed; -fx-text-fill: #5a6a5a; -fx-padding: 8;">
-                <font>
-                    <Font name="Monospaced" size="9"/>
-                </font>
-            </Label>
+            <!-- Save confirmation message -->
+            <Label fx:id="lblSaveConfirm" text="" styleClass="muted-strong" managed="false" visible="false"/>
         </VBox>
-    </right>
 
-    <bottom>
-        <HBox alignment="CENTER" style="-fx-background-color: #d4e4d4; -fx-border-color: #88a088; -fx-border-width: 2 0 0 0;" prefHeight="28">
-            <Label text="Low-to-Medium Fidelity Wireframe - SmartSpend - Settings (1280x800)" style="-fx-text-fill: #5a6a5a;">
-                <font>
-                    <Font name="Monospaced" size="9"/>
-                </font>
-            </Label>
-        </HBox>
-    </bottom>
+        <!-- ── AI and recommendations ── -->
+        <VBox spacing="12" styleClass="tip-card">
+            <Label text="AI &amp; RECOMMENDATIONS" styleClass="section-label"/>
 
-</BorderPane>
+            <HBox alignment="CENTER_LEFT" spacing="16"
+                  style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 14;">
+                <VBox spacing="2" HBox.hgrow="ALWAYS">
+                    <Label text="Show sale predictions" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1f2a1f;"/>
+                    <Label text="Highlight items likely to go on sale soon" styleClass="muted"/>
+                </VBox>
+                <CheckBox fx:id="chkSalePredictions"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="16"
+                  style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 14;">
+                <VBox spacing="2" HBox.hgrow="ALWAYS">
+                    <Label text="Show value suggestions" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1f2a1f;"/>
+                    <Label text="Recommend cheaper alternative products" styleClass="muted"/>
+                </VBox>
+                <CheckBox fx:id="chkValueSuggestions"/>
+            </HBox>
+        </VBox>
+
+        <!-- ── Database status ── -->
+        <VBox spacing="12" styleClass="tip-card">
+            <Label text="DATA &amp; STORAGE" styleClass="section-label"/>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <Label text="Database status" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1f2a1f;"/>
+                    <Label fx:id="lblDbStatus" text="Checking…" styleClass="muted"/>
+                </VBox>
+                <Region prefWidth="10" prefHeight="10" fx:id="dbStatusDot"
+                        style="-fx-background-color: #d0d0d0; -fx-background-radius: 5;"/>
+            </HBox>
+            <Label text="All shopping data is saved locally to your device." styleClass="muted"/>
+        </VBox>
+
+    </VBox>
+</ScrollPane>

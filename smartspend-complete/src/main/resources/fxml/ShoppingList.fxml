@@ -4,36 +4,130 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.smartspend.controller.ShoppingListController"
-      spacing="12"
-      styleClass="root"
-      prefWidth="1000"
-      prefHeight="700">
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.smartspend.controller.ListViewController"
+      spacing="18" styleClass="page">
+    <padding><Insets top="24" right="28" bottom="24" left="28"/></padding>
 
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
-
-    <Label text="SHOPPING LIST" styleClass="title"/>
-
-    <HBox spacing="8">
-        <TextField fx:id="itemField" promptText="Item name" prefWidth="250"/>
-        <TextField fx:id="quantityField" promptText="Qty" prefWidth="80"/>
-        <TextField fx:id="priceField" promptText="Price" prefWidth="100"/>
-        <Button text="Add Item" onAction="#handleAddItem"/>
-        <Button text="Remove Selected" onAction="#handleRemoveSelected"/>
+    <!-- ── Header ── -->===========
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label text="My Shopping List" styleClass="page-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnAddItem" text="+ Add Item" styleClass="primary-button"/>
     </HBox>
 
-    <TableView fx:id="tableView" prefHeight="420">
+    <!-- ── Summary cards ── -->
+    <HBox spacing="16">
+        <VBox styleClass="card" HBox.hgrow="ALWAYS">
+            <Label text="Total items" styleClass="card-label"/>
+            <Label fx:id="lblTotalItems" text="—" styleClass="card-value"/>
+            <Label fx:id="lblPendingItems" text="— pending" styleClass="card-sub"/>
+        </VBox>
+        <VBox styleClass="card" HBox.hgrow="ALWAYS">
+            <Label text="Best basket total" styleClass="card-label"/>
+            <Label fx:id="lblBasketTotal" text="$—" styleClass="card-value"/>
+            <Label fx:id="lblBestStore" text="at —" styleClass="card-sub"/>
+        </VBox>
+        <VBox styleClass="card" HBox.hgrow="ALWAYS">
+            <Label text="Weekly budget" styleClass="card-label"/>
+            <Label fx:id="lblWeeklyBudget" text="$—" styleClass="card-value"/>
+            <Label fx:id="lblBudgetLeft" text="— remaining" styleClass="card-sub"/>
+        </VBox>
+    </HBox>
+
+    <!-- ── Add / Edit form (hidden until Add Item clicked) ── -->
+    <VBox fx:id="addItemForm" spacing="12" styleClass="tip-card" managed="false" visible="false">
+        <Label text="ADD ITEM" styleClass="section-label"/>
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="Item name" styleClass="muted"/>
+                <TextField fx:id="txtItemName" promptText="e.g. Milk 2L"/>
+            </VBox>
+            <VBox spacing="4">
+                <Label text="Category" styleClass="muted"/>
+                <ComboBox fx:id="cmbCategory" promptText="Dairy" prefWidth="140">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Dairy"/>
+                            <String fx:value="Bakery"/>
+                            <String fx:value="Meat"/>
+                            <String fx:value="Pantry"/>
+                            <String fx:value="Drinks"/>
+                            <String fx:value="Snacks"/>
+                            <String fx:value="Frozen"/>
+                            <String fx:value="Other"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </VBox>
+            <VBox spacing="4">
+                <Label text="Qty" styleClass="muted"/>
+                <TextField fx:id="txtQty" promptText="1" prefWidth="70"/>
+            </VBox>
+            <VBox spacing="4">
+                <Label text="Unit" styleClass="muted"/>
+                <ComboBox fx:id="cmbUnit" promptText="kg" prefWidth="100">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="kg"/>
+                            <String fx:value="g"/>
+                            <String fx:value="L"/>
+                            <String fx:value="ml"/>
+                            <String fx:value="dozen"/>
+                            <String fx:value="loaf"/>
+                            <String fx:value="pack"/>
+                            <String fx:value="each"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </VBox>
+        </HBox>
+        <HBox spacing="8">
+            <Button fx:id="btnSaveItem" text="Save Item" styleClass="primary-button"/>
+            <Button fx:id="btnCancelAdd" text="Cancel"
+                    style="-fx-background-color: #f1f8f1; -fx-background-radius: 6; -fx-padding: 8 16 8 16; -fx-cursor: hand;"/>
+        </HBox>
+    </VBox>
+
+    <!-- ── Items table ── -->
+    <Label text="LIST ITEMS" styleClass="section-label"/>
+    <TableView fx:id="itemsTable" VBox.vgrow="ALWAYS" styleClass="clean-table">
         <columns>
-            <TableColumn fx:id="itemColumn" text="Item" prefWidth="250"/>
-            <TableColumn fx:id="quantityColumn" text="Qty" prefWidth="100"/>
-            <TableColumn fx:id="priceColumn" text="Price" prefWidth="120"/>
+            <TableColumn fx:id="colName"     text="Item"        prefWidth="280"/>
+            <TableColumn fx:id="colCategory" text="Category"    prefWidth="120"/>
+            <TableColumn fx:id="colQty"      text="Qty"         prefWidth="80"/>
+            <TableColumn fx:id="colBestPrice" text="Best Price" prefWidth="120"/>
+            <TableColumn fx:id="colStore"    text="Store"       prefWidth="140"/>
+            <TableColumn fx:id="colStatus"   text="Status"      prefWidth="120"/>
+            <TableColumn fx:id="colActions"  text=""            prefWidth="100"/>
         </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+        <placeholder>
+            <Label text="No items yet — click '+ Add Item' to get started" styleClass="muted"/>
+        </placeholder>
     </TableView>
 
-    <Label fx:id="totalLabel" text="Total: $0.00"/>
-    <Label fx:id="statusLabel" text="Add items to begin."/>
+    <!-- ── Store comparison summary ── -->
+    <VBox styleClass="tip-card" spacing="8">
+        <Label text="STORE COMPARISON" styleClass="section-label"/>
+        <HBox spacing="24">
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Aldi:" styleClass="muted"/>
+                <Label fx:id="lblAldiTotal" text="$—" styleClass="muted-strong"/>
+            </HBox>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Coles:" styleClass="muted"/>
+                <Label fx:id="lblColesTotal" text="$—" styleClass="muted-strong"/>
+            </HBox>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Woolworths:" styleClass="muted"/>
+                <Label fx:id="lblWooliesTotal" text="$—" styleClass="muted-strong"/>
+            </HBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="lblRecommendation" text="" styleClass="tip-text"/>
+        </HBox>
+    </VBox>
+
 </VBox>

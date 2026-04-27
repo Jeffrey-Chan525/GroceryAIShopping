@@ -4,26 +4,67 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.smartspend.controller.AiAdvisorController"
-      spacing="16" styleClass="root" prefWidth="1000" prefHeight="700">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.smartspend.controller.AiChatController"
+      spacing="16" styleClass="page">
+    <padding><Insets top="24" right="28" bottom="24" left="28"/></padding>
 
-    <Label text="AI ADVISOR" styleClass="title"/>
+    <!-- ── Header ── -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <VBox spacing="2">
+            <Label text="AI Advisor" styleClass="page-title"/>
+            <Label text="Ask anything about your grocery spending" styleClass="muted"/>
+        </VBox>
+    </HBox>
 
-    <VBox spacing="10" styleClass="card">
-        <Label text="Ask SmartSpend" styleClass="subtitle"/>
-        <TextField fx:id="questionField" promptText="Ask how to reduce your basket total..."/>
-        <Button text="Ask Advisor" onAction="#handleAsk"/>
-        <Label fx:id="answerLabel" wrapText="true" text="AI recommendations will appear here."/>
+    <!-- ── Quick action chips ── -->
+    <HBox spacing="8" alignment="CENTER_LEFT">
+        <Label text="Try asking:" styleClass="muted"/>
+        <Button fx:id="chipCheapest"     text="Where's cheapest for my list?"
+                style="-fx-background-color: #f1f8f1; -fx-background-radius: 16; -fx-padding: 5 14; -fx-border-color: #cfe6cf; -fx-border-radius: 16; -fx-cursor: hand; -fx-font-size: 12px;"/>
+        <Button fx:id="chipBudget"       text="Am I on budget?"
+                style="-fx-background-color: #f1f8f1; -fx-background-radius: 16; -fx-padding: 5 14; -fx-border-color: #cfe6cf; -fx-border-radius: 16; -fx-cursor: hand; -fx-font-size: 12px;"/>
+        <Button fx:id="chipSavings"      text="How can I save more?"
+                style="-fx-background-color: #f1f8f1; -fx-background-radius: 16; -fx-padding: 5 14; -fx-border-color: #cfe6cf; -fx-border-radius: 16; -fx-cursor: hand; -fx-font-size: 12px;"/>
+        <Button fx:id="chipStockUp"      text="What should I stock up on?"
+                style="-fx-background-color: #f1f8f1; -fx-background-radius: 16; -fx-padding: 5 14; -fx-border-color: #cfe6cf; -fx-border-radius: 16; -fx-cursor: hand; -fx-font-size: 12px;"/>
+    </HBox>
+
+    <!-- ── Chat message area ── -->
+    <ScrollPane fx:id="chatScrollPane" VBox.vgrow="ALWAYS" fitToWidth="true"
+                style="-fx-background-color: #f9fdf9; -fx-background: #f9fdf9; -fx-border-color: #e2efe2; -fx-border-radius: 10; -fx-background-radius: 10;">
+        <VBox fx:id="chatContainer" spacing="12">
+            <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+
+            <!-- Initial AI greeting (static, always shown) -->
+            <HBox spacing="10" alignment="TOP_LEFT" maxWidth="700">
+                <Label text="AI"
+                       style="-fx-background-color: #3aa655; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 11px; -fx-min-width: 32; -fx-min-height: 32; -fx-alignment: center;"/>
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <VBox styleClass="tip-card">
+                        <Label text="Hi! I'm your SmartSpend AI Advisor. I can help you compare grocery prices, find the cheapest store for your list, and spot savings opportunities. What would you like to know?"
+                               wrapText="true" styleClass="tip-text"/>
+                    </VBox>
+                    <Label text="SmartSpend AI" styleClass="muted"/>
+                </VBox>
+            </HBox>
+
+            <!-- Dynamic messages injected here by AiChatController -->
+
+        </VBox>
+    </ScrollPane>
+
+    <!-- ── Input area ── -->
+    <VBox spacing="8" styleClass="tip-card">
+        <HBox spacing="10" alignment="CENTER">
+            <TextField fx:id="txtInput"
+                       promptText="Ask me about prices, savings, or your budget…"
+                       HBox.hgrow="ALWAYS"
+                       style="-fx-background-color: white; -fx-border-color: #d8e8d8; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10; -fx-font-size: 13px;"/>
+            <Button fx:id="btnSend" text="Send" styleClass="primary-button"
+                    defaultButton="true"/>
+        </HBox>
+        <Label fx:id="lblTypingIndicator" text="" styleClass="muted" visible="false" managed="false"/>
     </VBox>
 
-    <VBox spacing="8" styleClass="card">
-        <Label text="Quick Suggestions" styleClass="subtitle"/>
-        <Button text="Find cheapest basket" onAction="#handleCheapestBasket"/>
-        <Button text="Explain price per unit" onAction="#handlePricePerUnit"/>
-        <Button text="Suggest cheaper alternatives" onAction="#handleAlternatives"/>
-    </VBox>
 </VBox>
