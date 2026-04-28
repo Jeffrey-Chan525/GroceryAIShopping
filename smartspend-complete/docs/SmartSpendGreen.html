@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SmartSpend</title>
+<style>
+:root {
+  --green-primary: #4CAF50;
+  --green-dark: #2E7D32;
+  --green-light: #E8F5E9;
+  --green-soft: #F1F8F4;
+  --green-border: #C8E6C9;
+  --green-muted: #7AA874;
+  --surface: #FFFFFF;
+  --surface-alt: #F7FBF7;
+  --text-main: #1F2A1F;
+  --text-soft: #5E6E5E;
+}
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:padding: 40px; }
+  h1 { font-size: 13px; font-weight: 600; color: var(--green-dark); margin-bottom: 24px; letter-spacing: .05em; text-transform: uppercase; }
+
+  .screens-grid { display: flex; flex-direction: column; gap: 60px; }
+  .screen-block { display: flex; flex-direction: column; gap: 8px; }
+  .screen-tag { font-size: 10px; font-weight: 600; color: var(--green-muted); letter-spacing: .08em; text-transform: uppercase; }
+
+  .wf { width: 1100px; background: var(--surface); border: 1.5px solid var(--green-border); border-radius: 10px; overflow: hidden; font-size: 12px; color: var(--text-main); box-shadow: 0 8px 24px rgba(46, 125, 50, 0.08); }
+  .titlebar { background: var(--green-light); border-bottom: 0.5px solid var(--green-border); padding: 6px 12px; display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-soft); }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: #A5D6A7; }
+  .tbar-title { margin-left: 8px; }
+
+  .layout { display: flex; min-height: 500px; }
+  .sb { width: 170px; border-right: 0.5px solid var(--green-border); flex-shrink: 0; padding: 0; background: #FCFEFC; }
+  .sb-brand { padding: 10px 12px; border-bottom: 0.5px solid var(--green-border); font-size: 12px; font-weight: 600; color: var(--green-dark); background: var(--green-light); }
+  .sb-brand small { display: block; font-size: 10px; color: var(--green-muted); font-weight: 400; }
+  .nav { padding: 6px 12px; font-size: 11px; color: var(--text-soft); }
+  .nav.active { background: var(--green-light); border-left: 3px solid var(--green-primary); color: var(--green-dark); font-weight: 600; padding-left: 9px; }
+  .content { flex: 1; padding: 16px; }
+
+  .toolbar { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .pg-title { font-size: 13px; font-weight: 600; flex: 1; }
+  .btn { font-size: 10px; padding: 4px 9px; border: 0.5px solid var(--green-border); border-radius: 5px; background: var(--surface); color: var(--green-dark); display: inline-block; }
+  .btn-p { background: var(--green-primary); color: #fff; border-color: var(--green-primary); }
+
+  .metrics { display: flex; gap: 8px; margin-bottom: 12px; }
+  .mc { flex: 1; background: var(--green-light); border-radius: 7px; padding: 9px 10px; }
+  .mc .lbl { font-size: 9px; color: var(--green-muted); margin-bottom: 2px; }
+  .mc .val { font-size: 17px; font-weight: 600; }
+  .mc .sub { font-size: 9px; color: var(--green-muted); }
+
+  .tag { font-size: 9px; padding: 2px 5px; border-radius: 8px; font-weight: 600; display: inline-block; }
+  .tg { background: #DDF3E2; color: var(--green-dark); }
+  .ta { background: #EEF7D9; color: #5D7C1D; }
+  .tr { background: #F8E9E9; color: #8A2C2C; }
+  .tb { background: #E3F3E7; color: #256B38; }
+  .tp { background: #E8F1E8; color: #2C6A35; }
+
+  .bar-bg { height: 7px; background: #DCEEDC; border-radius: 4px; overflow: hidden; margin: 5px 0 12px; }
+  .bar-fill { height: 100%; background: var(--green-primary); border-radius: 4px; }
+
+  .ai-card { border: 0.5px solid var(--green-border); border-radius: 6px; padding: 8px 10px; margin-bottom: 8px; background: #FBFEFB; }
+  .ai-hdr { font-size: 9px; font-weight: 600; color: var(--green-muted); margin-bottom: 3px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 10px; table-layout: fixed; }
+  th { font-size: 9px; font-weight: 600; color: var(--green-muted); text-align: left; padding: 4px 6px; border-bottom: 0.5px solid var(--green-border); background: var(--surface-alt); }
+  td { padding: 5px 6px; border-bottom: 0.5px solid #E1EFE1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .sec-hdr { font-size: 9px; font-weight: 600; color: var(--green-muted); letter-spacing: .05em; text-transform: uppercase; margin: 10px 0 5px; }
+
+  .form-card { border: 0.5px solid var(--green-border); border-radius: 7px; padding: 10px; margin-bottom: 10px; background: #FCFEFC; }
+  .form-title { font-size: 11px; font-weight: 600; margin-bottom: 8px; }
+  .frow { display: flex; gap: 7px; margin-bottom: 6px; flex-wrap: wrap; }
+  .ff { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 70px; }
+  .ff label { font-size: 9px; color: var(--green-muted); }
+  .ff input, .ff select { font-size: 10px; padding: 3px 6px; border: 0.5px solid var(--green-border); border-radius: 4px; background: var(--surface-alt); width: 100%; }
+
+  .chat-area { border: 0.5px solid var(--green-border); border-radius: 7px; padding: 10px; margin-bottom: 8px; background: #FCFEFC; }
+  .bubble { display: inline-block; background: var(--green-light); border-radius: 6px; padding: 6px 8px; font-size: 10px; max-width: 80%; margin-bottom: 6px; }
+  .bubble.user { background: #D9F0DD; color: #1D4D28; float: right; clear: both; }
+  .bubble.ai { float: left; clear: both; }
+  .clearfix::after { content: ''; display: table; clear: both; }
+
+  .sr-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 0.5px solid #E1EFE1; gap: 10px; }
+  .sr-lbl { font-size: 10px; font-weight: 600; }
+  .sr-sub { font-size: 9px; color: var(--green-muted); }
+
+  .inv-row { display: flex; align-items: center; gap: 7px; padding: 5px 0; border-bottom: 0.5px solid #E1EFE1; font-size: 10px; }
+  .chkbox { width: 12px; height: 12px; border: 1px solid var(--green-border); border-radius: 2px; flex-shrink: 0; background: var(--green-primary); display: flex; align-items: center; justify-content: center; font-size: 8px; color: white; }
+  .chkbox.empty { background: white; }
+
+  /* Login-only styles */
+  .login-wrap { display: flex; justify-content: center; padding: 28px 16px; background: var(--green-light); }
+  .login-card { background: #fff; border: 0.5px solid var(--green-border); border-radius: 10px; padding: 22px 24px; width: 380px; }
+  .brand { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  .sub { font-size: 10px; color: var(--green-muted); margin-bottom: 12px; }
+  .tabs { display: flex; border: 0.5px solid var(--green-border); border-radius: 5px; overflow: hidden; margin-bottom: 14px; }
+  .tab { flex: 1; text-align: center; padding: 5px; font-size: 10px; background: #fff; color: var(--green-muted); }
+  .tab.on { background: var(--green-primary); color: #fff; }
+  .full-btn { display: block; width: 100%; padding: 7px; background: var(--green-primary); color: #fff; border: none; border-radius: 5px; font-size: 11px; margin-bottom: 8px; text-align: center; }
+  .divider { height: 0.5px; background: #E1EFE1; margin: 10px 0; }
+
+  .best { background: #DDF3E2; color: var(--green-dark); border-radius: 3px; padding: 1px 4px; font-weight: 600; }
+  .bad { color: #791F1F; }
+
+  /* Price history chart placeholder */
+  .chart-placeholder { border: 0.5px solid var(--green-border); border-radius: 7px; padding: 8px; margin-bottom: 10px; position: relative; overflow: hidden; height: 120px; background: #F9FCF9; }
+  .chart-placeholder svg { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+
+<h1>SmartSpend</h1>
+<div class="screens-grid">
+
+<!-- ===== SCREEN 1: LOGIN ===== -->
+<div class="screen-block">
+  <div class="screen-tag">Screen 1 — Login / Register</div>
+  <div class="wf">
+    <div class="titlebar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="tbar-title">SmartSpend — Welcome</span></div>
+    <div class="login-wrap">
+      <div class="login-card">
+        <div class="brand">SmartSpend</div>
+        <div class="sub">Budget-smart grocery shopping</div>
+        <div class="tabs"><div class="tab on">Sign in</div><div class="tab">Register</div></div>
+        <div class="ff" style="margin-bottom:8px"><label>Email address</label><input type="text" value="user@gmail.com"></div>
+        <div class="ff" style="margin-bottom:10px"><label>Password</label><input type="password" value="password"></div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:10px"><span>[x] Remember me</span><span style="color:#888;text-decoration:underline">Forgot password?</span></div>
+        <div class="full-btn">Sign in</div>
+        <div class="divider"></div>
+        <div style="text-align:center;font-size:9px;color:#888;margin-bottom:10px">Don't have an account? <span style="text-decoration:underline">Register here</span></div>
+        <div class="divider"></div>
+        <div style="font-size:9px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Register — New Account</div>
+        <div class="frow"><div class="ff"><label>First name</label><input type="text" placeholder="User"></div><div class="ff"><label>Last name</label><input type="text" placeholder=""></div></div>
+        <div class="ff" style="margin-bottom:6px"><label>Email</label><input type="text" placeholder=""></div>
+        <div class="frow"><div class="ff"><label>Password</label><input type="password" placeholder="Min 8 chars"></div><div class="ff"><label>Confirm password</label><input type="password"></div></div>
+        <div class="ff" style="margin-bottom:10px"><label>Weekly budget ($)</label><input type="number" placeholder="120"></div>
+        <div class="full-btn">Create account</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 2: DASHBOARD ===== -->
+<div class="screen-block">
+  <div class="screen-tag">Screen 2 — Home / Dashboard</div>
+  <div class="wf">
+    <div class="titlebar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="tbar-title">SmartSpend — Dashboard</span></div>
+    <div class="layout">
+      <div class="sb">
+        <div class="sb-brand">SmartSpend<small>Budget mode</small></div>
+        <div class="nav active">Dashboard</div>
+        <div class="nav">My items</div><div class="nav">Price compare</div><div class="nav">Cart &amp; budget</div>
+        <div class="nav">AI advisor</div><div class="nav">Price history</div><div class="nav">Pantry</div><div class="nav">Settings</div>
+      </div>
+      <div class="content">
+        <div class="toolbar"><div class="pg-title">Hello User!</div><div class="btn btn-p">+ New shopping list</div></div>
+        <div class="metrics">
+          <div class="mc"><div class="lbl">Weekly budget</div><div class="val">$120</div><div class="sub">Set by you</div></div>
+          <div class="mc"><div class="lbl">Basket total</div><div class="val" style="color:var(--green-dark)">$84.50</div><div class="sub">$35.50 left</div></div>
+          <div class="mc"><div class="lbl">Items in list</div><div class="val">14</div><div class="sub">3 still needed</div></div>
+          <div class="mc"><div class="lbl">Best store</div><div class="val" style="font-size:13px">Aldi</div><div class="sub">saves $11.40</div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:#888"><span>Budget used — 70%</span><span style="color:var(--green-dark)">On track</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:70%"></div></div>
+        <div class="ai-card"><div class="ai-hdr">AI tip</div>Switch milk &amp; eggs to Aldi — saves $4.20. Pasta at 3-month low, stock up.</div>
+        <div class="sec-hdr">Recent items</div>
+        <table><thead><tr><th style="width:35%">Item</th><th style="width:10%">Qty</th><th style="width:15%">Best price</th><th style="width:15%">Store</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Whole milk 2L</td><td>×2</td><td>$2.80</td><td>Aldi</td><td><span class="tag tg">In cart</span></td></tr>
+          <tr><td>Chicken breast 500g</td><td>×1</td><td>$6.49</td><td>Coles</td><td><span class="tag tg">In cart</span></td></tr>
+          <tr><td>Pasta 500g</td><td>×3</td><td>$1.20</td><td>Aldi</td><td><span class="tag ta">Pending</span></td></tr>
+          <tr><td>Greek yoghurt 1kg</td><td>×1</td><td>$3.90</td><td>Woolworths</td><td><span class="tag ta">Pending</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 3: MY ITEMS ===== -->
+<div class="screen-block">
+  <div class="screen-tag">Screen 3 — My Items (add / edit / delete)</div>
+  <div class="wf">
+    <div class="titlebar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="tbar-title">SmartSpend — My Items</span></div>
+    <div class="layout">
+      <div class="sb"><div class="sb-brand">SmartSpend<small>Budget mode</small></div>
+        <div class="nav">Dashboard</div><div class="nav active">My items</div><div class="nav">Price compare</div><div class="nav">Cart &amp; budget</div>
+        <div class="nav">AI advisor</div><div class="nav">Price history</div><div class="nav">Pantry</div><div class="nav">Settings</div></div>
+      <div class="content">
+        <div class="toolbar"><div class="pg-title">My items</div><div class="btn btn-p">+ Add item</div><div class="btn">Filter</div><div class="btn">Sort</div></div>
+        <div class="form-card">
+          <div class="form-title">Add / edit item</div>
+          <div class="frow">
+            <div class="ff" style="flex:2"><label>Item name</label><input type="text" value="Oat milk 1L"></div>
+            <div class="ff"><label>Category</label><select><option>Dairy</option></select></div>
+          </div>
+          <div class="frow">
+            <div class="ff" style="max-width:60px"><label>Qty</label><input type="number" value="2"></div>
+            <div class="ff"><label>Unit</label><select><option>each</option></select></div>
+            <div class="ff"><label>Target price ($)</label><input type="text" value="2.50"></div>
+            <div class="ff"><label>Preferred store</label><select><option>Any</option></select></div>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:4px">
+            <div class="btn btn-p">Save item</div><div class="btn">Cancel</div>
+            <div style="flex:1"></div>
+            <div class="btn" style="border-color:#E24B4A;color:#A32D2D">Delete item</div>
+          </div>
+        </div>
+        <table><thead><tr><th style="width:4%"></th><th style="width:22%">Item</th><th style="width:11%">Category</th><th style="width:7%">Qty</th><th style="width:9%">Target</th><th style="width:9%">Best now</th><th style="width:10%">$/unit</th><th style="width:10%">Store</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td><div class="chkbox">✓</div></td><td>Whole milk 2L</td><td>Dairy</td><td>×2</td><td>$3.00</td><td><span class="best">$2.80</span></td><td>$1.40/L</td><td>Aldi</td><td><span class="btn">Edit</span> <span class="btn" style="color:#A32D2D">Del</span></td></tr>
+          <tr><td><div class="chkbox">✓</div></td><td>Chicken breast 500g</td><td>Meat</td><td>×1</td><td>$7.00</td><td><span class="best">$6.49</span></td><td>$12.98/kg</td><td>Coles</td><td><span class="btn">Edit</span> <span class="btn" style="color:#A32D2D">Del</span></td></tr>
+          <tr><td><div class="chkbox empty"></div></td><td>Pasta 500g</td><td>Pantry</td><td>×3</td><td>$1.50</td><td><span class="best">$1.20</span></td><td>$2.40/kg</td><td>Aldi</td><td><span class="btn">Edit</span> <span class="btn" style="color:#A32D2D">Del</span></td></tr>
+          <tr><td><div class="chkbox empty"></div></td><td>Sourdough 700g</td><td>Bakery</td><td>×1</td><td>$4.00</td><td><span class="bad">$5.20</span></td><td>$7.43/kg</td><td>Woolworths</td><td><span class="btn">Edit</span> <span class="btn" style="color:#A32D2D">Del</span></td></tr>
+          <tr><td><div class="chkbox empty"></div></td><td>Greek yoghurt 1kg</td><td>Dairy</td><td>×1</td><td>$4.00</td><td><span class="tag ta">$3.90</span></td><td>$3.90/kg</td><td>Aldi</td><td><span class="btn">Edit</span> <span class="btn" style="color:#A32D2D">Del</span></td></tr>
+        </tbody></table>
+        <div style="font-size:9px;color:#888;margin-top:6px">5 items · Saved to database · Total best price: $25.59</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 4: PRICE COMPARE ===== -->
+<div class="screen-block">
+  <div class="screen-tag">Screen 4 — Price comparison (3 stores)</div>
+  <div class="wf">
+    <div class="titlebar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="tbar-title">SmartSpend — Price Compare</span></div>
+    <div class="layout">
+      <div class="sb"><div class="sb-brand">SmartSpend<small>Budget mode</small></div>
+        <div class="nav">Dashboard</div><div class="nav">My items</div><div class="nav active">Price compare</div><div class="nav">Cart &amp; budget</div>
+        <div class="nav">AI advisor</div><div class="nav">Price history</div><div class="nav">Pantry</div><div class="nav">Settings</div></div>
+      <div class="content">
+        <div class="toolbar"><div class="pg-title">Price comparison</div><span class="tag tb">Mock data</span><div class="btn">Refresh prices</div></div>
+        <table><thead><tr><th style="width:22%">Item</th><th style="width:13%;text-align:center">Aldi</th><th style="width:13%;text-align:center">Coles</th><th style="width:16%;text-align:center">Woolworths</th><th style="width:12%;text-align:center">Best</th><th style="width:24%;text-align:center">$/unit</th></tr></thead>
+        <tbody>
+          <tr><td>Whole milk 2L</td><td style="text-align:center"><span class="best">$2.80</span></td><td style="text-align:center">$3.20</td><td style="text-align:center">$3.10</td><td style="text-align:center"><span class="tag tg">Aldi</span></td><td style="text-align:center">$1.40/L</td></tr>
+          <tr><td>Chicken breast 500g</td><td style="text-align:center">$7.20</td><td style="text-align:center"><span class="best">$6.49</span></td><td style="text-align:center">$7.00</td><td style="text-align:center"><span class="tag tg">Coles</span></td><td style="text-align:center">$12.98/kg</td></tr>
+          <tr><td>Pasta 500g</td><td style="text-align:center"><span class="best">$1.20</span></td><td style="text-align:center">$1.80</td><td style="text-align:center">$1.60</td><td style="text-align:center"><span class="tag tg">Aldi</span></td><td style="text-align:center">$2.40/kg</td></tr>
+          <tr><td>Greek yoghurt 1kg</td><td style="text-align:center"><span class="best">$3.90</span></td><td style="text-align:center">$4.50</td><td style="text-align:center">$3.90</td><td style="text-align:center"><span class="tag tg">Aldi</span></td><td style="text-align:center">$3.90/kg</td></tr>
+          <tr><td>Sourdough 700g</td><td style="text-align:center;color:#888">—</td><td style="text-align:center">$4.80</td><td style="text-align:center"><span class="best">$4.60</span></td><td style="text-align:center"><span class="tag tg">Woolworths</span></td><td style="text-align:center">$6.57/kg</td></tr>
+          <tr><td>Eggs 12pk</td><td style="text-align:center"><span class="best">$4.99</span></td><td style="text-align:center">$6.50</td><td style="text-align:center">$6.20</td><td style="text-align:center"><span class="tag tg">Aldi</span></td><td style="text-align:center">$0.42 ea</td></tr>
+          <tr><td>Broccoli each</td><td style="text-align:center"><span class="best">$1.50</span></td><td style="text-align:center">$2.00</td><td style="text-align:center">$1.80</td><td style="text-align:center"><span class="tag tg">Aldi</span></td><td style="text-align:center">—</td></tr>
+        </tbody></table>
+        <div style="height:0.5px;background:#DDDBD4;margin:10px 0"></div>
+        <div class="metrics">
+          <div class="mc" style="background:#DDF3E2"><div class="lbl" style="color:var(--green-dark)">Aldi basket total</div><div class="val" style="color:#3B6D11;font-size:15px">$22.18</div></div>
+          <div class="mc"><div class="lbl">Coles basket total</div><div class="val" style="font-size:15px">$33.29</div></div>
+          <div class="mc"><div class="lbl">Woolworths basket total</div><div class="val" style="font-size:15px">$31.20</div></div>
+        </div>
+        <div class="ai-card"><div class="ai-hdr">Optimised route</div>Shop Aldi for 6 items ($22.18) + Coles for chicken ($6.49). Total: $28.67 · <strong>saves $11.32 vs Coles alone</strong>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 5: CART & BUDGET ===== -->
+<div class="screen-block">
+  <div class="screen-tag">Screen 5 — Cart &amp; Budget</div>
+  <div class="wf">
+    <div class="titlebar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="tbar-title">SmartSpend — Cart &amp; Budget</span></div>
+    <div class="layout">
+      <div class="sb"><div class="sb-brand">SmartSpend<small>Budget mode</small></div>
+        <div class="nav">Dashboard</div><div class="nav">My items</div><div class="nav">Price compare</div><div class="nav active">Cart &amp; budget</div>
+        <div class="nav">AI advisor</div><div class="nav">Price history</div><div class="nav">Pantry</div><div class="nav">Settings</div></div>
+      <div class="content">
+        <div class="toolbar"><div class="pg-title">Cart &amp; budget tracker</div><div class="btn btn-p">Mark all bought</div><div class="btn">Clear cart</div></div>
+        <div class="metrics">
+          <div class="mc"><div class="lbl">Weekly budget</div><div class="val">$120.00</div></div>
+          <div class="mc"><div class="lbl">Cart total (best prices)</div><div class="val" style="color:var(--green-dark)">$28.67</div></div>
+          <div class="mc"><div class="lbl">Remaining budget</div><div class="val" style="color:#2F7D4B">$91.33</div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:#888"><span>Budget used — 24%</span><span style="color:var(--green-dark)">Well under budget</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:24%"></div></div>
+        <div class="form-card" style="padding:8px 10px;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span style="font-size:10px;font-weight:600">Set budget:</span>
+            <input type="number" value="120" style="width:60px;font-size:10px;padding:3px 6px;border:0.5px solid #C4C2BA;border-radius:4px;background:#F7F6F2">
+            <select style="font-size:10px;padding:3px 6px;border:0.5px solid #C4C2BA;border-radius:4px;background:#F7F6F2"><option>Weekly</option><option>Fortnightly</option></select>
+            <div class="btn btn-p">Update</div>
+            <div style="flex:1"></div>
+            <span style="font-size:9px;color:#888">Alert at 80% ($96)</span>
+          </div>
+        </div>
+        <table><thead><tr><th style="width:4%"></th><th style="width:28%">Item</th><th style="width:8%">Qty</th><th style="width:12%">Unit price</th><th style="width:14%">Store</th><th style="width:12%">Line total</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><div class="chkbox">✓</div></td><td>Whole milk 2L</td><td>×2</td><td>$2.80</td><td>Aldi</td><td>$5.60</td><td><span class="tag tg">Bought</span></td></tr>
+          <tr><td><div class="chkbox">✓</div></td><td>Free range eggs 12pk</td><td>×1</td><td>$4.99</td><td>Aldi</td><td>$4.99</td><td><span class="tag tg">Bought</span></td></tr>
+          <tr><td><div class="chkbox empty"></div></td><td>Chicken breast 500g</td><td>×1</td><td>$6.49</td><td>Coles</td><td>$6.49</td><td><span class="tag ta">Pending</span></td></tr>
+          <tr><td><div class="chkbox empty"></div></td><td>Pasta 500g</td><td>×3</td><td>$1.20</td><td>Aldi</td><td>$3.60</td><td><span class="tag ta">Pending</span></td></tr>
+          <tr><td><div class="chkbox empty"></div></td><td>Greek yoghurt 1kg</td><td>×1</td><td>$3.90</td><td>Aldi</td><td>$3.90</td><td><span class="tag ta">Pending</span></td></tr>
+        </tbody></table>
+        <div style="text-align:right;font-size:11px;font-weight:600;margin-top:8px;padding-top:8px;border-top:0.5px solid #DDDBD4">Cart total: $24.58 &nbsp;·&nbsp; <span style="color:#888;font-weight:400;font-size:9px">full list: $28.67</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 6: AI ADVISOR ===== -->
+<div class="screen-block">
+  <div class="screen-tag">Screen 6 — AI Advisor</div>
+  <div class="wf">
+    <div class="titlebar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="tbar-title">SmartSpend — AI Advisor</span></div>
+    <div class="layout">
+      <div class="sb"><div class="sb-brand">SmartSpend<small>Budget mode</small></div>
+        <div class="nav">Dashboard</div><div class="nav">My items</div><div class="nav">Price compare</div><div class="nav">Cart &amp; budget</div>
+        <div class="nav active">AI advisor</div><div class="nav">Price history</div><div class="nav">Pantry</div><div class="nav">Settings</div></div>
+      <div class="content">
+        <div class="toolbar"><div class="pg-title">AI smart advisor</div><span class="tag tp">AI-powered</span></div>
+        <div class="sec-hdr">Auto-generated recommendations</div>
+        <div class="ai-card"><div class="ai-hdr">Budget optimisation</div>Shopping 2 stores instead of one saves $11.32. Suggested route: Aldi then Coles.</div>
+        <div class="ai-card"><div class="ai-hdr">Price alert</div>Chicken breast at Coles ($6.49) is $0.51 below your target. Buy extra and freeze.</div>
+        <div class="ai-card"><div class="ai-hdr">Stock-up signal</div>Pasta 500g at $1.20 (Aldi) is 20% below its 3-month average. Consider buying 5–6 packs.</div>
+        <div class="sec-hdr">Ask the advisor</div>
+        <div class="chat-area">
+          <div class="bubble ai">Based on your list, buy eggs and milk at Aldi, chicken at Coles. You'll save $11.32 vs shopping at one store.</div>
+          <div class="clearfix"></div>
+          <div class="bubble user">Can you suggest cheaper alternatives to Greek yoghurt?</div>
+          <div class="clearfix"></div>
+          <div class="bubble ai">Aldi Regal yoghurt 1kg is $3.40 (saves $0.50). Woolworths Select 1kg is $3.50. Both are nutritionally similar.</div>
+          <div class="clearfix"></div>
+        </div>
+        <div style="display:flex;gap:7px">
+          <input type="text" placeholder="Ask about prices, alternatives, budget tips..." style="flex:1;font-size:10px;padding:5px 8px;border:0.5px solid #C4C2BA;border-radius:5px;background:#F7F6F2">
+          <div class="btn btn-p">Send</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 7: PRICE HISTORY ===== -->
+<div class="screen-block">
+  <div class="screen-tag">Screen 7 — Price History Chart</div>
+  <div class="wf">
+    <div class="titlebar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="tbar-title">SmartSpend — Price History</span></div>
+    <div class="layout">
+      <div class="sb"><div class="sb-brand">SmartSpend<small>Budget mode</small></div>
+        <div class="nav">Dashboard</div><div class="nav">My items</div><div class="nav">Price compare</div><div class="nav">Cart &amp; budget</div>
+        <div class="nav">AI advisor</div><div class="nav active">Price history</div><div class="nav">Pantry</div><div class="nav">Settings</div></div>
+      <div class="content">
+        <div class="toolbar">
+          <div class="pg-title">Price history</div>
+          <select style="font-size:10px;padding:3px 6px;border:0.5px solid #C4C2BA;border-radius:4px;background:#F7F6F2"><option>Whole milk 2L</option><option>Chicken breast</option><option>Pasta 500g</option></select>
+          <select style="font-size:10px;padding:3px 6px;border:0.5px solid #C4C2BA;border-radius:4px;background:#F7F6F2"><option>Last 3 months</option><option>6 months</option><option>12 months</option></select>
+        </div>
+        <div class="chart-placeholder">
+          <svg viewBox="0 0 900 100" preserveAspectRatio="none">
+            <line x1="0" y1="25" x2="900" y2="25" stroke="#DDDBD4" stroke-width="0.5"/>
+            <line x1="0" y1="50" x2="900" y2="50" stroke="#DDDBD4" stroke-width="0.5"/>
+            <line x1="0" y1="75" x2="900" y2="75" stroke="#DDDBD4" stroke-width="0.5"/>
+            <polyline points="20,80 100,74 180,76 260,70 340,67 420,64 500,66 580,60 660,58 740,56 820,60 880,56" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="20,52 100,54 180,50 260,56 340,52 420,54 500,50 580,55 660,52 740,53 820,50 880,52" fill="none" stroke="#7CB342" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 3"/>
+            <polyline points="20,60 100,62 180,58 260,64 340,60 420,61 500,58 580,62 660,59 740,58 820,61 880,59" fill="none" stroke="#2E7D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 3"/>
+          </svg>
+          <div style="display:flex;gap:14px;font-size:9px;margin-top:4px">
+            <span style="color:#1D9E75">■ Aldi</span><span style="color:#5D7C1D">── Coles</span><span style="color:#378ADD">··· Woolworths</span>
+          </div>
+        </div>
+        <table><thead><tr><th style="width:18%">Week</th><th style="width:14%;text-align:center">Aldi</th><th style="width:14%;text-align:center">Coles</th><th style="width:18%;text-align:center">Woolworths</th><th style="width:14%;text-align:center">Lowest</th><th style="text-align:center">Change</th></tr></thead>
+        <tbody>
+          <tr><td>This week</td><td style="text-align:center"><span class="best">$2.80</span></td><td style="text-align:center">$3.20</td><td style="text-align:center">$3.10</td><td style="text-align:center">Aldi</td><td style="text-align:center"><span class="tag tg">▼ $0.10</span></td></tr>
+          <tr><td>Last week</td><td style="text-align:center">$2.90</td><td style="text-align:center">$3.20</td><td style="text-align:center">$3.10</td><td style="text-align:center">Aldi</td><td style="text-align:center">—</td></tr>
+          <tr><td>2 weeks ago</td><td style="text-align:center">$2.90</td><td style="text-align:center">$3.30</td><td style="text-align:center">$3.20</td><td style="text-align:center">Aldi</td><td style="text-align:center"><span class="tag ta">▲ $0.10</span></td></tr>
+          <tr><td>3 weeks ago</td><td style="text-align:center">$2.80</td><td style="text-align:center">$3.10</td><td style="text-align:center">$3.00</td><td style="text-align:center">Aldi</td><td style="text-align:center">—</td></tr>
+        </tbody></table>
+        <div class="ai-card" style="margin-top:8px"><div class="ai-hdr">Trend insight</div>Aldi milk trending down (−7% over 3 months). No price spikes detected. Woolworths consistently $0.30 cheaper than Coles.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 8: PANTRY ===== -->
+<div class="screen-block">
+  <div class="screen-tag">Screen 8 — Pantry / Inventory</div>
+  <div class="wf">
+    <div class="titlebar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="tbar-title">SmartSpend — Pantry</span></div>
+    <div class="layout">
+      <div class="sb"><div class="sb-brand">SmartSpend<small>Budget mode</small></div>
+        <div class="nav">Dashboard</div><div class="nav">My items</div><div class="nav">Price compare</div><div class="nav">Cart &amp; budget</div>
+        <div class="nav">AI advisor</div><div class="nav">Price history</div><div class="nav active">Pantry</div><div class="nav">Settings</div></div>
+      <div class="content">
+        <div class="toolbar"><div class="pg-title">Pantry inventory</div><div class="btn btn-p">+ Add item</div><div class="btn">Clear checked</div></div>
+        <div style="font-size:9px;color:#888;margin-bottom:10px">Items checked off your shopping list are automatically added here.</div>
+        <div class="metrics">
+          <div class="mc"><div class="lbl">Items tracked</div><div class="val">8</div></div>
+          <div class="mc"><div class="lbl">Items needed</div><div class="val" style="color:#791F1F">2</div></div>
+          <div class="mc"><div class="lbl">Running low</div><div class="val" style="color:#633806">1</div></div>
+        </div>
+        <div class="sec-hdr">Dairy</div>
+        <div class="inv-row"><div class="chkbox">✓</div><div style="flex:1">Whole milk 2L ×2</div><div style="color:var(--green-muted)">Added today</div><span class="tag tg">In stock</span></div>
+        <div class="inv-row"><div class="chkbox">✓</div><div style="flex:1">Eggs 12pk ×1</div><div style="color:var(--green-muted)">Added today</div><span class="tag tg">In stock</span></div>
+        <div class="inv-row"><div class="chkbox empty"></div><div style="flex:1">Greek yoghurt 1kg</div><div style="color:var(--green-muted)">—</div><span class="tag tr">Needed</span></div>
+        <div class="sec-hdr">Pantry</div>
+        <div class="inv-row"><div class="chkbox">✓</div><div style="flex:1">Pasta 500g ×3</div><div style="color:var(--green-muted)">3 days ago</div><span class="tag tg">Stocked</span></div>
+        <div class="inv-row"><div class="chkbox">✓</div><div style="flex:1">Olive oil 500ml</div><div style="color:var(--green-muted)">1 week ago</div><span class="tag ta">Low</span></div>
+        <div class="inv-row"><div class="chkbox empty"></div><div style="flex:1">Tinned tomatoes ×4</div><div style="color:var(--green-muted)">—</div><span class="tag tr">Needed</span></div>
+        <div class="sec-hdr">Meat</div>
+        <div class="inv-row"><div class="chkbox">✓</div><div style="flex:1">Chicken breast 500g</div><div style="color:var(--green-muted)">Added today</div><span class="tag tg">In stock</span></div>
+        <div style="font-size:9px;color:#888;margin-top:8px">8 items tracked · 2 needed · 1 running low · Auto-syncs with cart</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 9: SETTINGS ===== -->
+<div class="screen-block">
+  <div class="screen-tag">Screen 9 — Settings</div>
+  <div class="wf">
+    <div class="titlebar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="tbar-title">SmartSpend — Settings</span></div>
+    <div class="layout">
+      <div class="sb"><div class="sb-brand">SmartSpend<small>Budget mode</small></div>
+        <div class="nav">Dashboard</div><div class="nav">My items</div><div class="nav">Price compare</div><div class="nav">Cart &amp; budget</div>
+        <div class="nav">AI advisor</div><div class="nav">Price history</div><div class="nav">Pantry</div><div class="nav active">Settings</div></div>
+      <div class="content">
+        <div class="toolbar"><div class="pg-title">Settings</div><div class="btn btn-p">Save changes</div></div>
+        <div class="sec-hdr">Shopping preferences</div>
+        <div class="sr-row"><div><div class="sr-lbl">Preferred store</div><div class="sr-sub">Default for price display &amp; route planning</div></div><select style="font-size:10px;padding:3px 6px;border:0.5px solid #C4C2BA;border-radius:4px;background:#F7F6F2"><option>Aldi</option><option>Coles</option><option>Woolworths</option></select></div>
+        <div class="sr-row"><div><div class="sr-lbl">Weekly budget ($)</div><div class="sr-sub">Alert shown at 80% of budget</div></div><input type="number" value="120" style="width:65px;font-size:10px;padding:3px 6px;border:0.5px solid #C4C2BA;border-radius:4px;background:#F7F6F2"></div>
+        <div class="sr-row"><div><div class="sr-lbl">Budget period</div><div class="sr-sub">How often budget resets</div></div><select style="font-size:10px;padding:3px 6px;border:0.5px solid #C4C2BA;border-radius:4px;background:#F7F6F2"><option>Weekly</option><option>Fortnightly</option><option>Monthly</option></select></div>
+        <div class="sr-row"><div><div class="sr-lbl">Price alert threshold</div><div class="sr-sub">Notify when item drops below target</div></div><select style="font-size:10px;padding:3px 6px;border:0.5px solid #C4C2BA;border-radius:4px;background:#F7F6F2"><option>5% below target</option><option>10% below target</option><option>Any drop</option></select></div>
+        <div class="sec-hdr" style="margin-top:14px">AI &amp; recommendations</div>
+        <div class="sr-row"><div><div class="sr-lbl">Enable AI recommendations</div><div class="sr-sub">Smart tips based on shopping habits</div></div><div class="btn btn-p" style="font-size:9px;padding:3px 10px">On</div></div>
+        <div class="sr-row"><div><div class="sr-lbl">Stock-up suggestions</div><div class="sr-sub">Alert when items hit historical lows</div></div><div class="btn btn-p" style="font-size:9px;padding:3px 10px">On</div></div>
+        <div class="sr-row"><div><div class="sr-lbl">Multi-store route planning</div><div class="sr-sub">Suggest splitting shop across stores</div></div><div class="btn btn-p" style="font-size:9px;padding:3px 10px">On</div></div>
+        <div class="sec-hdr" style="margin-top:14px">Data &amp; account</div>
+        <div class="sr-row"><div><div class="sr-lbl">Database</div><div class="sr-sub">SQLite · /data/smartspend.db</div></div><span class="tag tg">Connected</span></div>
+        <div class="sr-row"><div><div class="sr-lbl">Export data</div><div class="sr-sub">All items, history &amp; purchases as CSV</div></div><div class="btn">Export CSV</div></div>
+        <div class="sr-row"><div><div class="sr-lbl">Account</div><div class="sr-sub">user@gmail.com</div></div><div class="btn">Sign out</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end screens-grid -->
+</body>
+</html>
