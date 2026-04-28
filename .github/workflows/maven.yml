@@ -33,10 +33,10 @@ jobs:
         distribution: 'corretto'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file "smartspend-complete/pom.xml"
+      run: mvn -B package --file "pom.xml"
 
     - name: run unit tests
-      run : mvn --file "smartspend-complete/pom.xml" test
+      run : mvn --file "pom.xml" test
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
