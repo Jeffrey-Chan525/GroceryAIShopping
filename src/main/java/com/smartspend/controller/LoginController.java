@@ -30,7 +30,7 @@ public class LoginController {
         boolean ok = true; // remove later
 
         if (ok) {
-            SceneManager.switchTo("MainShell");
+            SceneManager.switchTo("dashboard-view");
         } else {
             errorLabel.setText("Incorrect email or password. Please try again.");
         }
