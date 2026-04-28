@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.smartspend.controller.PantryController" prefWidth="1440" prefHeight="900" styleClass="app-root">
+    <left>
+        <VBox prefWidth="250" spacing="14" styleClass="sidebar">
+            <padding><Insets top="24" right="18" bottom="24" left="18"/></padding>
+            <Label text="SmartSpend" styleClass="brand" />
+            <Label text="AI-driven grocery planning for students" styleClass="brand-subtitle" wrapText="true" />
+            <VBox spacing="8" styleClass="nav-group">
+                <Button text="Dashboard" onAction="#goDashboard" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="Shopping List" onAction="#goShoppingList" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="Price Comparison" onAction="#goComparison" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="Budget" onAction="#goBudget" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="AI Assistant" onAction="#goAiChat" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="Prices" onAction="#goPrices" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="Pantry" onAction="#goPantry" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="Settings" onAction="#goSettings" maxWidth="Infinity" styleClass="nav-button" />
+            </VBox>
+            <Region VBox.vgrow="ALWAYS" />
+            <VBox spacing="8" styleClass="sidebar-card">
+                <Label text="Project Theme" styleClass="sidebar-card-title" />
+                <Label text="Living, Learning, Working with AI" wrapText="true" styleClass="sidebar-card-body" />
+            </VBox>
+            <Button text="Log Out" onAction="#goLogin" maxWidth="Infinity" styleClass="ghost-button" />
+        </VBox>
+    </left>
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="16" styleClass="topbar">
+            <padding><Insets top="20" right="28" bottom="20" left="28"/></padding>
+            <VBox spacing="4">
+                <Label text="Pantry" styleClass="page-title" />
+                <Label text="Track what is already at home so students avoid duplicate purchases." styleClass="page-subtitle" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <TextField promptText="Search within SmartSpend" prefWidth="260" styleClass="search-field" />
+            <Button text="Notifications" styleClass="secondary-button" />
+        </HBox>
+    </top>
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" styleClass="content-scroll">
+            <content>
+                <VBox spacing="22" styleClass="content-area">
+                    <padding><Insets top="28" right="28" bottom="28" left="28"/></padding>
+                    
+<HBox spacing="18">
+    <VBox HBox.hgrow="ALWAYS" spacing="14" styleClass="surface-card">
+        <Label text="Pantry Inventory" styleClass="section-title" />
+        <TableView prefHeight="460" styleClass="app-table">
+            <columns>
+                <TableColumn text="Item" prefWidth="260" />
+                <TableColumn text="Quantity" prefWidth="140" />
+                <TableColumn text="Best Before" prefWidth="170" />
+                <TableColumn text="Status" prefWidth="160" />
+                <TableColumn text="Suggested Use" prefWidth="260" />
+            </columns>
+        </TableView>
+    </VBox>
+    <VBox prefWidth="330" spacing="12" styleClass="surface-card">
+        <Label text="AI Pantry Coach" styleClass="section-title" />
+        <Label text="Use this area to later connect pantry stock to recipe or restock suggestions. For now, it gives you a polished screen to present your future direction." wrapText="true" styleClass="muted-label" />
+        <Button text="Move Completed Items Here" styleClass="secondary-button" />
+    </VBox>
+</HBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
