@@ -1,48 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.smartspend.controller.DashboardV1Controller"
-      spacing="16" styleClass="root" prefWidth="1000" prefHeight="650">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
-
-    <HBox spacing="12">
-        <Label text="SMARTSPEND" styleClass="title" />
-        <Button text="Settings" />
-    </HBox>
-
-    <HBox spacing="10">
-        <TextField promptText="Quick Add Item" prefWidth="320" />
-        <Button text="Add" />
-    </HBox>
-
-    <HBox spacing="16">
-        <VBox spacing="8" styleClass="card" prefWidth="300">
-            <Label fx:id="budgetLabel" text="Weekly Budget: $100.00" />
-            <ProgressBar progress="0.72" prefWidth="260" />
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.smartspend.controller.DashboardController" prefWidth="1440" prefHeight="900" styleClass="app-root">
+<left>
+    <VBox prefWidth="250" spacing="14" styleClass="sidebar">
+        <padding><Insets top="24" right="18" bottom="24" left="18"/></padding>
+        <Label text="SmartSpend" styleClass="brand" />
+        <Label text="AI-driven grocery planning for students" styleClass="brand-subtitle" wrapText="true" />
+        <VBox spacing="8" styleClass="nav-group">
+            <Button text="Dashboard" onAction="#goDashboard" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="Shopping List" onAction="#goShoppingList" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="Price Comparison" onAction="#goComparison" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="Budget" onAction="#goBudget" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="AI Assistant" onAction="#goAiChat" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="Prices" onAction="#goPrices" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="Pantry" onAction="#goPantry" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="Settings" onAction="#goSettings" maxWidth="Infinity" styleClass="nav-button" />
         </VBox>
-        <VBox spacing="8" styleClass="card" prefWidth="300">
-            <Label fx:id="totalLabel" text="Current Basket Total: $72.40" />
-            <Label text="Remaining: $27.60" />
+        <Region VBox.vgrow="ALWAYS" />
+        <VBox spacing="8" styleClass="sidebar-card">
+            <Label text="Project Theme" styleClass="sidebar-card-title" />
+            <Label text="Living, Learning, Working with AI" wrapText="true" styleClass="sidebar-card-body" />
         </VBox>
-    </HBox>
-
-    <VBox spacing="8" styleClass="card" prefWidth="620">
-        <Label text="Frugal Briefing" styleClass="subtitle" />
-        <Label fx:id="briefingLabel" wrapText="true" text="Your basket is cheapest at Aldi this week." />
+        <Button text="Log Out" onAction="#goLogin" maxWidth="Infinity" styleClass="ghost-button" />
     </VBox>
-
-    <HBox spacing="10">
-        <Button text="View Shopping List" />
-        <Button text="View Price Trends" />
+</left>
+<top>
+    <HBox alignment="CENTER_LEFT" spacing="16" styleClass="topbar">
+        <padding><Insets top="20" right="28" bottom="20" left="28"/></padding>
+        <VBox spacing="4">
+            <Label text="Dashboard" styleClass="page-title" />
+            <Label text="A high-fidelity overview of budget, AI insights, and real product import." styleClass="page-subtitle" />
+        </VBox>
+        <Region HBox.hgrow="ALWAYS" />
+        <TextField promptText="Search within SmartSpend" prefWidth="260" styleClass="search-field" />
+        <Button text="Notifications" styleClass="secondary-button" />
     </HBox>
-</VBox>
+</top>
+<center>
+    <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" styleClass="content-scroll">
+        <content>
+            <VBox spacing="22" styleClass="content-area">
+                <padding><Insets top="28" right="28" bottom="28" left="28"/></padding>
+
+                <HBox spacing="18">
+                    <VBox HBox.hgrow="ALWAYS" spacing="14" styleClass="metric-card accent-green">
+                        <Label text="Weekly Budget" styleClass="metric-title" />
+                        <Label fx:id="budgetLabel" text="/$100.00" styleClass="metric-value" />
+                        <ProgressBar progress="0.72" prefWidth="320" styleClass="budget-bar" />
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="14" styleClass="metric-card accent-teal">
+                        <Label text="Current Basket" styleClass="metric-title" />
+                        <Label fx:id="totalLabel" text="/$72.40" styleClass="metric-value" />
+                        <Label text="3 stores monitored this week" styleClass="muted-label" />
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="14" styleClass="metric-card accent-gold">
+                        <Label text="Imported Products" styleClass="metric-title" />
+                        <Label fx:id="importedCountLabel" text="0" styleClass="metric-value" />
+                        <Label text="Pulled from Open Food Facts" styleClass="muted-label" />
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="12" styleClass="surface-card hero-card">
+                    <Label text="Frugal Briefing" styleClass="section-title" />
+                    <Label fx:id="briefingLabel" wrapText="true" styleClass="hero-copy" text="Your basket is cheapest at Aldi this week." />
+                    <Label fx:id="statusLabel" text="Ready. Search real products or add a local item." styleClass="status-pill" wrapText="true" />
+                </VBox>
+
+                <HBox spacing="18">
+                    <VBox HBox.hgrow="ALWAYS" spacing="14" styleClass="surface-card">
+                        <Label text="Quick Add to Local Database" styleClass="section-title" />
+                        <HBox spacing="10">
+                            <TextField fx:id="quickAddField" promptText="Add a manual grocery item" HBox.hgrow="ALWAYS" styleClass="app-input" />
+                            <Button text="Quick Add" onAction="#handleQuickAdd" styleClass="primary-button" />
+                        </HBox>
+                        <Label text="Useful when building your demo data set or entering pantry items manually." styleClass="muted-label" wrapText="true" />
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="14" styleClass="surface-card">
+                        <Label text="Search Real Product Data" styleClass="section-title" />
+                        <HBox spacing="10">
+                            <TextField fx:id="searchField" promptText="Try milk, bread, eggs, rice" HBox.hgrow="ALWAYS" styleClass="app-input" />
+                            <Button fx:id="searchButton" text="Search" onAction="#handleSearch" styleClass="primary-button" />
+                        </HBox>
+                        <ListView fx:id="resultsListView" prefHeight="220" VBox.vgrow="ALWAYS" styleClass="soft-list" />
+                        <Button text="Import Selected Product" onAction="#handleImportSelected" styleClass="secondary-button" />
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="18">
+                    <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card">
+                        <Label text="Local Items in SQLite" styleClass="section-title" />
+                        <ListView fx:id="localItemsListView" prefHeight="250" VBox.vgrow="ALWAYS" styleClass="soft-list" />
+                    </VBox>
+                    <VBox prefWidth="360" spacing="12" styleClass="surface-card">
+                        <Label text="Next Demo Talking Points" styleClass="section-title" />
+                        <Label text="• Real-data import flow works through Open Food Facts
+• SQLite persists imported and manual items
+• UI shell covers dashboard, list, comparison, budget, chatbot, prices, pantry, and settings
+• Theme connection: AI helps students live and spend smarter" styleClass="muted-label" wrapText="true" />
+                        <HBox spacing="10">
+                            <Button text="Shopping List" onAction="#goShoppingList" styleClass="secondary-button" />
+                            <Button text="Settings" onAction="#handleOpenSettings" styleClass="ghost-button" />
+                        </HBox>
+                    </VBox>
+                </HBox>
+
+            </VBox>
+        </content>
+    </ScrollPane>
+</center>
+</BorderPane>

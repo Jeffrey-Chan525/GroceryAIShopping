@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainShell.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login-view.fxml"));
         Scene scene = new Scene(loader.load(), 1000, 650);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         stage.setTitle("SmartSpend");
