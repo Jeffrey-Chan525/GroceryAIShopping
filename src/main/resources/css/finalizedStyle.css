@@ -1,0 +1,328 @@
+.root, .app-root {
+    -fx-font-family: "Inter", "Segoe UI", sans-serif;
+    -fx-background-color: linear-gradient(to bottom right, #f4fbf5, #eef6ff);
+}
+
+.login-root {
+    -fx-font-family: "Inter", "Segoe UI", sans-serif;
+    -fx-background-color: linear-gradient(to bottom right, #0f3d2e, #1f6b52 50%, #dff4e6);
+}
+
+.login-panel-primary {
+    -fx-background-color: linear-gradient(to bottom right, rgba(8, 34, 25, 0.92), rgba(20, 76, 56, 0.88));
+}
+
+.login-brand {
+    -fx-text-fill: white;
+    -fx-font-size: 40px;
+    -fx-font-weight: 800;
+}
+
+.login-copy {
+    -fx-text-fill: rgba(255,255,255,0.86);
+    -fx-font-size: 17px;
+    -fx-line-spacing: 3px;
+}
+
+.hero-chip {
+    -fx-background-color: rgba(255,255,255,0.12);
+    -fx-background-radius: 999px;
+    -fx-padding: 10 16;
+}
+
+.hero-chip-text {
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+}
+
+.showcase-card, .auth-card, .surface-card, .metric-card, .sidebar-card {
+    -fx-background-color: rgba(255,255,255,0.92);
+    -fx-background-radius: 24px;
+    -fx-border-radius: 24px;
+    -fx-border-color: rgba(17, 68, 48, 0.08);
+    -fx-effect: dropshadow(gaussian, rgba(7, 30, 23, 0.10), 22, 0.18, 0, 8);
+    -fx-padding: 22px;
+}
+
+.auth-card {
+    -fx-max-width: 430px;
+}
+
+.auth-title, .page-title {
+    -fx-text-fill: #123728;
+    -fx-font-size: 28px;
+    -fx-font-weight: 800;
+}
+
+.page-title {
+    -fx-font-size: 32px;
+}
+
+.page-subtitle, .muted-label {
+    -fx-text-fill: #5d7368;
+    -fx-font-size: 13px;
+}
+
+.sidebar {
+    -fx-background-color: linear-gradient(to bottom, #0f3d2e, #174b38);
+}
+
+.brand {
+    -fx-text-fill: white;
+    -fx-font-size: 28px;
+    -fx-font-weight: 800;
+}
+
+.brand-subtitle {
+    -fx-text-fill: rgba(255,255,255,0.72);
+    -fx-font-size: 13px;
+}
+
+.nav-button, .ghost-button, .secondary-button, .primary-button {
+    -fx-cursor: hand;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-padding: 12 16;
+    -fx-font-weight: 700;
+}
+
+.nav-button {
+    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.nav-button:hover {
+    -fx-background-color: rgba(255,255,255,0.16);
+}
+
+.primary-button {
+    -fx-background-color: linear-gradient(to right, #17a865, #0f8a56);
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+}
+
+.primary-button:hover {
+    -fx-background-color: linear-gradient(to right, #20b06c, #12965d);
+}
+
+.secondary-button {
+    -fx-background-color: #ebf7ef;
+    -fx-text-fill: #15543d;
+    -fx-border-color: #cae9d4;
+}
+
+.ghost-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #0f3d2e;
+    -fx-border-color: #c9d8d0;
+}
+
+.topbar {
+    -fx-background-color: rgba(255,255,255,0.68);
+    -fx-border-color: rgba(18,55,40,0.05);
+    -fx-border-width: 0 0 1 0;
+}
+
+.search-field, .app-input, .app-combo {
+    -fx-background-color: white;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-border-color: #d6e3db;
+    -fx-padding: 12 14;
+}
+
+.section-title, .metric-title, .sidebar-card-title, .field-label {
+    -fx-text-fill: #183f2e;
+    -fx-font-weight: 800;
+    -fx-font-size: 16px;
+}
+
+.metric-title {
+    -fx-font-size: 14px;
+}
+
+.metric-value {
+    -fx-text-fill: #123728;
+    -fx-font-size: 34px;
+    -fx-font-weight: 900;
+}
+
+.metric-value.small {
+    -fx-font-size: 24px;
+}
+
+.hero-copy {
+    -fx-font-size: 17px;
+    -fx-text-fill: #224e3b;
+}
+
+.status-pill {
+    -fx-background-color: #edf8ef;
+    -fx-background-radius: 999px;
+    -fx-padding: 10 14;
+    -fx-text-fill: #206143;
+}
+
+.sidebar-card {
+    -fx-background-color: rgba(255,255,255,0.10);
+    -fx-border-color: rgba(255,255,255,0.08);
+}
+
+.sidebar-card-title, .sidebar-card-body {
+    -fx-text-fill: white;
+}
+
+.sidebar-card-body {
+    -fx-opacity: 0.82;
+}
+
+.content-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.content-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.content-area {
+    -fx-background-color: transparent;
+}
+
+.accent-green {
+    -fx-background-color: linear-gradient(to bottom right, #dcf6e7, #f3fff7);
+}
+
+.accent-teal {
+    -fx-background-color: linear-gradient(to bottom right, #daf6f4, #f5feff);
+}
+
+.accent-gold {
+    -fx-background-color: linear-gradient(to bottom right, #fff1cf, #fffaf0);
+}
+
+.accent-green-light {
+    -fx-background-color: linear-gradient(to bottom right, #effbf2, #ffffff);
+}
+
+.accent-blue-light {
+    -fx-background-color: linear-gradient(to bottom right, #eef7ff, #ffffff);
+}
+
+.accent-gold-light {
+    -fx-background-color: linear-gradient(to bottom right, #fff8e6, #ffffff);
+}
+
+.accent-pink-light {
+    -fx-background-color: linear-gradient(to bottom right, #fff0f4, #ffffff);
+}
+
+.list-view.soft-list, .list-view {
+    -fx-background-color: white;
+    -fx-background-radius: 18px;
+    -fx-border-color: #d8e5dd;
+    -fx-border-radius: 18px;
+    -fx-padding: 6px;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 12 14;
+    -fx-text-fill: #214b39;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #e9f8ef;
+    -fx-background-radius: 12px;
+    -fx-text-fill: #0f3d2e;
+}
+
+.table-view.app-table, .table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 18px;
+    -fx-border-color: #d8e5dd;
+    -fx-border-radius: 18px;
+    -fx-padding: 8px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #eef7f0;
+    -fx-background-radius: 12px 12px 0 0;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #d8e5dd transparent;
+}
+
+.table-view .label {
+    -fx-text-fill: #184634;
+    -fx-font-weight: 700;
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-color: #edf8ef;
+}
+
+.chart-card {
+    -fx-background-color: transparent;
+}
+
+.chart-plot-background {
+    -fx-background-color: white;
+    -fx-background-radius: 18px;
+}
+
+.chart-series-line {
+    -fx-stroke-width: 3px;
+}
+
+.chat-area {
+    -fx-background-color: white;
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-border-color: #d8e5dd;
+    -fx-text-fill: #183f2e;
+    -fx-font-size: 14px;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical, .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.progress-bar {
+    -fx-accent: #16a361;
+}
+
+.app-input, .search-field, .app-combo {
+    -fx-min-height: 42px;
+    -fx-pref-height: 42px;
+}
+
+.primary-button, .secondary-button, .ghost-button, .nav-button {
+    -fx-min-height: 42px;
+}
+
+.app-check {
+    -fx-text-fill: #214b39;
+    -fx-font-size: 13px;
+}
+
+.surface-card {
+    -fx-spacing: 12px;
+}
+
+.text-field {
+    -fx-text-fill: #183f2e;
+}
