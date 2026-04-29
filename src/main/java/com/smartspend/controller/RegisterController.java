@@ -26,17 +26,27 @@ public class RegisterController {
 
 
     UserEntryValidator validator;
-    private final UserRegistrationService userRegistrationService;
-    public RegisterController() throws SQLException {
-        Connection connection= DatabaseManager.getConnection();
+    private UserRegistrationService userRegistrationService;
+    public RegisterController(){
+        try{
 
-        validator = UserEntryValidator.link(
-                new NameValidation(),
-                new EmailValidator(),
-                new UserExistsValidator(connection),
-                new UserPasswordValidator()
-        );
-        userRegistrationService = new UserRegistrationService(connection);
+            Connection connection= DatabaseManager.getConnection();
+
+            validator = UserEntryValidator.link(
+                    new NameValidation(),
+                    new EmailValidator(),
+                    new UserExistsValidator(connection),
+                    new UserPasswordValidator()
+            );
+
+            userRegistrationService = new UserRegistrationService(connection);
+        } catch (SQLException e){
+            errorLabel.setText("Something went wrong with the servers. Please be patient while we are working on a solution. : " + e.getMessage());
+            errorLabel.setVisible(true);
+        } finally {
+            System.out.println("Something went horribly wrong");
+        }
+
     }
 
     @FXML

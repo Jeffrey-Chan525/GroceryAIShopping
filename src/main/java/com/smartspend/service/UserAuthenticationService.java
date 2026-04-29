@@ -24,12 +24,16 @@ public class UserAuthenticationService {
         userDao = new UserDao(connection);
     }
 
-    public User retrieveUser(String email) throws SQLException {
-        return userDao.getByEmail(email);
+    public boolean IsUserRegistered(String email) throws SQLException {
+        return (userDao.getByEmail(email) == null);
     }
 
     public boolean isPasswordCorrect(String email, String password) throws SQLException {
-        User user = retrieveUser(email);
+        User user = userDao.getByEmail(email);
+        if (user == null) {
+            throw new SQLException("This email does not exist in the database");
+        }
+
         byte[] salt = user.getSalt();
         byte[] hashedPassword = HashingPasswordService.generateHashedPassword(salt, password);
         return Arrays.equals(hashedPassword, user.getHashedPassword());

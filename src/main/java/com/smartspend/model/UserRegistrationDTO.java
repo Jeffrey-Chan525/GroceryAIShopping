@@ -28,6 +28,11 @@ public class UserRegistrationDTO {
         this.confirmPassword = confirmPassword;
     }
 
+    public UserRegistrationDTO(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
