@@ -13,11 +13,19 @@ public class TestUserDao {
 
     @BeforeAll
     static void setUp() {
+        String dropTable = "DROP TABLE IF EXISTS users";
+        try{
+            Statement statement = MOCK_CONNECTION.createStatement();
+            statement.execute(dropTable);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
         String makeTable = "CREATE TABLE users (" +
                 "user_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "username TEXT NOT NULL UNIQUE ," +
-                "email TEXT NOT NULL UNIQUE" +
-                ");";
+                "email TEXT NOT NULL UNIQUE," +
+                "hashedPassword TEXT," +
+                "salt TEXT);";
         try{
             Statement MOCK_STATEMENT = MOCK_CONNECTION.createStatement();
             MOCK_STATEMENT.execute(makeTable);
@@ -31,6 +39,8 @@ public class TestUserDao {
     private final static int userId = 1;
     private final static String username = "Jane Doe";
     private final static String email = "janeDoe@example.email.com";
+    private final static byte[]  hashedPassword = new byte[10];
+    private final static byte[] salt= new byte[12];
 
     private static void insertDummyData(){
         String insertDummyDataQuery = "INSERT INTO users(user_id, username, email) VALUES (?, ?, ?)";
@@ -60,23 +70,22 @@ public class TestUserDao {
 
     @Test
     void TestInsert(){
-        User ExpectedValue =  new User(userId, username, email);
+        User ExpectedValue =  new User(username, email, hashedPassword, salt);
         userDao.insert(ExpectedValue);
 
-        String retrieveActualValueQuery = "SELECT * FROM users WHERE user_id = ?";
+        String retrieveActualValueQuery = "SELECT * FROM users WHERE username = ?";
         User actualValue = null;
         try{
             PreparedStatement preparedStatement = MOCK_CONNECTION.prepareStatement(retrieveActualValueQuery);
-            preparedStatement.setInt(1, userId);
+            preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
-                actualValue = new User(resultSet.getInt("user_id"), resultSet.getString("username"), resultSet.getString("email"));
+                actualValue = new User(resultSet.getString("username"), resultSet.getString("email"), resultSet.getBytes("hashedPassword"), resultSet.getBytes("salt"));
             }
         } catch (SQLException e){
             System.err.println("Error in retrieving Actual value during TestInsert:" + "\n");
             e.printStackTrace();
         }
-
         Assertions.assertEquals(ExpectedValue, actualValue);
     }
 
@@ -84,7 +93,7 @@ public class TestUserDao {
     void TestUpdate(){
         insertDummyData();
         String updatedName = "John Doe";
-        User ExpectedValue =  new User(userId, updatedName, email);
+        User ExpectedValue =  new User(userId, updatedName, email, hashedPassword, salt);
 
         userDao.update(ExpectedValue);
         User actualValue = null;
@@ -94,7 +103,7 @@ public class TestUserDao {
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
-                actualValue = new User(resultSet.getInt("user_id"), resultSet.getString("username"), resultSet.getString("email"));
+                actualValue = new User(resultSet.getInt("user_id"), resultSet.getString("username"), resultSet.getString("email"),  resultSet.getBytes("hashedPassword"), resultSet.getBytes("salt"));
             }
         } catch (SQLException e){
             System.err.println("Error in retrieving Actual value during TestUpdate:" + "\n");
@@ -106,7 +115,7 @@ public class TestUserDao {
     @Test
     void TestDelete(){
         insertDummyData();
-        User ExpectedValue =  new User(userId, username, email);
+        User ExpectedValue =  new User(userId, username, email, hashedPassword, salt);
         userDao.delete(ExpectedValue);
         try{
             String query = "SELECT * FROM users WHERE user_id = ?";
@@ -123,7 +132,7 @@ public class TestUserDao {
     @Test
     void TestGet(){
         insertDummyData();
-        User ExpectedValue = new User(userId, username, email);
+        User ExpectedValue = new User(userId, username, email, hashedPassword, salt);
         User ActualValue = userDao.get(userId);
         Assertions.assertEquals(ExpectedValue, ActualValue);
     }
@@ -131,7 +140,7 @@ public class TestUserDao {
     @Test
     void TestGetAll(){
         insertDummyData();
-        List<User> ExpectedValue = List.of(new User(userId, username, email));
+        List<User> ExpectedValue = List.of(new User(userId, username, email, hashedPassword, salt));
         List<User> ActualValue = userDao.getAll();
         Assertions.assertEquals(ExpectedValue, ActualValue);
     }
