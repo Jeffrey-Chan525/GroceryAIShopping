@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 
 public class UserAuthenticationTest {
@@ -19,16 +20,9 @@ public class UserAuthenticationTest {
     private final static UserAuthenticationService userAuthenticationService = new UserAuthenticationService(connection);
     @BeforeAll
     static void setUp() throws SQLException, ClassNotFoundException {
-        String createTable = "CREATE TABLE users (" +
-                "    user_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "    username TEXT NOT NULL UNIQUE," +
-                "    email TEXT UNIQUE," +
-                "    hashedPassword TEXT," +
-                "    salt TEXT" +
-                ");";
-
-        connection.createStatement().execute(createTable);
-
+        String clearTable = "DELETE FROM users";
+        Statement statement = connection.createStatement();
+        statement.execute(clearTable);
     }
     @Test
     void MatchingHashedPassword() {

@@ -13,6 +13,13 @@ public class TestUserDao {
 
     @BeforeAll
     static void setUp() {
+        String dropTable = "DROP TABLE IF EXISTS users";
+        try{
+            Statement statement = MOCK_CONNECTION.createStatement();
+            statement.execute(dropTable);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
         String makeTable = "CREATE TABLE users (" +
                 "user_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "username TEXT NOT NULL UNIQUE ," +
