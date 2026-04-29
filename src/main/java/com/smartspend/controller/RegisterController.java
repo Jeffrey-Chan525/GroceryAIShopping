@@ -48,8 +48,6 @@ public class RegisterController {
         String confirmPassword = confirmPasswordField.getText();
         String email = emailField.getText();
         UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO(firstName, lastName, email, password, confirmPassword);
-        // remove later
-        System.out.println(userRegistrationDTO.getUsername() + " " + userRegistrationDTO.getPassword() +  " " + userRegistrationDTO.getConfirmPassword() + " " + userRegistrationDTO.getEmail());
 
         ValidationResult validationResult = validator.check(userRegistrationDTO);
         // validating the user input
