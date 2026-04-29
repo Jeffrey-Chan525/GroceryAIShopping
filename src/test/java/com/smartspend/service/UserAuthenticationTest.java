@@ -20,9 +20,14 @@ public class UserAuthenticationTest {
     private final static UserAuthenticationService userAuthenticationService = new UserAuthenticationService(connection);
     @BeforeAll
     static void setUp() throws SQLException, ClassNotFoundException {
-        String clearTable = "DELETE FROM users";
+        String makeTable = "CREATE TABLE users (" +
+                "user_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "username TEXT NOT NULL UNIQUE ," +
+                "email TEXT NOT NULL UNIQUE," +
+                "hashedPassword TEXT," +
+                "salt TEXT);";
         Statement statement = connection.createStatement();
-        statement.execute(clearTable);
+        statement.execute(makeTable);
     }
     @Test
     void MatchingHashedPassword() {
