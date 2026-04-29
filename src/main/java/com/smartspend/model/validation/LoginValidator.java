@@ -20,7 +20,7 @@ public class LoginValidator extends UserEntryValidator{
         if (userRegistrationDTO.getEmail() == null) {return new  ValidationResult(false, "You must type in an Email");}
         try{
             if (userAuthenticationService.IsUserRegistered(email)){
-            e    return new ValidationResult(false, "The email you entered is not registered");
+                return new ValidationResult(false, "The email you entered is not registered");
             }
             if (!userAuthenticationService.isPasswordCorrect(email, password)) {
                 return new ValidationResult(false, "Incorrect email or password. Please try again.");
