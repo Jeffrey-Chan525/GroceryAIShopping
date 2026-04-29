@@ -27,8 +27,8 @@ public class UserDao implements DAO<User>{
             PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
             insertStatement.setString(NAME, value.getUsername());
             insertStatement.setString(EMAIL, value.getEmail());
-            insertStatement.setString(HASHED_PASSWORD, value.getHashedPassword());
-            insertStatement.setString(SALT, value.getSalt());
+            insertStatement.setBytes(HASHED_PASSWORD, value.getHashedPassword());
+            insertStatement.setBytes(SALT, value.getSalt());
             insertStatement.execute();
         } catch (SQLException e){
             System.err.println("Error in inserting user: " + "\n");
@@ -78,8 +78,8 @@ public class UserDao implements DAO<User>{
                 int userID = resultSet.getInt("user_id");
                 String username = resultSet.getString("username");
                 String email = resultSet.getString("email");
-                String  hashedPassword = resultSet.getString("hashedPassword");
-                String  salt = resultSet.getString("salt");
+                byte[]  hashedPassword = resultSet.getBytes("hashedPassword");
+                byte[] salt = resultSet.getBytes("salt");
                 users.add(new User(userID,username,email, hashedPassword, salt));
             }
         } catch (SQLException e){
@@ -102,8 +102,8 @@ public class UserDao implements DAO<User>{
                 int userID = resultSet.getInt("user_id");
                 String username = resultSet.getString("username");
                 String email = resultSet.getString("email");
-                String hashedPassword = resultSet.getString("hashedPassword");
-                String salt = resultSet.getString("salt");
+                byte[] hashedPassword = resultSet.getBytes("hashedPassword");
+                byte[] salt = resultSet.getBytes("salt");
                 res = new User(userID,username,email, hashedPassword, salt);
             }
         } catch (SQLException e){
@@ -121,7 +121,7 @@ public class UserDao implements DAO<User>{
         preparedStatement.setString(1, name);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
-            return new User(resultSet.getInt("user_id"), resultSet.getString("username"), resultSet.getString("email"), resultSet.getString("hashedPassword"), resultSet.getString("salt"));
+            return new User(resultSet.getInt("user_id"), resultSet.getString("username"), resultSet.getString("email"), resultSet.getBytes("hashedPassword"), resultSet.getBytes("salt"));
         }
         return null;
     }
@@ -132,7 +132,7 @@ public class UserDao implements DAO<User>{
         preparedStatement.setString(1, email);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
-            return new User(resultSet.getInt("user_id"), resultSet.getString("username"), resultSet.getString("email"), resultSet.getString("hashedPassword"), resultSet.getString("salt"));
+            return new User(resultSet.getInt("user_id"), resultSet.getString("username"), resultSet.getString("email"), resultSet.getBytes("hashedPassword"), resultSet.getBytes("salt"));
         }
         return null;
     }

@@ -1,21 +1,38 @@
 package com.smartspend.service;
 
+import com.smartspend.dao.SqliteConnection;
+import com.smartspend.dao.UserDao;
+import com.smartspend.model.User;
 import com.smartspend.util.DatabaseManager;
+import org.testcontainers.shaded.com.google.common.hash.Hashing;
+
+import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Base64;
 
 /**
  * this is for authenticating for user login
  */
 public class UserAuthenticationService {
-    private String username;
+    private final UserDao userDao;
     private String email;
+    private String password;
 
-    public UserAuthenticationService(String username, String email) {
-        this.username = username;
-        this.email = email;
+    public UserAuthenticationService(Connection connection) {
+        userDao = new UserDao(connection);
     }
 
-    private int _initUserID(){
-        // do be done after adding userDao
-        return 0;
+    public User retrieveUser(String email) throws SQLException {
+        return userDao.getByEmail(email);
+    }
+
+    public boolean isPasswordCorrect(String email, String password) throws SQLException {
+        User user = retrieveUser(email);
+        byte[] salt = user.getSalt();
+        byte[] hashedPassword = HashingPasswordService.generateHashedPassword(salt, password);
+        return Arrays.equals(hashedPassword, user.getHashedPassword());
+
     }
 }

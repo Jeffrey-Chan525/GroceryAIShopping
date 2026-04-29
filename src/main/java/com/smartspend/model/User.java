@@ -6,17 +6,17 @@ public class User {
     private int userId;
     private String username;
     private String email;
-    private String hashedPassword;
-    private String salt;
+    private byte[] hashedPassword;
+    private byte[] salt;
 
-    public User(String username, String email, String hashedPassword, String salt) {
+    public User(String username, String email, byte[] hashedPassword, byte[] salt) {
         this.username = username;
         this.email = email;
         this.hashedPassword = hashedPassword;
         this.salt = salt;
     }
 
-    public User(int userId, String username, String email, String hashedPassword, String salt) {
+    public User(int userId, String username, String email, byte[] hashedPassword, byte[] salt) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -27,8 +27,8 @@ public class User {
     public int getUserId() { return userId; }
     public String getUsername() { return username; }
     public String getEmail() { return email; }
-    public String getHashedPassword() { return hashedPassword; }
-    public String getSalt() { return salt; }
+    public byte[] getHashedPassword() { return hashedPassword; }
+    public byte[] getSalt() { return salt; }
 
     @Override
     public boolean equals(Object o) {

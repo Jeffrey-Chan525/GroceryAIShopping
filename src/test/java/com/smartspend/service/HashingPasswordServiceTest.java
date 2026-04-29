@@ -8,22 +8,17 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 
-
-public class UserRegistrationServiceTest {
-    private final Connection connection = MockSQLiteConnection.mockConnection;
-    private final UserRegistrationService userRegistrationService = new UserRegistrationService(connection);
-
-    public UserRegistrationServiceTest() throws Exception{
-
-    }
+import static com.smartspend.service.HashingPasswordService.generateHashedPassword;
+import static com.smartspend.service.HashingPasswordService.generateSalt;
 
 
+public class HashingPasswordServiceTest {
     @Test
     public void test_Argon2PasswordGenerator(){
-        byte[] salt = userRegistrationService.generateSalt();
+        byte[] salt = generateSalt();
         String password = "testing";
 
-        byte[] ActualValue = userRegistrationService.generateHashedPassword(salt, password);
+        byte[] ActualValue = generateHashedPassword(salt, password);
         // parameter values for argon generator
         int iterations = 2;
         int memoryLimit = 66536;

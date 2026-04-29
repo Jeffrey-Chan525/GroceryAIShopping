@@ -11,8 +11,8 @@ CREATE TABLE users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
     email TEXT UNIQUE,
-    hashedPassword TEXT,
-    salt TEXT
+    hashedPassword BLOB,
+    salt BLOB
 );
 
 CREATE TABLE items (

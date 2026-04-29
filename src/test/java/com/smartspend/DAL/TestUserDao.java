@@ -32,8 +32,8 @@ public class TestUserDao {
     private final static int userId = 1;
     private final static String username = "Jane Doe";
     private final static String email = "janeDoe@example.email.com";
-    private final static String  hashedPassword = "notactuallyhashed";
-    private final static String salt = "placeholder";
+    private final static byte[]  hashedPassword = new byte[10];
+    private final static byte[] salt= new byte[12];
 
     private static void insertDummyData(){
         String insertDummyDataQuery = "INSERT INTO users(user_id, username, email) VALUES (?, ?, ?)";
@@ -73,7 +73,7 @@ public class TestUserDao {
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
-                actualValue = new User(resultSet.getString("username"), resultSet.getString("email"), resultSet.getString("hashedPassword"), resultSet.getString("salt"));
+                actualValue = new User(resultSet.getString("username"), resultSet.getString("email"), resultSet.getBytes("hashedPassword"), resultSet.getBytes("salt"));
             }
         } catch (SQLException e){
             System.err.println("Error in retrieving Actual value during TestInsert:" + "\n");
@@ -96,7 +96,7 @@ public class TestUserDao {
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
-                actualValue = new User(resultSet.getInt("user_id"), resultSet.getString("username"), resultSet.getString("email"),  resultSet.getString("hashedPassword"), resultSet.getString("salt"));
+                actualValue = new User(resultSet.getInt("user_id"), resultSet.getString("username"), resultSet.getString("email"),  resultSet.getBytes("hashedPassword"), resultSet.getBytes("salt"));
             }
         } catch (SQLException e){
             System.err.println("Error in retrieving Actual value during TestUpdate:" + "\n");
