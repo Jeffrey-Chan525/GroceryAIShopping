@@ -10,7 +10,9 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
-    email TEXT UNIQUE
+    email TEXT UNIQUE,
+    hashedPassword TEXT,
+    salt TEXT
 );
 
 CREATE TABLE items (

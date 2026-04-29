@@ -2,13 +2,14 @@ package com.smartspend.service;
 
 import com.smartspend.util.DatabaseManager;
 
+/**
+ * this is for authenticating for user login
+ */
 public class UserAuthenticationService {
-    private int userId;
     private String username;
     private String email;
 
-    public UserAuthenticationService(int userId, String username, String email) {
-        this.userId =  userId;
+    public UserAuthenticationService(String username, String email) {
         this.username = username;
         this.email = email;
     }

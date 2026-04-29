@@ -1,6 +1,8 @@
 package com.smartspend;
 
 import com.smartspend.model.AI;
+import com.smartspend.model.validation.UserEntryValidator;
+import com.smartspend.model.validation.UserPasswordValidator;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -14,9 +16,16 @@ import java.sql.SQLException;
 
 public class test {
     public static void main(String[] args){
-        String url = System.getenv("DATABASE_URL");
+        errorMsg();
+//        String url = System.getenv("DATABASE_URL");
+//
+//        System.out.print(url);
+    }
 
-        System.out.print(url);
+    public static void errorMsg(){
+        UserEntryValidator validator = UserEntryValidator.link(new UserPasswordValidator());
+
+        System.out.println(validator.getErrorMessage());
     }
 
     public static void scrape(){

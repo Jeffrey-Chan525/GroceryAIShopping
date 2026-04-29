@@ -1,0 +1,45 @@
+package com.smartspend.service;
+
+import com.smartspend.DAL.MockSQLiteConnection;
+import org.bouncycastle.crypto.generators.Argon2BytesGenerator;
+import org.bouncycastle.crypto.params.Argon2Parameters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.sql.Connection;
+
+
+public class UserRegistrationServiceTest {
+    private final Connection connection = MockSQLiteConnection.mockConnection;
+    private final UserRegistrationService userRegistrationService = new UserRegistrationService(connection);
+
+    public UserRegistrationServiceTest() throws Exception{
+
+    }
+
+
+    @Test
+    public void test_Argon2PasswordGenerator(){
+        byte[] salt = userRegistrationService.generateSalt();
+        String password = "testing";
+
+        byte[] ActualValue = userRegistrationService.generateHashedPassword(salt, password);
+        // parameter values for argon generator
+        int iterations = 2;
+        int memoryLimit = 66536;
+        int parallelism = 1;
+        int hashLength = 32;
+        Argon2Parameters.Builder builder = new Argon2Parameters.Builder(Argon2Parameters.ARGON2_id)
+                .withVersion(Argon2Parameters.ARGON2_VERSION_13)
+                .withIterations(iterations)
+                .withMemoryAsKB(memoryLimit)
+                .withParallelism(parallelism)
+                .withSalt(salt);
+        Argon2BytesGenerator verifier = new Argon2BytesGenerator();
+        verifier.init(builder.build());
+        byte[] testHash = new byte[hashLength];
+        verifier.generateBytes(password.getBytes(), testHash, 0, hashLength);
+        Assertions.assertArrayEquals(testHash, ActualValue);
+
+    }
+}
