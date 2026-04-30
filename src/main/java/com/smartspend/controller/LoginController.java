@@ -1,11 +1,19 @@
 package com.smartspend.controller;
 
+import com.smartspend.model.UserRegistrationDTO;
+import com.smartspend.model.validation.LoginValidator;
+import com.smartspend.model.validation.UserEntryValidator;
+import com.smartspend.model.validation.ValidationResult;
+import com.smartspend.util.DatabaseManager;
 import com.smartspend.util.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class LoginController {
 
@@ -14,25 +22,34 @@ public class LoginController {
     @FXML private Label errorLabel;
     @FXML private Button loginButton;
 
-    @FXML
-    private void handleLogin() {
-        errorLabel.setText("");
+    private Connection connection;
+    public LoginController() {
 
-        String email    = emailField.getText().trim();
-        String password = passwordField.getText();
-
-        if (email.isEmpty() || password.isEmpty()) {
-            errorLabel.setText("Please enter your email and password.");
-            return;
+        try{
+            connection = DatabaseManager.getConnection();
+        } catch (SQLException e){
+            System.err.println("SQL Error: " + e.getMessage());
         }
 
-        // need to replace with real auth check/database set up
-        boolean ok = true; // remove later
+    }
 
-        if (ok) {
+    @FXML
+    private void handleLogin() {
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO(email, password);
+
+        errorLabel.setText("");
+
+        // need to replace with real auth check/database set up
+        // remove later
+        UserEntryValidator validator = UserEntryValidator.link(new LoginValidator(connection));
+        ValidationResult validationResult = validator.check(userRegistrationDTO);
+        if (validationResult.isValid()) {
             SceneManager.switchTo("dashboard-view");
         } else {
-            errorLabel.setText("Incorrect email or password. Please try again.");
+            errorLabel.setText(validationResult.getErrorMessage());
+            errorLabel.setVisible(true);
         }
     }
 
