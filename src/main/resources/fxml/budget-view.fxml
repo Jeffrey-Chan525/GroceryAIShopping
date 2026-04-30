@@ -80,14 +80,15 @@
                     <HBox spacing="18">
                         <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-green-light">
                             <Label text="Weekly Limit" styleClass="section-title"/>
-                            <Label text="\$100" styleClass="metric-value small"/>
-                            <ProgressBar progress="0.72" prefWidth="320" styleClass="budget-bar"/>
+                            <Label fx:id="weeklyLimitValueLabel" text="\$100" styleClass="metric-value small"/>
+                            <ProgressBar fx:id="budgetProgressBar" progress="0.72" prefWidth="320" styleClass="budget-bar"/>
                         </VBox>
 
                         <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-pink-light">
                             <Label text="Remaining This Week" styleClass="section-title"/>
-                            <Label text="\$27.60" styleClass="metric-value small"/>
-                            <Label text="You are still comfortably under budget."
+                            <Label fx:id="remainingValueLabel" text="\$27.60" styleClass="metric-value small"/>
+                            <Label fx:id="budgetStatusLabel"
+                                   text="You are still comfortably under budget."
                                    wrapText="true"
                                    styleClass="muted-label"/>
                         </VBox>
@@ -98,13 +99,13 @@
 
                         <GridPane hgap="14" vgap="14">
                             <Label text="Budget Name" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="field-label"/>
-                            <TextField text="Weekly Student Shop" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="app-input"/>
+                            <TextField fx:id="budgetNameField" text="Weekly Student Shop" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="app-input"/>
 
                             <Label text="Target Limit" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="field-label"/>
-                            <TextField text="\$100.00" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="app-input"/>
+                            <TextField fx:id="targetLimitField" text="\$100.00" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="app-input"/>
 
                             <Label text="Preferred Store" GridPane.columnIndex="2" GridPane.rowIndex="0" styleClass="field-label"/>
-                            <ComboBox promptText="Aldi" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="app-combo" prefWidth="180"/>
+                            <ComboBox fx:id="preferredStoreCombo" promptText="Aldi" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="app-combo" prefWidth="180"/>
                         </GridPane>
 
                         <Label text="This page ties directly into your user_preferences table and supports the AI budgeting theme."
@@ -112,8 +113,8 @@
                                styleClass="muted-label"/>
 
                         <HBox spacing="10">
-                            <Button text="Save Budget" styleClass="primary-button"/>
-                            <Button text="Reset" styleClass="ghost-button"/>
+                            <Button text="Save Budget" onAction="#handleSaveBudget" styleClass="primary-button"/>
+                            <Button text="Reset" onAction="#handleResetBudget" styleClass="ghost-button"/>
                         </HBox>
                     </VBox>
                 </VBox>
