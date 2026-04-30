@@ -80,20 +80,20 @@
                     <HBox spacing="18">
                         <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-green-light">
                             <Label text="Lowest Basket Total" styleClass="section-title"/>
-                            <Label text="Aldi" styleClass="metric-value small"/>
-                            <Label text="\$34.80 for the full basket" styleClass="muted-label"/>
+                            <Label fx:id="lowestStoreLabel" text="Aldi" styleClass="metric-value small"/>
+                            <Label fx:id="lowestBasketLabel" text="\$34.80 for the full basket" styleClass="muted-label"/>
                         </VBox>
 
                         <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-blue-light">
                             <Label text="Best Individual Deal" styleClass="section-title"/>
-                            <Label text="Milk at Aldi" styleClass="metric-value small"/>
-                            <Label text="About \$1.20 cheaper than Woolworths" styleClass="muted-label"/>
+                            <Label fx:id="bestDealLabel" text="Milk at Aldi" styleClass="metric-value small"/>
+                            <Label fx:id="bestDealSubLabel" text="About \$1.20 cheaper than Woolworths" styleClass="muted-label"/>
                         </VBox>
 
                         <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-gold-light">
                             <Label text="Best Split-Shop Option" styleClass="section-title"/>
-                            <Label text="Aldi + Woolworths" styleClass="metric-value small"/>
-                            <Label text="Could save another \$3.50 overall" styleClass="muted-label"/>
+                            <Label fx:id="splitShopLabel" text="Aldi + Woolworths" styleClass="metric-value small"/>
+                            <Label fx:id="splitShopSubLabel" text="Could save another \$3.50 overall" styleClass="muted-label"/>
                         </VBox>
                     </HBox>
 
@@ -103,14 +103,14 @@
                                wrapText="true"
                                styleClass="muted-label"/>
 
-                        <TableView prefHeight="440" styleClass="app-table">
+                        <TableView fx:id="comparisonTable" prefHeight="440" styleClass="app-table">
                             <columns>
-                                <TableColumn text="Item" prefWidth="220"/>
-                                <TableColumn text="Coles" prefWidth="130"/>
-                                <TableColumn text="Woolworths" prefWidth="130"/>
-                                <TableColumn text="Aldi" prefWidth="130"/>
-                                <TableColumn text="Best Store" prefWidth="170"/>
-                                <TableColumn text="Why It Was Chosen" prefWidth="330"/>
+                                <TableColumn fx:id="itemColumn" text="Item" prefWidth="220"/>
+                                <TableColumn fx:id="colesColumn" text="Coles" prefWidth="130"/>
+                                <TableColumn fx:id="woolworthsColumn" text="Woolworths" prefWidth="130"/>
+                                <TableColumn fx:id="aldiColumn" text="Aldi" prefWidth="130"/>
+                                <TableColumn fx:id="bestStoreColumn" text="Best Store" prefWidth="170"/>
+                                <TableColumn fx:id="reasonColumn" text="Why It Was Chosen" prefWidth="330"/>
                             </columns>
                         </TableView>
                     </VBox>
