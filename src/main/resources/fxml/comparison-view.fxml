@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.smartspend.controller.ComparisonController"
+            prefWidth="1440" prefHeight="900"
+            styleClass="app-root">
+
+    <left>
+        <VBox prefWidth="250" spacing="14" styleClass="sidebar">
+            <padding>
+                <Insets top="24" right="18" bottom="24" left="18"/>
+            </padding>
+
+            <Label text="SmartSpend" styleClass="brand"/>
+            <Label text="AI-supported grocery planning for students"
+                   styleClass="brand-subtitle"
+                   wrapText="true"/>
+
+            <VBox spacing="8" styleClass="nav-group">
+                <Button text="Dashboard" onAction="#goDashboard" maxWidth="Infinity" styleClass="nav-button"/>
+                <Button text="Shopping List" onAction="#goShoppingList" maxWidth="Infinity" styleClass="nav-button"/>
+                <Button text="Price Comparison" onAction="#goComparison" maxWidth="Infinity" styleClass="nav-button"/>
+                <Button text="Budget" onAction="#goBudget" maxWidth="Infinity" styleClass="nav-button"/>
+                <Button text="AI Assistant" onAction="#goAiChat" maxWidth="Infinity" styleClass="nav-button"/>
+                <Button text="Prices" onAction="#goPrices" maxWidth="Infinity" styleClass="nav-button"/>
+                <Button text="Pantry" onAction="#goPantry" maxWidth="Infinity" styleClass="nav-button"/>
+                <Button text="Settings" onAction="#goSettings" maxWidth="Infinity" styleClass="nav-button"/>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <VBox spacing="8" styleClass="sidebar-card">
+                <Label text="Project Theme" styleClass="sidebar-card-title"/>
+                <Label text="Living, Learning, Working with AI"
+                       wrapText="true"
+                       styleClass="sidebar-card-body"/>
+            </VBox>
+
+            <Button text="Log Out" onAction="#goLogin" maxWidth="Infinity" styleClass="ghost-button"/>
+        </VBox>
+    </left>
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="16" styleClass="topbar">
+            <padding>
+                <Insets top="20" right="28" bottom="20" left="28"/>
+            </padding>
+
+            <VBox spacing="4">
+                <Label text="Price Comparison" styleClass="page-title"/>
+                <Label text="See which store gives the best overall value for your current basket."
+                       styleClass="page-subtitle"/>
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <TextField promptText="Search within SmartSpend"
+                       prefWidth="260"
+                       styleClass="search-field"/>
+            <Button text="Alerts" styleClass="secondary-button"/>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true"
+                    fitToHeight="true"
+                    hbarPolicy="NEVER"
+                    styleClass="content-scroll">
+            <content>
+                <VBox spacing="22" styleClass="content-area">
+                    <padding>
+                        <Insets top="28" right="28" bottom="28" left="28"/>
+                    </padding>
+
+                    <HBox spacing="18">
+                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-green-light">
+                            <Label text="Lowest Basket Total" styleClass="section-title"/>
+                            <Label text="Aldi" styleClass="metric-value small"/>
+                            <Label text="\$34.80 for the full basket" styleClass="muted-label"/>
+                        </VBox>
+
+                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-blue-light">
+                            <Label text="Best Individual Deal" styleClass="section-title"/>
+                            <Label text="Milk at Aldi" styleClass="metric-value small"/>
+                            <Label text="About \$1.20 cheaper than Woolworths" styleClass="muted-label"/>
+                        </VBox>
+
+                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-gold-light">
+                            <Label text="Best Split-Shop Option" styleClass="section-title"/>
+                            <Label text="Aldi + Woolworths" styleClass="metric-value small"/>
+                            <Label text="Could save another \$3.50 overall" styleClass="muted-label"/>
+                        </VBox>
+                    </HBox>
+
+                    <VBox spacing="14" styleClass="surface-card">
+                        <Label text="Store Comparison Table" styleClass="section-title"/>
+                        <Label text="Use this view to compare item prices and explain why the recommendation makes sense."
+                               wrapText="true"
+                               styleClass="muted-label"/>
+
+                        <TableView prefHeight="440" styleClass="app-table">
+                            <columns>
+                                <TableColumn text="Item" prefWidth="220"/>
+                                <TableColumn text="Coles" prefWidth="130"/>
+                                <TableColumn text="Woolworths" prefWidth="130"/>
+                                <TableColumn text="Aldi" prefWidth="130"/>
+                                <TableColumn text="Best Store" prefWidth="170"/>
+                                <TableColumn text="Why It Was Chosen" prefWidth="330"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
