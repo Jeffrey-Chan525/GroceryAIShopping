@@ -326,3 +326,52 @@
 .text-field {
     -fx-text-fill: #183f2e;
 }
+/* Fix selected ComboBox text being invisible */
+.combo-box.app-combo {
+    -fx-background-color: white;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-border-color: #d6e3db;
+}
+
+.combo-box.app-combo > .list-cell {
+    -fx-text-fill: #183f2e;
+    -fx-font-weight: 700;
+    -fx-background-color: transparent;
+    -fx-padding: 0 8 0 8;
+}
+
+.combo-box.app-combo .text {
+    -fx-fill: #183f2e;
+}
+
+.combo-box.app-combo .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box.app-combo .arrow {
+    -fx-background-color: #183f2e;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-border-color: #d6e3db;
+    -fx-border-radius: 12px;
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-text-fill: #183f2e;
+    -fx-background-color: white;
+    -fx-font-weight: 600;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover {
+    -fx-background-color: #e9f8ef;
+    -fx-text-fill: #0f3d2e;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected {
+    -fx-background-color: #dff4e6;
+    -fx-text-fill: #0f3d2e;
+}
