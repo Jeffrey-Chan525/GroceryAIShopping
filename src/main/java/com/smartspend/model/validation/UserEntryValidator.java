@@ -26,7 +26,7 @@ public abstract class UserEntryValidator {
         UserEntryValidator head = first;
         for (UserEntryValidator nextValidator : chain) {
             head.next = nextValidator;
-            nextValidator.next = head;
+            head = nextValidator;
         }
         return first;
     }
