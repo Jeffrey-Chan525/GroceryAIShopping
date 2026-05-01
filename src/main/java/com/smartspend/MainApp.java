@@ -12,7 +12,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         SceneManager.init(stage);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dashboard-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
         Scene scene = new Scene(loader.load(), 1000, 650);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
