@@ -4,6 +4,7 @@ import com.smartspend.dao.ItemDao;
 import com.smartspend.model.Item;
 import com.smartspend.util.DatabaseManager;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,26 +23,33 @@ public class ShoppingListController extends BaseController {
 
     @FXML
     public void initialize() {
-        setupTable();
-        loadItems();
+        setupTableColumns();
+        loadItemsFromBackend();
     }
 
-    private void setupTable() {
+    private void setupTableColumns() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         brandColumn.setCellValueFactory(new PropertyValueFactory<>("brand"));
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("defaultUnit"));
     }
 
-    private void loadItems() {
+    private void loadItemsFromBackend() {
         try {
             Connection connection = DatabaseManager.getConnection();
             ItemDao itemDao = new ItemDao(connection);
 
             List<Item> items = itemDao.getAll();
-            itemsTable.setItems(FXCollections.observableArrayList(items));
 
+            if (items == null || items.isEmpty()) {
+                System.out.println("No backend items found. Loading demo shopping list items.");
+                loadDemoItems();
+                return;
+            }
+
+            itemsTable.setItems(FXCollections.observableArrayList(items));
             System.out.println("Loaded " + items.size() + " shopping list item(s) from backend.");
+
         } catch (Exception e) {
             System.err.println("Failed to load shopping list items from backend: " + e.getMessage());
             loadDemoItems();
@@ -49,13 +57,14 @@ public class ShoppingListController extends BaseController {
     }
 
     private void loadDemoItems() {
-        itemsTable.setItems(FXCollections.observableArrayList(
+        ObservableList<Item> demoItems = FXCollections.observableArrayList(
                 new Item(1, "Whole milk 2L", "Dairy", "Aldi", "2L"),
                 new Item(2, "Chicken breast 500g", "Meat", "Coles", "500g"),
                 new Item(3, "Pasta 500g", "Pantry", "Aldi", "500g"),
                 new Item(4, "Greek yoghurt 1kg", "Dairy", "Woolworths", "1kg")
-        ));
+        );
 
-        System.out.println("Loaded demo items because backend/database load failed.");
+        itemsTable.setItems(demoItems);
+        System.out.println("Loaded demo items as fallback.");
     }
 }
