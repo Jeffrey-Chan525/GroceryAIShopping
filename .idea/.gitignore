@@ -9,3 +9,7 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 *.xml
+target/
+*.class
+null
+smartspend-complete/null
