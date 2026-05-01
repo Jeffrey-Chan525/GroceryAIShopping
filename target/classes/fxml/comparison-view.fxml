@@ -6,7 +6,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.smartspend.controller.SettingsController"
+            fx:controller="com.smartspend.controller.ComparisonController"
             prefWidth="1440" prefHeight="900"
             styleClass="app-root">
 
@@ -52,8 +52,8 @@
             </padding>
 
             <VBox spacing="4">
-                <Label text="Settings" styleClass="page-title"/>
-                <Label text="Personalise SmartSpend so recommendations fit your shopping habits."
+                <Label text="Price Comparison" styleClass="page-title"/>
+                <Label text="See which store gives the best overall value for your current basket."
                        styleClass="page-subtitle"/>
             </VBox>
 
@@ -77,56 +77,42 @@
                         <Insets top="28" right="28" bottom="28" left="28"/>
                     </padding>
 
+                    <HBox spacing="18">
+                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-green-light">
+                            <Label text="Lowest Basket Total" styleClass="section-title"/>
+                            <Label fx:id="lowestStoreLabel" text="Aldi" styleClass="metric-value small"/>
+                            <Label fx:id="lowestBasketLabel" text="\$34.80 for the full basket" styleClass="muted-label"/>
+                        </VBox>
+
+                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-blue-light">
+                            <Label text="Best Individual Deal" styleClass="section-title"/>
+                            <Label fx:id="bestDealLabel" text="Milk at Aldi" styleClass="metric-value small"/>
+                            <Label fx:id="bestDealSubLabel" text="About \$1.20 cheaper than Woolworths" styleClass="muted-label"/>
+                        </VBox>
+
+                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-gold-light">
+                            <Label text="Best Split-Shop Option" styleClass="section-title"/>
+                            <Label fx:id="splitShopLabel" text="Aldi + Woolworths" styleClass="metric-value small"/>
+                            <Label fx:id="splitShopSubLabel" text="Could save another \$3.50 overall" styleClass="muted-label"/>
+                        </VBox>
+                    </HBox>
+
                     <VBox spacing="14" styleClass="surface-card">
-                        <Label text="Personal Settings" styleClass="section-title"/>
-
-                        <GridPane hgap="18" vgap="18">
-                            <Label text="Weekly Budget" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="field-label"/>
-                            <TextField fx:id="weeklyBudgetField"
-                                       text="\$100.00"
-                                       GridPane.columnIndex="1"
-                                       GridPane.rowIndex="0"
-                                       styleClass="app-input"/>
-
-                            <Label text="Primary Store" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="field-label"/>
-                            <ComboBox fx:id="primaryStoreCombo"
-                                      promptText="Aldi"
-                                      GridPane.columnIndex="1"
-                                      GridPane.rowIndex="1"
-                                      styleClass="app-combo"
-                                      prefWidth="220"/>
-
-                            <CheckBox fx:id="salePredictionsCheck"
-                                      text="Show sale predictions"
-                                      GridPane.columnIndex="0"
-                                      GridPane.rowIndex="2"
-                                      selected="true"
-                                      styleClass="app-check"/>
-
-                            <CheckBox fx:id="valueSuggestionsCheck"
-                                      text="Show value suggestions"
-                                      GridPane.columnIndex="1"
-                                      GridPane.rowIndex="2"
-                                      selected="true"
-                                      styleClass="app-check"/>
-
-                            <CheckBox fx:id="pantryRemindersCheck"
-                                      text="Enable pantry reminders"
-                                      GridPane.columnIndex="0"
-                                      GridPane.rowIndex="3"
-                                      selected="true"
-                                      styleClass="app-check"/>
-                        </GridPane>
-
-                        <HBox spacing="10">
-                            <Button text="Save Changes" onAction="#handleSaveChanges" styleClass="primary-button"/>
-                            <Button text="Reset to Defaults" onAction="#handleResetDefaults" styleClass="ghost-button"/>
-                        </HBox>
-
-                        <Label fx:id="statusLabel"
-                               text="Keep this page simple for the checkpoint. It supports the user_preferences side of your database design."
+                        <Label text="Store Comparison Table" styleClass="section-title"/>
+                        <Label text="Use this view to compare item prices and explain why the recommendation makes sense."
                                wrapText="true"
                                styleClass="muted-label"/>
+
+                        <TableView fx:id="comparisonTable" prefHeight="440" styleClass="app-table">
+                            <columns>
+                                <TableColumn fx:id="itemColumn" text="Item" prefWidth="220"/>
+                                <TableColumn fx:id="colesColumn" text="Coles" prefWidth="130"/>
+                                <TableColumn fx:id="woolworthsColumn" text="Woolworths" prefWidth="130"/>
+                                <TableColumn fx:id="aldiColumn" text="Aldi" prefWidth="130"/>
+                                <TableColumn fx:id="bestStoreColumn" text="Best Store" prefWidth="170"/>
+                                <TableColumn fx:id="reasonColumn" text="Why It Was Chosen" prefWidth="330"/>
+                            </columns>
+                        </TableView>
                     </VBox>
                 </VBox>
             </content>

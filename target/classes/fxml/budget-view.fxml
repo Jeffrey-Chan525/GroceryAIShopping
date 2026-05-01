@@ -6,7 +6,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.smartspend.controller.SettingsController"
+            fx:controller="com.smartspend.controller.BudgetController"
             prefWidth="1440" prefHeight="900"
             styleClass="app-root">
 
@@ -52,8 +52,8 @@
             </padding>
 
             <VBox spacing="4">
-                <Label text="Settings" styleClass="page-title"/>
-                <Label text="Personalise SmartSpend so recommendations fit your shopping habits."
+                <Label text="Budget Tracker" styleClass="page-title"/>
+                <Label text="Keep an eye on your weekly grocery limit and see how recommendations help you stay on track."
                        styleClass="page-subtitle"/>
             </VBox>
 
@@ -77,56 +77,45 @@
                         <Insets top="28" right="28" bottom="28" left="28"/>
                     </padding>
 
+                    <HBox spacing="18">
+                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-green-light">
+                            <Label text="Weekly Limit" styleClass="section-title"/>
+                            <Label fx:id="weeklyLimitValueLabel" text="\$100" styleClass="metric-value small"/>
+                            <ProgressBar fx:id="budgetProgressBar" progress="0.72" prefWidth="320" styleClass="budget-bar"/>
+                        </VBox>
+
+                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-pink-light">
+                            <Label text="Remaining This Week" styleClass="section-title"/>
+                            <Label fx:id="remainingValueLabel" text="\$27.60" styleClass="metric-value small"/>
+                            <Label fx:id="budgetStatusLabel"
+                                   text="You are still comfortably under budget."
+                                   wrapText="true"
+                                   styleClass="muted-label"/>
+                        </VBox>
+                    </HBox>
+
                     <VBox spacing="14" styleClass="surface-card">
-                        <Label text="Personal Settings" styleClass="section-title"/>
+                        <Label text="Budget Planner" styleClass="section-title"/>
 
-                        <GridPane hgap="18" vgap="18">
-                            <Label text="Weekly Budget" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="field-label"/>
-                            <TextField fx:id="weeklyBudgetField"
-                                       text="\$100.00"
-                                       GridPane.columnIndex="1"
-                                       GridPane.rowIndex="0"
-                                       styleClass="app-input"/>
+                        <GridPane hgap="14" vgap="14">
+                            <Label text="Budget Name" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="field-label"/>
+                            <TextField fx:id="budgetNameField" text="Weekly Student Shop" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="app-input"/>
 
-                            <Label text="Primary Store" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="field-label"/>
-                            <ComboBox fx:id="primaryStoreCombo"
-                                      promptText="Aldi"
-                                      GridPane.columnIndex="1"
-                                      GridPane.rowIndex="1"
-                                      styleClass="app-combo"
-                                      prefWidth="220"/>
+                            <Label text="Target Limit" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="field-label"/>
+                            <TextField fx:id="targetLimitField" text="\$100.00" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="app-input"/>
 
-                            <CheckBox fx:id="salePredictionsCheck"
-                                      text="Show sale predictions"
-                                      GridPane.columnIndex="0"
-                                      GridPane.rowIndex="2"
-                                      selected="true"
-                                      styleClass="app-check"/>
-
-                            <CheckBox fx:id="valueSuggestionsCheck"
-                                      text="Show value suggestions"
-                                      GridPane.columnIndex="1"
-                                      GridPane.rowIndex="2"
-                                      selected="true"
-                                      styleClass="app-check"/>
-
-                            <CheckBox fx:id="pantryRemindersCheck"
-                                      text="Enable pantry reminders"
-                                      GridPane.columnIndex="0"
-                                      GridPane.rowIndex="3"
-                                      selected="true"
-                                      styleClass="app-check"/>
+                            <Label text="Preferred Store" GridPane.columnIndex="2" GridPane.rowIndex="0" styleClass="field-label"/>
+                            <ComboBox fx:id="preferredStoreCombo" promptText="Aldi" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="app-combo" prefWidth="180"/>
                         </GridPane>
 
-                        <HBox spacing="10">
-                            <Button text="Save Changes" onAction="#handleSaveChanges" styleClass="primary-button"/>
-                            <Button text="Reset to Defaults" onAction="#handleResetDefaults" styleClass="ghost-button"/>
-                        </HBox>
-
-                        <Label fx:id="statusLabel"
-                               text="Keep this page simple for the checkpoint. It supports the user_preferences side of your database design."
+                        <Label text="This page ties directly into your user_preferences table and supports the AI budgeting theme."
                                wrapText="true"
                                styleClass="muted-label"/>
+
+                        <HBox spacing="10">
+                            <Button text="Save Budget" onAction="#handleSaveBudget" styleClass="primary-button"/>
+                            <Button text="Reset" onAction="#handleResetBudget" styleClass="ghost-button"/>
+                        </HBox>
                     </VBox>
                 </VBox>
             </content>
