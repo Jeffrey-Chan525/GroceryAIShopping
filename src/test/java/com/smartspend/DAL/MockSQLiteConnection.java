@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MockSQLiteConnection {
-    public static Connection mockConnection = _initConnection();
-    private static Connection _initConnection() {
+    public final Connection mockConnection;
+    public MockSQLiteConnection() {
         // using in memory database for easy clean up
         String url = "jdbc:sqlite::memory:";
         Connection connection;
@@ -18,6 +18,12 @@ public class MockSQLiteConnection {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return connection;
+        mockConnection = connection;
+    }
+
+    public void close() throws SQLException {
+        if (mockConnection != null || mockConnection.isClosed()) {
+            mockConnection.close();
+        }
     }
 }

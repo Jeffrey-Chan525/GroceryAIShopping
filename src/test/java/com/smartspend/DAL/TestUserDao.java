@@ -8,18 +8,13 @@ import java.sql.*;
 import java.util.List;
 
 public class TestUserDao {
-    private final static Connection MOCK_CONNECTION = MockSQLiteConnection.mockConnection;
-    private final static UserDao userDao = new UserDao(MOCK_CONNECTION);
+    private static Connection mockConnection = new MockSQLiteConnection().mockConnection;
+    private static UserDao userDao = new UserDao(mockConnection);
 
-    @BeforeAll
-    static void setUp() {
-        String dropTable = "DROP TABLE IF EXISTS users";
-        try{
-            Statement statement = MOCK_CONNECTION.createStatement();
-            statement.execute(dropTable);
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
+    @BeforeEach
+    void setUp() {
+        mockConnection = new MockSQLiteConnection().mockConnection;
+        userDao = new UserDao(mockConnection);
         String makeTable = "CREATE TABLE users (" +
                 "user_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "username TEXT NOT NULL UNIQUE ," +
@@ -27,7 +22,7 @@ public class TestUserDao {
                 "hashedPassword TEXT," +
                 "salt TEXT);";
         try{
-            Statement MOCK_STATEMENT = MOCK_CONNECTION.createStatement();
+            Statement MOCK_STATEMENT = mockConnection.createStatement();
             MOCK_STATEMENT.execute(makeTable);
         } catch (SQLException e){
             System.err.println("Error in creating user table: " + "\n");
@@ -35,6 +30,10 @@ public class TestUserDao {
         }
     }
 
+    @AfterEach
+    void tearDown() throws SQLException {
+        mockConnection.close();
+    }
     // creating the dummy data
     private final static int userId = 1;
     private final static String username = "Jane Doe";
@@ -45,25 +44,15 @@ public class TestUserDao {
     private static void insertDummyData(){
         String insertDummyDataQuery = "INSERT INTO users(user_id, username, email) VALUES (?, ?, ?)";
         try{
-            PreparedStatement preparedStatement = MOCK_CONNECTION.prepareStatement(insertDummyDataQuery);
+            PreparedStatement preparedStatement = mockConnection.prepareStatement(insertDummyDataQuery);
             preparedStatement.setInt(1, userId);
             preparedStatement.setString(2, username);
             preparedStatement.setString(3, email);
             preparedStatement.execute();
+            preparedStatement.close();
 
         } catch (SQLException e){
             System.err.println("Error in inserting dummy data: " + "\n");
-            e.printStackTrace();
-        }
-    }
-
-    @BeforeEach
-    void setUpBeforeEach() {
-        String ClearTable = "DELETE FROM users";
-        try {
-            MOCK_CONNECTION.createStatement().execute(ClearTable);
-        } catch (SQLException e){
-            System.err.println("Error in clearing user table: " + "\n");
             e.printStackTrace();
         }
     }
@@ -76,7 +65,7 @@ public class TestUserDao {
         String retrieveActualValueQuery = "SELECT * FROM users WHERE username = ?";
         User actualValue = null;
         try{
-            PreparedStatement preparedStatement = MOCK_CONNECTION.prepareStatement(retrieveActualValueQuery);
+            PreparedStatement preparedStatement = mockConnection.prepareStatement(retrieveActualValueQuery);
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
@@ -99,7 +88,7 @@ public class TestUserDao {
         User actualValue = null;
         String retrieveActualValueQuery = "SELECT * FROM users WHERE user_id = ?";
         try{
-            PreparedStatement preparedStatement = MOCK_CONNECTION.prepareStatement(retrieveActualValueQuery);
+            PreparedStatement preparedStatement = mockConnection.prepareStatement(retrieveActualValueQuery);
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
@@ -119,7 +108,7 @@ public class TestUserDao {
         userDao.delete(ExpectedValue);
         try{
             String query = "SELECT * FROM users WHERE user_id = ?";
-            PreparedStatement preparedStatement = MOCK_CONNECTION.prepareStatement(query);
+            PreparedStatement preparedStatement = mockConnection.prepareStatement(query);
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             Assertions.assertFalse(resultSet.next());

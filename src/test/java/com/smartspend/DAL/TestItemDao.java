@@ -4,15 +4,14 @@ package com.smartspend.DAL;
 import com.smartspend.dao.ItemDao;
 import com.smartspend.model.Item;
 import org.junit.jupiter.api.*;
-import org.testcontainers.shaded.org.bouncycastle.oer.its.ieee1609dot2.AesCcmCiphertext;
 
 import java.sql.*;
 import java.util.List;
 
 public class TestItemDao {
 
-    private static final Connection MOCK_CONNECTION = MockSQLiteConnection.mockConnection;
-    private static final ItemDao itemDao = new ItemDao(MOCK_CONNECTION);
+    private final Connection MOCK_CONNECTION = new MockSQLiteConnection().mockConnection;
+    private final ItemDao itemDao = new ItemDao(MOCK_CONNECTION);
 
     private Item createItemFromQuery(ResultSet resultSet){
         // these values correspond to the column names in the table
@@ -81,8 +80,8 @@ public class TestItemDao {
         return res;
     }
 
-    @BeforeAll
-    static void BeforeAll(){
+    @BeforeEach
+    void init(){
         // creating the table
         String query = "CREATE TABLE items ("
                 + "item_id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -97,18 +96,12 @@ public class TestItemDao {
         } catch (SQLException e){
             System.err.print("an error occurred when creating the table: " + e);
         }
+
     }
 
-    @BeforeEach
-    void init(){
-        String query = "DELETE FROM items";
-        try {
-            Statement statement = MOCK_CONNECTION.createStatement();
-            statement.execute(query);
-        } catch (SQLException e ){
-            System.err.print("something has happen while clearing the data from items: " + e);
-        }
-
+    @AfterEach
+    void teardown() throws SQLException{
+        MOCK_CONNECTION.close();
     }
 
     @Test

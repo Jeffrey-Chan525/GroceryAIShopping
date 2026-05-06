@@ -8,11 +8,13 @@ import java.sql.*;
 import java.util.List;
 
 public class TestPriceDao {
-    private static final Connection MOCK_CONNECTION = MockSQLiteConnection.mockConnection;
-    private static final PriceDao priceDao = new PriceDao(MOCK_CONNECTION);
+    private Connection mockConnection = new MockSQLiteConnection().mockConnection;
+    private PriceDao priceDao = new PriceDao(mockConnection);
 
-    @BeforeAll
-    static void beforeAll(){
+    @BeforeEach
+    void beforeEach(){
+        mockConnection = new MockSQLiteConnection().mockConnection;
+        priceDao = new PriceDao(mockConnection);
         String createPricesTable = "CREATE TABLE prices (" +
                 "price_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "    item_id INTEGER NOT NULL," +
@@ -24,7 +26,7 @@ public class TestPriceDao {
                 "    is_on_sale INTEGER NOT NULL DEFAULT 0 CHECK (is_on_sale IN (0,1)))";
 
         try {
-            Statement statement = MOCK_CONNECTION.createStatement();
+            Statement statement = mockConnection.createStatement();
             statement.execute(createPricesTable);
 
         } catch (SQLException e){
@@ -32,15 +34,9 @@ public class TestPriceDao {
         }
     }
 
-    @BeforeEach
-    void beforeEach(){
-        String query = "DELETE FROM prices";
-        try{
-            Statement statement = MOCK_CONNECTION.createStatement();
-            statement.execute(query);
-        } catch (SQLException e ){
-            System.err.print("A problem has occurred when clearing the prices table");
-        }
+    @AfterEach
+    void teardown() throws SQLException{
+        mockConnection.close();
     }
 
     // this is the test data that will be used throughout the tests
@@ -66,7 +62,7 @@ public class TestPriceDao {
         int LAST_UPDATED = 7;
         int IS_ON_SALE = 8;
         try{
-            PreparedStatement preparedStatement = MOCK_CONNECTION.prepareStatement(insertTestData);
+            PreparedStatement preparedStatement = mockConnection.prepareStatement(insertTestData);
             preparedStatement.setInt(PRICE_ID, EXPECTED_PRICE_ID);
             preparedStatement.setInt(ITEM_ID, EXPECTED_ITEM_ID);
             preparedStatement.setString(STORE_NAME, EXPECTED_STORE_NAME);
@@ -116,7 +112,7 @@ public class TestPriceDao {
        //retrieving the inserted data
        String query = "SELECT price_id FROM prices WHERE price_id = 1";
        try{
-           Statement statement = MOCK_CONNECTION.createStatement();
+           Statement statement = mockConnection.createStatement();
            ResultSet resultSet = statement.executeQuery(query);
            if (resultSet.next()){
                // this compares the actual price_id to the expected price_id
@@ -144,7 +140,7 @@ public class TestPriceDao {
         String retrievePriceID = "SELECT * FROM prices WHERE price_id = 1";
         Price actualPrice = null;
         try{
-            Statement statement = MOCK_CONNECTION.createStatement();
+            Statement statement = mockConnection.createStatement();
             ResultSet resultSet = statement.executeQuery(retrievePriceID);
             actualPrice = turnResultSetIntoPrice(resultSet);
         }catch (SQLException e){
@@ -167,7 +163,7 @@ public class TestPriceDao {
 
         ResultSet resultSet;
         try{
-            Statement statement = MOCK_CONNECTION.createStatement();
+            Statement statement = mockConnection.createStatement();
             resultSet = statement.executeQuery(query);
             Assertions.assertFalse(resultSet.next());
         } catch (SQLException e){

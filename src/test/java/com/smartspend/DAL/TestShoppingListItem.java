@@ -3,18 +3,19 @@ package com.smartspend.DAL;
 import com.smartspend.dao.ShoppingListDao;
 import com.smartspend.model.ShoppingListEntry;
 
-import org.junit.After;
 import org.junit.jupiter.api.*;
 
 import java.sql.*;
 import java.util.List;
 
 public class TestShoppingListItem {
-    private static final Connection MOCK_CONNECTION = MockSQLiteConnection.mockConnection;
-    private static final ShoppingListDao shoppingListDao = new ShoppingListDao(MOCK_CONNECTION);
+    private Connection mockConnection = new MockSQLiteConnection().mockConnection;
+    private ShoppingListDao shoppingListDao = new ShoppingListDao(mockConnection);
 
-    @BeforeAll
-    static void BeforeAll(){
+    @BeforeEach
+    void init(){
+        mockConnection =  new MockSQLiteConnection().mockConnection;
+        shoppingListDao = new ShoppingListDao(mockConnection);
         String createTable = "CREATE TABLE shopping_list_items (" +
                 "    list_item_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "    user_id INTEGER NOT NULL," +
@@ -28,24 +29,16 @@ public class TestShoppingListItem {
                 ");";
 
         try{
-            Statement statement = MOCK_CONNECTION.createStatement();
+            Statement statement = mockConnection.createStatement();
             statement.execute(createTable);
         }catch (SQLException e){
             System.err.print("failed to initialize table");
         }
     }
-
-    @BeforeEach
-    void ClearTable(){
-        String clearTableQuery = "DELETE FROM shopping_list_items";
-        try{
-            Statement statement = MOCK_CONNECTION.createStatement();
-            statement.execute(clearTableQuery);
-        } catch (SQLException e){
-            System.err.print("failed to delete all records from all records before test");
-        }
+    @AfterEach
+    void tearDown() throws SQLException{
+        mockConnection.close();
     }
-
     // this is the dummy data values
     private final int EXPECTED_LIST_ITEM_ID = 1;
     private final int EXPECTED_USER_ID = 2;
@@ -70,7 +63,7 @@ public class TestShoppingListItem {
 
 
         try{
-            PreparedStatement preparedStatement = MOCK_CONNECTION.prepareStatement(insertDummyDataQuery);
+            PreparedStatement preparedStatement = mockConnection.prepareStatement(insertDummyDataQuery);
             preparedStatement.setInt(LIST_ITEM_ID, EXPECTED_LIST_ITEM_ID);
             preparedStatement.setInt(USER_ID, EXPECTED_USER_ID);
             preparedStatement.setInt(ITEM_ID, EXPECTED_ITEM_ID);
@@ -105,7 +98,7 @@ public class TestShoppingListItem {
        String retrieveStatement = "SELECT * FROM shopping_list_items where list_item_id = ?";
        ShoppingListEntry actualValue = null;
        try{
-           PreparedStatement statement = MOCK_CONNECTION.prepareStatement(retrieveStatement);
+           PreparedStatement statement = mockConnection.prepareStatement(retrieveStatement);
            statement.setInt(LIST_ITEM_ID, 1);
            ResultSet resultSet = statement.executeQuery();
            actualValue = turnResultSetToShoppingListEntryObject(resultSet);
@@ -130,7 +123,7 @@ public class TestShoppingListItem {
         String retrieveUpdatedData = "SELECT * FROM main.shopping_list_items WHERE list_item_id = 1";
         ShoppingListEntry actualValue = null;
         try {
-            Statement statement = MOCK_CONNECTION.createStatement();
+            Statement statement = mockConnection.createStatement();
             ResultSet resultSet = statement.executeQuery(retrieveUpdatedData);
             actualValue = turnResultSetToShoppingListEntryObject(resultSet);
         } catch (SQLException e) {
@@ -147,7 +140,7 @@ public class TestShoppingListItem {
         String retrieveTableQuery = "SELECT * FROM shopping_list_items";
 
         try{
-            Statement statement = MOCK_CONNECTION.createStatement();
+            Statement statement = mockConnection.createStatement();
             ResultSet resultSet = statement.executeQuery(retrieveTableQuery);
             Assertions.assertFalse(resultSet.next());
         } catch (SQLException e){

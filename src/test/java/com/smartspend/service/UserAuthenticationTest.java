@@ -6,6 +6,7 @@ import com.smartspend.model.User;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
@@ -15,11 +16,15 @@ import java.sql.Statement;
 import java.util.Arrays;
 
 public class UserAuthenticationTest {
-    private final static Connection connection = MockSQLiteConnection.mockConnection;
-    private final static UserDao userDao = new UserDao(connection);
-    private final static UserAuthenticationService userAuthenticationService = new UserAuthenticationService(connection);
-    @BeforeAll
-    static void setUp() throws SQLException, ClassNotFoundException {
+    private Connection connection = new MockSQLiteConnection().mockConnection;
+    private UserDao userDao = new UserDao(connection);
+    private UserAuthenticationService userAuthenticationService = new UserAuthenticationService(connection);
+
+    @BeforeEach
+    void init() throws SQLException {
+        connection = new MockSQLiteConnection().mockConnection;
+        userDao = new UserDao(connection);
+        userAuthenticationService = new UserAuthenticationService(connection);
         String makeTable = "CREATE TABLE users (" +
                 "user_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "username TEXT NOT NULL UNIQUE ," +
