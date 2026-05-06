@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.smartspend.controller.ShoppingListController" prefWidth="1440" prefHeight="900" styleClass="app-root">
+    <left>
+        <VBox prefWidth="250" spacing="14" styleClass="sidebar">
+            <padding><Insets top="24" right="18" bottom="24" left="18"/></padding>
+            <Label text="SmartSpend" styleClass="brand" />
+            <Label text="AI-driven grocery planning for students" styleClass="brand-subtitle" wrapText="true" />
+            <VBox spacing="8" styleClass="nav-group">
+                <Button text="Dashboard" onAction="#goDashboard" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="Shopping List" onAction="#goShoppingList" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="Price Comparison" onAction="#goComparison" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="Budget" onAction="#goBudget" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="AI Assistant" onAction="#goAiChat" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="Prices" onAction="#goPrices" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="Pantry" onAction="#goPantry" maxWidth="Infinity" styleClass="nav-button" />
+                <Button text="Settings" onAction="#goSettings" maxWidth="Infinity" styleClass="nav-button" />
+            </VBox>
+            <Region VBox.vgrow="ALWAYS" />
+            <VBox spacing="8" styleClass="sidebar-card">
+                <Label text="Project Theme" styleClass="sidebar-card-title" />
+                <Label text="Living, Learning, Working with AI" wrapText="true" styleClass="sidebar-card-body" />
+            </VBox>
+            <Button text="Log Out" onAction="#goLogin" maxWidth="Infinity" styleClass="ghost-button" />
+        </VBox>
+    </left>
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="16" styleClass="topbar">
+            <padding><Insets top="20" right="28" bottom="20" left="28"/></padding>
+            <VBox spacing="4">
+                <Label text="Shopping List" styleClass="page-title" />
+                <Label text="A cleaner workspace for managing grocery items, quantities, and target stores." styleClass="page-subtitle" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <TextField promptText="Search within SmartSpend" prefWidth="260" styleClass="search-field" />
+            <Button text="Notifications" styleClass="secondary-button" />
+        </HBox>
+    </top>
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" styleClass="content-scroll">
+            <content>
+                <VBox spacing="22" styleClass="content-area">
+                    <padding><Insets top="28" right="28" bottom="28" left="28"/></padding>
+                    
+<VBox spacing="14" styleClass="surface-card">
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Shopping List Items" styleClass="section-title" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button text="Add Item" styleClass="primary-button" />
+        <Button text="Bulk Import" styleClass="secondary-button" />
+    </HBox>
+    <HBox spacing="10">
+        <TextField promptText="Search by item or brand" HBox.hgrow="ALWAYS" styleClass="app-input" />
+        <ComboBox promptText="Category" prefWidth="170" styleClass="app-combo" />
+        <ComboBox promptText="Store" prefWidth="160" styleClass="app-combo" />
+    </HBox>
+    <TableView fx:id="itemsTable" prefHeight="460" styleClass="app-table">
+        <columns>
+            <TableColumn fx:id="nameColumn" text="Item" prefWidth="260" />
+            <TableColumn fx:id="categoryColumn" text="Category" prefWidth="180" />
+            <TableColumn fx:id="brandColumn" text="Brand" prefWidth="220" />
+            <TableColumn fx:id="unitColumn" text="Unit" prefWidth="130" />
+        </columns>
+    </TableView>
+</VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

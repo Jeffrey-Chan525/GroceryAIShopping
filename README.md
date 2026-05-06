@@ -2,6 +2,13 @@
 
 SmartSpend is a JavaFX grocery budgeting application for university students. It helps users manage a shopping list, compare mock prices across stores, track spending against a weekly budget, and receive smart recommendations about the cheapest basket and better-value purchase options.
 
+## Requirements
+- compare against identical items against different grocery chains
+- Get the location between the user and the grocery store 
+- See the past price info for any product
+- Accurate, live data for current and historic price info
+- AI agent feature for a more personalized experience
+
 ## Tech Stack
 - Java 21 (Amazon Corretto recommended)
 - JavaFX
