@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.smartspend.controller.RegisterController"
+      prefWidth="1000" prefHeight="650"
+      style="-fx-background-color: #f5f7f2;">
+
+    <!-- Left Panel - Branding -->
+    <VBox prefWidth="340" prefHeight="650"
+          style="-fx-background-color: #2d6a4f; -fx-padding: 50 40 50 40;">
+        <VBox.margin>
+            <Insets/>
+        </VBox.margin>
+
+        <!-- Logo -->
+        <VBox spacing="4">
+            <Label text="SmartSpend"
+                   style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold; -fx-font-family: 'Segoe UI';"/>
+            <Label text="Budget mode"
+                   style="-fx-text-fill: #95d5b2; -fx-font-size: 13px; -fx-font-family: 'Segoe UI';"/>
+        </VBox>
+
+        <Region VBox.vgrow="ALWAYS"/>
+
+        <!-- Feature bullets -->
+        <VBox spacing="24">
+            <VBox spacing="6">
+                <Label text="💰  Track your spending"
+                       style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-family: 'Segoe UI';"/>
+                <Label text="Compare prices across Aldi, Coles &amp; Woolworths\nto always get the best deal."
+                       wrapText="true"
+                       style="-fx-text-fill: #95d5b2; -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
+            </VBox>
+            <VBox spacing="6">
+                <Label text="🤖  AI-powered tips"
+                       style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-family: 'Segoe UI';"/>
+                <Label text="Get personalised suggestions based\non your shopping habits."
+                       wrapText="true"
+                       style="-fx-text-fill: #95d5b2; -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
+            </VBox>
+            <VBox spacing="6">
+                <Label text="📋  Smart pantry"
+                       style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-family: 'Segoe UI';"/>
+                <Label text="Track what you have so you never\nbuy the same thing twice."
+                       wrapText="true"
+                       style="-fx-text-fill: #95d5b2; -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
+            </VBox>
+        </VBox>
+
+        <Region VBox.vgrow="ALWAYS"/>
+
+        <!-- Already have account -->
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Label text="Already have an account?"
+                   style="-fx-text-fill: #95d5b2; -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
+            <Hyperlink text="Sign in"
+                       fx:id="signInLink"
+                       onAction="#handleSignIn"
+                       style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-family: 'Segoe UI'; -fx-border-color: transparent; -fx-padding: 0;"/>
+        </HBox>
+    </VBox>
+
+    <!-- Right Panel - Form -->
+    <VBox HBox.hgrow="ALWAYS" prefHeight="650"
+          style="-fx-background-color: #f5f7f2; -fx-padding: 60 70 60 70;"
+          spacing="0">
+
+        <Region VBox.vgrow="ALWAYS"/>
+
+        <!-- Header -->
+        <VBox spacing="6">
+            <Label text="Create your account"
+                   style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #1b4332; -fx-font-family: 'Segoe UI';"/>
+            <Label text="Start saving smarter today"
+                   style="-fx-font-size: 13px; -fx-text-fill: #6b7c6e; -fx-font-family: 'Segoe UI';"/>
+        </VBox>
+
+        <Region prefHeight="32"/>
+
+        <!-- Form fields -->
+        <VBox spacing="16">
+
+            <!-- Name row -->
+            <HBox spacing="14">
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="First name"
+                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #374740; -fx-font-family: 'Segoe UI';"/>
+                    <TextField fx:id="firstNameField"
+                               promptText="Jane"
+                               style="-fx-background-color: white; -fx-border-color: #dce8e0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 14; -fx-font-size: 13px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #1b4332;"/>
+                </VBox>
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="Last name"
+                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #374740; -fx-font-family: 'Segoe UI';"/>
+                    <TextField fx:id="lastNameField"
+                               promptText="Smith"
+                               style="-fx-background-color: white; -fx-border-color: #dce8e0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 14; -fx-font-size: 13px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #1b4332;"/>
+                </VBox>
+            </HBox>
+
+            <!-- Email -->
+            <VBox spacing="6">
+                <Label text="Email address"
+                       style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #374740; -fx-font-family: 'Segoe UI';"/>
+                <TextField fx:id="emailField"
+                           promptText="jane@example.com"
+                           style="-fx-background-color: white; -fx-border-color: #dce8e0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 14; -fx-font-size: 13px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #1b4332;"/>
+            </VBox>
+
+            <!-- Weekly Budget -->
+            <VBox spacing="6">
+                <Label text="Weekly budget"
+                       style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #374740; -fx-font-family: 'Segoe UI';"/>
+                <TextField fx:id="budgetField"
+                           promptText="e.g. 120"
+                           style="-fx-background-color: white; -fx-border-color: #dce8e0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 14; -fx-font-size: 13px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #1b4332;"/>
+                <Label text="You can change this anytime in Settings"
+                       style="-fx-font-size: 11px; -fx-text-fill: #9aab9e; -fx-font-family: 'Segoe UI';"/>
+            </VBox>
+
+            <!-- Password -->
+            <VBox spacing="6">
+                <Label text="Password"
+                       style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #374740; -fx-font-family: 'Segoe UI';"/>
+                <PasswordField fx:id="passwordField"
+                               promptText="At least 8 characters"
+                               style="-fx-background-color: white; -fx-border-color: #dce8e0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 14; -fx-font-size: 13px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #1b4332;"/>
+            </VBox>
+
+            <!-- Confirm Password -->
+            <VBox spacing="6">
+                <Label text="Confirm password"
+                       style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #374740; -fx-font-family: 'Segoe UI';"/>
+                <PasswordField fx:id="confirmPasswordField"
+                               promptText="Repeat your password"
+                               style="-fx-background-color: white; -fx-border-color: #dce8e0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 14; -fx-font-size: 13px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #1b4332;"/>
+            </VBox>
+
+            <!-- Error label -->
+            <Label fx:id="errorLabel"
+                   text=""
+                   wrapText="true"
+                   style="-fx-text-fill: #c0392b; -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
+
+        </VBox>
+
+        <Region prefHeight="24"/>
+
+        <!-- Register Button -->
+        <Button fx:id="registerButton"
+                text="Create account"
+                onAction="#handleRegister"
+                maxWidth="Infinity"
+                style="-fx-background-color: #2d6a4f; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-font-family: 'Segoe UI'; -fx-background-radius: 8; -fx-padding: 13 0; -fx-cursor: hand;"/>
+
+        <Region VBox.vgrow="ALWAYS"/>
+
+    </VBox>
+</HBox>
