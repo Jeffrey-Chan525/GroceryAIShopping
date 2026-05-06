@@ -1,0 +1,8 @@
+com.smartspend
+com.smartspend.api
+com.smartspend.controller
+com.smartspend.dao
+com.smartspend.model
+com.smartspend.model.validation
+com.smartspend.service
+com.smartspend.util

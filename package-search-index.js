@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.smartspend"},{"l":"com.smartspend.api"},{"l":"com.smartspend.controller"},{"l":"com.smartspend.dao"},{"l":"com.smartspend.model"},{"l":"com.smartspend.model.validation"},{"l":"com.smartspend.service"},{"l":"com.smartspend.util"}];updateSearchResults();
