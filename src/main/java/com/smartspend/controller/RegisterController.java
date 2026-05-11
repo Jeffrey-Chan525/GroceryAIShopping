@@ -1,4 +1,4 @@
-ppackage com.smartspend.controller;
+package com.smartspend.controller;
 
 import com.smartspend.model.UserRegistrationDTO;
 import com.smartspend.model.validation.EmailValidator;
