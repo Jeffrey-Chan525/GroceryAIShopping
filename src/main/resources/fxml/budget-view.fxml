@@ -62,7 +62,7 @@
             <TextField promptText="Search within SmartSpend"
                        prefWidth="260"
                        styleClass="search-field"/>
-            <Button text="Alerts" styleClass="secondary-button"/>
+            <Button text="Notifications" styleClass="secondary-button"/>
         </HBox>
     </top>
 
