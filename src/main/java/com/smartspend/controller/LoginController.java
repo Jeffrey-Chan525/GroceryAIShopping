@@ -19,38 +19,66 @@ public class LoginController {
 
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
+
+    // Login.fxml uses errorLabel. login-view.fxml uses statusLabel.
     @FXML private Label errorLabel;
+    @FXML private Label statusLabel;
     @FXML private Button loginButton;
 
     private Connection connection;
-    public LoginController() {
+    private UserEntryValidator validator;
 
-        try{
+    @FXML
+    private void initialize() {
+        hideMessage();
+
+        try {
             connection = DatabaseManager.getConnection();
-        } catch (SQLException e){
-            System.err.println("SQL Error: " + e.getMessage());
+            validator = UserEntryValidator.link(new LoginValidator(connection));
+            showMessage("Ready to sign in.", false);
+        } catch (SQLException e) {
+            validator = null;
+            showMessage("Database connection failed: " + e.getMessage(), true);
+            System.err.println("SQL Error in LoginController: " + e.getMessage());
         }
-
     }
 
     @FXML
     private void handleLogin() {
-        String email = emailField.getText();
-        String password = passwordField.getText();
+        String email = emailField == null || emailField.getText() == null ? "" : emailField.getText().trim();
+        String password = passwordField == null || passwordField.getText() == null ? "" : passwordField.getText();
+
+        hideMessage();
+
+        if (email.isBlank()) {
+            showMessage("Please enter your email.", true);
+            return;
+        }
+
+        if (password.isBlank()) {
+            showMessage("Please enter your password.", true);
+            return;
+        }
+
+        if (validator == null) {
+            showMessage("Cannot sign in because the local database is unavailable.", true);
+            return;
+        }
+
         UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO(email, password);
-
-        errorLabel.setText("");
-
-        // need to replace with real auth check/database set up
-        // remove later
-        UserEntryValidator validator = UserEntryValidator.link(new LoginValidator(connection));
         ValidationResult validationResult = validator.check(userRegistrationDTO);
+
         if (validationResult.isValid()) {
             SceneManager.switchTo("dashboard-view");
         } else {
-            errorLabel.setText(validationResult.getErrorMessage());
-            errorLabel.setVisible(true);
+            showMessage(validationResult.getErrorMessage(), true);
         }
+    }
+
+    // login-view.fxml uses this handler name.
+    @FXML
+    private void handleSignIn() {
+        handleLogin();
     }
 
     @FXML
@@ -60,7 +88,34 @@ public class LoginController {
 
     @FXML
     private void handleForgotPassword() {
-        // TODO: implement forgot password flow
-        errorLabel.setText("Password reset is not yet available.");
+        showMessage("Password reset is not yet available.", true);
+    }
+
+    private void showMessage(String message, boolean isError) {
+        if (errorLabel != null) {
+            errorLabel.setText(message);
+            errorLabel.setVisible(true);
+            errorLabel.setManaged(true);
+        }
+
+        if (statusLabel != null) {
+            statusLabel.setText(message);
+            statusLabel.setVisible(true);
+            statusLabel.setManaged(true);
+        }
+    }
+
+    private void hideMessage() {
+        if (errorLabel != null) {
+            errorLabel.setText("");
+            errorLabel.setVisible(false);
+            errorLabel.setManaged(false);
+        }
+
+        if (statusLabel != null) {
+            statusLabel.setText("");
+            statusLabel.setVisible(false);
+            statusLabel.setManaged(false);
+        }
     }
 }
