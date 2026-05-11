@@ -8,8 +8,8 @@ import java.sql.*;
 import java.util.List;
 
 public class TestPreferenceDao {
-    private final static Connection MOCK_CONNECTION = MockSQLiteConnection.mockConnection;
-    private final PreferenceDao preferenceDao = new PreferenceDao(MOCK_CONNECTION);
+    private Connection mockConnection = new MockSQLiteConnection().mockConnection ;
+    private PreferenceDao preferenceDao = new PreferenceDao(mockConnection);
 
     // this is the used for the dummy data to be tested with
     private final int EXPECTED_PREFERENCE_ID = 1;
@@ -20,8 +20,10 @@ public class TestPreferenceDao {
     private final boolean EXPECTED_SHOW_VALUE_SUGGESTIONS = false;
     private final UserPreferences EXPECTED_USER_PREFERENCES_OBJECT = new UserPreferences(EXPECTED_PREFERENCE_ID, EXPECTED_USER_ID, EXPECTED_WEEKLY_BUDGET, EXPECTED_PRIMARY_STORE, EXPECTED_SHOW_SALE_PREDICTIONS, EXPECTED_SHOW_VALUE_SUGGESTIONS);
 
-    @BeforeAll
-    static void beforeAll(){
+    @BeforeEach
+    void beforeEach(){
+        mockConnection =  new MockSQLiteConnection().mockConnection ;
+        preferenceDao = new PreferenceDao(mockConnection);
         String createTable = "CREATE TABLE user_preferences (" +
                 "    preference_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "    user_id INTEGER NOT NULL UNIQUE," +
@@ -33,24 +35,16 @@ public class TestPreferenceDao {
                 ");";
 
         try{
-            Statement statement = MOCK_CONNECTION.createStatement();
+            Statement statement = mockConnection.createStatement();
             statement.execute(createTable);
         } catch (SQLException e){
             System.err.print("An error has occurred when creating the user_preferences table");
         }
     }
 
-    @BeforeEach
-    void beforeEach(){
-        // clearing the table of any data before each test
-        String clearTable = "DELETE FROM user_preferences";
-
-        try{
-            Statement statement = MOCK_CONNECTION.createStatement();
-            statement.execute(clearTable);
-        } catch (SQLException e){
-            System.err.print("An error has occurred when clearing the user_preferences table");
-        }
+    @AfterEach
+    void teardown() throws SQLException{
+        mockConnection.close();
     }
 
 
@@ -65,7 +59,7 @@ public class TestPreferenceDao {
         int SHOW_SALE_PREDICTION = 5;
         int SHOW_VALUE_SUGGESTIONS = 6;
         try{
-            PreparedStatement preparedStatement = MOCK_CONNECTION.prepareStatement(insertData);
+            PreparedStatement preparedStatement = mockConnection.prepareStatement(insertData);
             preparedStatement.setInt(PREFERENCE_ID, EXPECTED_PREFERENCE_ID);
             preparedStatement.setInt(USER_ID, EXPECTED_USER_ID);
             preparedStatement.setDouble(WEEKLY_BUDGET, EXPECTED_WEEKLY_BUDGET);
@@ -114,7 +108,7 @@ public class TestPreferenceDao {
 
         UserPreferences ActualValue = null;
         try{
-            Statement statement = MOCK_CONNECTION.createStatement();
+            Statement statement = mockConnection.createStatement();
             ResultSet resultSet = statement.executeQuery(retrieveDummyData);
             ActualValue = turnResultSetIntoUserPreferenceObject(resultSet);
         } catch (SQLException e){
@@ -138,7 +132,7 @@ public class TestPreferenceDao {
         String retrieveUpdatedData = "SELECT * FROM user_preferences WHERE preference_id = 1";
         UserPreferences ActualValue = null;
         try {
-            Statement statement = MOCK_CONNECTION.createStatement();
+            Statement statement = mockConnection.createStatement();
             ResultSet resultSet = statement.executeQuery(retrieveUpdatedData);
             ActualValue = turnResultSetIntoUserPreferenceObject(resultSet);
         } catch (SQLException e){
@@ -160,7 +154,7 @@ public class TestPreferenceDao {
         String queryEntireTable = "SELECT * FROM user_preferences";
         ResultSet resultSet;
         try{
-            Statement statement = MOCK_CONNECTION.createStatement();
+            Statement statement = mockConnection.createStatement();
             resultSet = statement.executeQuery(queryEntireTable);
             Assertions.assertFalse(resultSet.next());
         } catch (SQLException e){
