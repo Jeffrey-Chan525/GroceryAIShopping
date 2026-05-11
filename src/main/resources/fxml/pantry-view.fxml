@@ -46,26 +46,21 @@
             <content>
                 <VBox spacing="22" styleClass="content-area">
                     <padding><Insets top="28" right="28" bottom="28" left="28"/></padding>
-                    
-<HBox spacing="18">
-    <VBox HBox.hgrow="ALWAYS" spacing="14" styleClass="surface-card">
-        <Label text="Pantry Inventory" styleClass="section-title" />
-        <TableView prefHeight="460" styleClass="app-table">
-            <columns>
-                <TableColumn text="Item" prefWidth="260" />
-                <TableColumn text="Quantity" prefWidth="140" />
-                <TableColumn text="Best Before" prefWidth="170" />
-                <TableColumn text="Status" prefWidth="160" />
-                <TableColumn text="Suggested Use" prefWidth="260" />
-            </columns>
-        </TableView>
-    </VBox>
-    <VBox prefWidth="330" spacing="12" styleClass="surface-card">
-        <Label text="AI Pantry Coach" styleClass="section-title" />
-        <Label text="Use this area to later connect pantry stock to recipe or restock suggestions. For now, it gives you a polished screen to present your future direction." wrapText="true" styleClass="muted-label" />
-        <Button text="Move Completed Items Here" styleClass="secondary-button" />
-    </VBox>
-</HBox>
+
+                    <HBox spacing="18">
+                        <VBox HBox.hgrow="ALWAYS" spacing="14" styleClass="surface-card">
+                            <Label text="Pantry Inventory" styleClass="section-title" />
+                            <TableView prefHeight="460" styleClass="app-table">
+                                <columns>
+                                    <TableColumn text="Item" prefWidth="260" />
+                                    <TableColumn text="Quantity" prefWidth="140" />
+                                    <TableColumn text="Best Before" prefWidth="170" />
+                                    <TableColumn text="Status" prefWidth="160" />
+                                    <TableColumn text="Suggested Use" prefWidth="260" />
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </HBox>
 
                 </VBox>
             </content>

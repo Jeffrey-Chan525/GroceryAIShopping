@@ -96,11 +96,6 @@
                         <ListView fx:id="localItemsListView" prefHeight="250" VBox.vgrow="ALWAYS" styleClass="soft-list" />
                     </VBox>
                     <VBox prefWidth="360" spacing="12" styleClass="surface-card">
-                        <Label text="Next Demo Talking Points" styleClass="section-title" />
-                        <Label text="• Real-data import flow works through Open Food Facts
-• SQLite persists imported and manual items
-• UI shell covers dashboard, list, comparison, budget, chatbot, prices, pantry, and settings
-• Theme connection: AI helps students live and spend smarter" styleClass="muted-label" wrapText="true" />
                         <HBox spacing="10">
                             <Button text="Shopping List" onAction="#goShoppingList" styleClass="secondary-button" />
                             <Button text="Settings" onAction="#handleOpenSettings" styleClass="ghost-button" />

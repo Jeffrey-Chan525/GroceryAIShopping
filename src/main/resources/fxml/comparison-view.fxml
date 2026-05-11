@@ -7,7 +7,8 @@
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.smartspend.controller.ComparisonController"
-            prefWidth="1440" prefHeight="900"
+            prefWidth="1440"
+            prefHeight="900"
             styleClass="app-root">
 
     <left>
@@ -62,6 +63,7 @@
             <TextField promptText="Search within SmartSpend"
                        prefWidth="260"
                        styleClass="search-field"/>
+
             <Button text="Notifications" styleClass="secondary-button"/>
         </HBox>
     </top>
@@ -78,32 +80,35 @@
                     </padding>
 
                     <HBox spacing="18">
-                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-green-light">
+                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card">
                             <Label text="Lowest Basket Total" styleClass="section-title"/>
                             <Label fx:id="lowestStoreLabel" text="Aldi" styleClass="metric-value small"/>
-                            <Label fx:id="lowestBasketLabel" text="\$34.80 for the full basket" styleClass="muted-label"/>
+                            <Label fx:id="lowestBasketLabel" text="/$15.10 for the full basket" styleClass="muted-label"/>
                         </VBox>
 
-                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-blue-light">
+                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card">
                             <Label text="Best Individual Deal" styleClass="section-title"/>
-                            <Label fx:id="bestDealLabel" text="Milk at Aldi" styleClass="metric-value small"/>
-                            <Label fx:id="bestDealSubLabel" text="About \$1.20 cheaper than Woolworths" styleClass="muted-label"/>
+                            <Label fx:id="bestDealLabel" text="Pasta at Aldi" styleClass="metric-value small"/>
+                            <Label fx:id="bestDealSubLabel"
+                                   text="Cheapest individual item compared across stores"
+                                   styleClass="muted-label"/>
                         </VBox>
 
-                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card accent-gold-light">
+                        <VBox HBox.hgrow="ALWAYS" spacing="12" styleClass="surface-card">
                             <Label text="Best Split-Shop Option" styleClass="section-title"/>
-                            <Label fx:id="splitShopLabel" text="Aldi + Woolworths" styleClass="metric-value small"/>
-                            <Label fx:id="splitShopSubLabel" text="Could save another \$3.50 overall" styleClass="muted-label"/>
+                            <Label fx:id="splitShopLabel" text="Aldi + Coles" styleClass="metric-value small"/>
+                            <Label fx:id="splitShopSubLabel"
+                                   text="Aldi is best overall, but Coles has the best chicken price"
+                                   styleClass="muted-label"/>
                         </VBox>
                     </HBox>
 
                     <VBox spacing="14" styleClass="surface-card">
                         <Label text="Store Comparison Table" styleClass="section-title"/>
-                        <Label text="Use this view to compare item prices and explain why the recommendation makes sense."
-                               wrapText="true"
-                               styleClass="muted-label"/>
 
-                        <TableView fx:id="comparisonTable" prefHeight="440" styleClass="app-table">
+                        <TableView fx:id="comparisonTable"
+                                   prefHeight="440"
+                                   styleClass="app-table">
                             <columns>
                                 <TableColumn fx:id="itemColumn" text="Item" prefWidth="220"/>
                                 <TableColumn fx:id="colesColumn" text="Coles" prefWidth="130"/>
@@ -114,6 +119,7 @@
                             </columns>
                         </TableView>
                     </VBox>
+
                 </VBox>
             </content>
         </ScrollPane>
