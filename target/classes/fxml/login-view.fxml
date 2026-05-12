@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.smartspend.controller.LoginController" prefWidth="1440" prefHeight="900" styleClass="login-root">
+    <left>
+        <VBox prefWidth="700" spacing="24" styleClass="login-panel-primary">
+            <padding><Insets top="64" right="56" bottom="64" left="56"/></padding>
+            <Label text="SmartSpend" styleClass="login-brand" />
+            <Label text="Living, Learning, and Working with AI means making everyday decisions smarter. SmartSpend turns grocery planning into an AI-assisted workflow with better comparisons, clearer budgets, and actionable recommendations." wrapText="true" styleClass="login-copy" />
+            <HBox spacing="18">
+                <VBox styleClass="hero-chip"><Label text="Real product data" styleClass="hero-chip-text" /></VBox>
+                <VBox styleClass="hero-chip"><Label text="Budget intelligence" styleClass="hero-chip-text" /></VBox>
+                <VBox styleClass="hero-chip"><Label text="Store comparison" styleClass="hero-chip-text" /></VBox>
+            </HBox>
+            <Region VBox.vgrow="ALWAYS" />
+            <VBox spacing="12" styleClass="showcase-card">
+                <Label text="What this prototype demonstrates" styleClass="section-title" />
+                <Label text="• SQLite persistence for users, items, prices, and history
+• Real product import via Open Food Facts
+• AI-inspired recommendation, budget, pantry, and comparison screens
+• Consistent JavaFX desktop UI for checkpoint demonstrations" styleClass="muted-label" wrapText="true" />
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <StackPane>
+            <VBox spacing="20" maxWidth="420" styleClass="auth-card">
+                <padding><Insets top="34" right="34" bottom="34" left="34"/></padding>
+                <Label text="Welcome back" styleClass="auth-title" />
+                <Label text="Sign in to continue to your student budget dashboard." styleClass="page-subtitle" wrapText="true" />
+                <TextField fx:id="emailField" promptText="University email" styleClass="app-input" />
+                <PasswordField fx:id="passwordField" promptText="Password" styleClass="app-input" />
+                <Button text="Sign In" onAction="#handleSignIn" maxWidth="Infinity" styleClass="primary-button" />
+                <Label fx:id="statusLabel" text="Use any email to enter demo mode." styleClass="status-pill" wrapText="true" />
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>
