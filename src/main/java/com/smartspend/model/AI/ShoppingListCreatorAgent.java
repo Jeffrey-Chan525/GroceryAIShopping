@@ -1,23 +1,30 @@
-package com.smartspend.model;
+package com.smartspend.model.AI;
 
-import dev.langchain4j.agent.tool.ToolSpecification;
+import com.smartspend.service.webScraperService;
 import dev.langchain4j.agentic.AgenticServices;
 import dev.langchain4j.agentic.UntypedAgent;
 import dev.langchain4j.agentic.observability.AgentListener;
 import dev.langchain4j.agentic.observability.AgentRequest;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.ollama.OllamaChatModel;
-import dev.langchain4j.service.AiServices;
 
 import java.util.Map;
 
-public class AI {
+public class ShoppingListCreatorAgent {
+    /**
+     * the model which represents the LLM
+     */
     private final ChatModel model;
     // this is the path which currently serves the ollama application
     private final String MODEL_BASE_PORT = "http://localhost:11434";
     // this is the name of the model i'm currently running
     private final String MODEL_NAME = "qwen3.5:latest";
-    public AI() {
+    private UntypedAgent controllerAgent;
+
+    /**
+     * this initializes the AIChatbot
+     */
+    public ShoppingListCreatorAgent() {
         model = OllamaChatModel.builder()
                 .baseUrl(MODEL_BASE_PORT)
                 .modelName(MODEL_NAME)
@@ -32,28 +39,25 @@ public class AI {
                         System.out.println("Scraping URL: " + agentRequest.inputs().get("URL"));
                     }
                 })
-                .tools(new webScraper())
+                .tools(new webScraperService())
                 .build();
 
-        UntypedAgent controllerAgent = AgenticServices
+        controllerAgent = AgenticServices
                 .sequenceBuilder()
                 .subAgents(RecipeCurator)
                 .outputKey("Recipe")
                 .build();
 
-//        String testing = "Say 'Hi this is Qwen running locally'";
-//        System.out.print(prompt_model(testing));
-        String url =  "https://www.recipetineats.com/egg-fried-rice/";
-        Map<String, Object> input = Map.of("URL", url);
-        String result = (String) controllerAgent.invoke(input);
-
-        System.out.println(result);
-
-
     }
 
-    private String prompt_model(String string){
-        return model.chat(string);
+    /**
+     * this prompts the model with a given string
+     * @param question the prompt which will be sent to the model
+     * @return
+     */
+    public String prompt_model(String question){
+        Map<String, Object> input = Map.of("getRecipe", question);
+        return (String) controllerAgent.invoke(input);
     }
 }
 
