@@ -27,16 +27,17 @@ public class SettingsController extends BaseController {
     private static final int DEFAULT_USER_ID = 1;
 
     private PreferenceDao preferenceDao;
-    private boolean backendAvailable = false;
-    private boolean preferenceRecordExists = false;
+    private boolean backendAvailable;
+    private boolean preferenceRecordExists;
 
     @FXML
-    public void initialize() {
-        setupPrimaryStoreCombo();
-        loadPreferencesFromBackend();
+    private void initialize() {
+        setupStoreOptions();
+        loadDefaults();
+        connectBackendAndLoadPreferences();
     }
 
-    private void setupPrimaryStoreCombo() {
+    private void setupStoreOptions() {
         primaryStoreCombo.setItems(FXCollections.observableArrayList(
                 "Aldi",
                 "Coles",
@@ -45,27 +46,24 @@ public class SettingsController extends BaseController {
         ));
 
         primaryStoreCombo.setValue("Aldi");
-        primaryStoreCombo.setButtonCell(createComboCell());
-        primaryStoreCombo.setCellFactory(list -> createComboCell());
     }
 
-    private void loadPreferencesFromBackend() {
+    private void connectBackendAndLoadPreferences() {
         try {
             Connection connection = DatabaseManager.getConnection();
 
-            if (!tableExists(connection, "user_preferences")) {
-                backendAvailable = false;
-                preferenceDao = null;
-                loadDefaultPreferences();
-                statusLabel.setText("Settings loaded in demo mode because user_preferences table is missing.");
+            if (!tableExists(connection, "users")) {
+                setDemoMode("Settings loaded in demo mode because the users table is missing.");
                 return;
             }
 
-            if (!tableExists(connection, "users") || !userExists(connection, DEFAULT_USER_ID)) {
-                backendAvailable = false;
-                preferenceDao = null;
-                loadDefaultPreferences();
-                statusLabel.setText("Settings loaded in demo mode because no local user record exists.");
+            if (!tableExists(connection, "user_preferences")) {
+                setDemoMode("Settings loaded in demo mode because the user_preferences table is missing.");
+                return;
+            }
+
+            if (!userExists(connection, DEFAULT_USER_ID)) {
+                setDemoMode("Settings loaded in demo mode because no demo user exists yet.");
                 return;
             }
 
@@ -76,36 +74,35 @@ public class SettingsController extends BaseController {
 
             if (preferences == null) {
                 preferenceRecordExists = false;
-                loadDefaultPreferences();
-                statusLabel.setText("No saved preferences found yet. Defaults loaded.");
+                loadDefaults();
+                showStatus("No saved settings found. Defaults loaded.");
                 return;
             }
 
             preferenceRecordExists = true;
             applyPreferencesToUI(preferences);
-            statusLabel.setText("Preferences loaded from backend.");
+            showStatus("Settings loaded from backend.");
 
         } catch (Exception e) {
-            backendAvailable = false;
-            preferenceDao = null;
-            loadDefaultPreferences();
-            statusLabel.setText("Settings loaded in demo mode. Backend unavailable: " + e.getMessage());
+            setDemoMode("Settings loaded in demo mode. Backend unavailable: " + e.getMessage());
         }
     }
 
     @FXML
     private void handleSaveChanges() {
         try {
-            double weeklyBudget = parseMoney(weeklyBudgetField.getText());
+            double weeklyBudget = parseWeeklyBudget();
 
             if (weeklyBudget <= 0) {
-                statusLabel.setText("Weekly budget must be greater than $0.");
+                showStatus("Weekly budget must be greater than $0.");
                 return;
             }
 
-            String primaryStore = primaryStoreCombo.getValue() == null
-                    ? "No preference"
-                    : primaryStoreCombo.getValue();
+            String primaryStore = primaryStoreCombo.getValue();
+
+            if (primaryStore == null || primaryStore.isBlank()) {
+                primaryStore = "No preference";
+            }
 
             UserPreferences preferences = new UserPreferences(
                     DEFAULT_PREFERENCE_ID,
@@ -119,28 +116,30 @@ public class SettingsController extends BaseController {
             if (backendAvailable && preferenceDao != null) {
                 if (preferenceRecordExists) {
                     preferenceDao.update(preferences);
-                    statusLabel.setText("Preferences updated in backend. Pantry reminders saved in UI only.");
+                    showStatus("Settings updated successfully.");
                 } else {
                     preferenceDao.insert(preferences);
                     preferenceRecordExists = true;
-                    statusLabel.setText("Preferences saved to backend. Pantry reminders saved in UI only.");
+                    showStatus("Settings saved successfully.");
                 }
             } else {
-                statusLabel.setText("Preferences saved in UI only because backend preferences table is unavailable.");
+                showStatus("Settings saved for this session only because backend storage is unavailable.");
             }
 
         } catch (NumberFormatException e) {
-            statusLabel.setText("Enter a valid weekly budget, for example $100.00.");
+            showStatus("Enter a valid weekly budget, for example 100 or 100.00.");
+        } catch (Exception e) {
+            showStatus("Could not save settings: " + e.getMessage());
         }
     }
 
     @FXML
     private void handleResetDefaults() {
-        loadDefaultPreferences();
-        statusLabel.setText("Preferences reset to defaults.");
+        loadDefaults();
+        showStatus("Settings reset to defaults.");
     }
 
-    private void loadDefaultPreferences() {
+    private void loadDefaults() {
         weeklyBudgetField.setText("$100.00");
         primaryStoreCombo.setValue("Aldi");
         salePredictionsCheck.setSelected(true);
@@ -155,16 +154,46 @@ public class SettingsController extends BaseController {
 
         if (primaryStore == null || primaryStore.isBlank()) {
             primaryStoreCombo.setValue("No preference");
-        } else {
+        } else if (primaryStoreCombo.getItems().contains(primaryStore)) {
             primaryStoreCombo.setValue(primaryStore);
+        } else {
+            primaryStoreCombo.setValue("No preference");
         }
 
         salePredictionsCheck.setSelected(preferences.isShowSalePredictions());
         valueSuggestionsCheck.setSelected(preferences.isShowValueSuggestions());
 
-        // Pantry reminders are not currently in the UserPreferences backend model,
+        // Pantry reminders are not currently stored in UserPreferences,
         // so this remains UI-only for now.
         pantryRemindersCheck.setSelected(true);
+    }
+
+    private void setDemoMode(String message) {
+        backendAvailable = false;
+        preferenceRecordExists = false;
+        preferenceDao = null;
+        loadDefaults();
+        showStatus(message);
+    }
+
+    private void showStatus(String message) {
+        statusLabel.setText(message);
+        statusLabel.setVisible(true);
+        statusLabel.setManaged(true);
+    }
+
+    private double parseWeeklyBudget() {
+        String text = weeklyBudgetField.getText();
+
+        if (text == null || text.isBlank()) {
+            throw new NumberFormatException("Weekly budget is blank");
+        }
+
+        return Double.parseDouble(
+                text.replace("$", "")
+                        .replace(",", "")
+                        .trim()
+        );
     }
 
     private boolean tableExists(Connection connection, String tableName) {
@@ -179,40 +208,13 @@ public class SettingsController extends BaseController {
     }
 
     private boolean userExists(Connection connection, int userId) {
+        String query = "SELECT user_id FROM users WHERE user_id = " + userId;
+
         try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT user_id FROM users WHERE user_id = " + userId)) {
+             ResultSet resultSet = statement.executeQuery(query)) {
             return resultSet.next();
         } catch (Exception e) {
             return false;
         }
-    }
-
-    private double parseMoney(String text) {
-        if (text == null) {
-            throw new NumberFormatException("No value entered");
-        }
-
-        return Double.parseDouble(
-                text.replace("$", "")
-                        .replace(",", "")
-                        .trim()
-        );
-    }
-
-    private javafx.scene.control.ListCell<String> createComboCell() {
-        return new javafx.scene.control.ListCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item);
-                }
-
-                setStyle("-fx-text-fill: #183f2e; -fx-font-weight: 700;");
-            }
-        };
     }
 }

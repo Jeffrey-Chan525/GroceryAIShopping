@@ -7,7 +7,8 @@
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.smartspend.controller.SettingsController"
-            prefWidth="1440" prefHeight="900"
+            prefWidth="1440"
+            prefHeight="900"
             styleClass="app-root">
 
     <left>
@@ -17,9 +18,7 @@
             </padding>
 
             <Label text="SmartSpend" styleClass="brand"/>
-            <Label text="AI-supported grocery planning for students"
-                   styleClass="brand-subtitle"
-                   wrapText="true"/>
+            <Label text="AI-driven grocery planning for students" styleClass="brand-subtitle" wrapText="true"/>
 
             <VBox spacing="8" styleClass="nav-group">
                 <Button text="Dashboard" onAction="#goDashboard" maxWidth="Infinity" styleClass="nav-button"/>
@@ -36,9 +35,7 @@
 
             <VBox spacing="8" styleClass="sidebar-card">
                 <Label text="Project Theme" styleClass="sidebar-card-title"/>
-                <Label text="Living, Learning, Working with AI"
-                       wrapText="true"
-                       styleClass="sidebar-card-body"/>
+                <Label text="Living, Learning, Working with AI" wrapText="true" styleClass="sidebar-card-body"/>
             </VBox>
 
             <Button text="Log Out" onAction="#goLogin" maxWidth="Infinity" styleClass="ghost-button"/>
@@ -53,7 +50,7 @@
 
             <VBox spacing="4">
                 <Label text="Settings" styleClass="page-title"/>
-                <Label text="Personalise SmartSpend so recommendations fit your shopping habits."
+                <Label text="Manage your weekly budget, preferred store, and recommendation options."
                        styleClass="page-subtitle"/>
             </VBox>
 
@@ -62,7 +59,8 @@
             <TextField promptText="Search within SmartSpend"
                        prefWidth="260"
                        styleClass="search-field"/>
-            <Button text="Alerts" styleClass="secondary-button"/>
+
+            <Button text="Notifications" styleClass="secondary-button"/>
         </HBox>
     </top>
 
@@ -77,56 +75,73 @@
                         <Insets top="28" right="28" bottom="28" left="28"/>
                     </padding>
 
-                    <VBox spacing="14" styleClass="surface-card">
-                        <Label text="Personal Settings" styleClass="section-title"/>
+                    <VBox spacing="18" maxWidth="760" styleClass="surface-card">
+                        <Label text="Preference Settings" styleClass="section-title"/>
 
                         <GridPane hgap="18" vgap="18">
-                            <Label text="Weekly Budget" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="field-label"/>
+                            <columnConstraints>
+                                <ColumnConstraints minWidth="170"/>
+                                <ColumnConstraints minWidth="320" hgrow="ALWAYS"/>
+                            </columnConstraints>
+
+                            <Label text="Weekly Budget"
+                                   GridPane.columnIndex="0"
+                                   GridPane.rowIndex="0"
+                                   styleClass="muted-label"/>
+
                             <TextField fx:id="weeklyBudgetField"
-                                       text="\$100.00"
+                                       promptText="100.00"
                                        GridPane.columnIndex="1"
                                        GridPane.rowIndex="0"
                                        styleClass="app-input"/>
 
-                            <Label text="Primary Store" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="field-label"/>
+                            <Label text="Primary Store"
+                                   GridPane.columnIndex="0"
+                                   GridPane.rowIndex="1"
+                                   styleClass="muted-label"/>
+
                             <ComboBox fx:id="primaryStoreCombo"
-                                      promptText="Aldi"
+                                      prefWidth="320"
                                       GridPane.columnIndex="1"
                                       GridPane.rowIndex="1"
-                                      styleClass="app-combo"
-                                      prefWidth="220"/>
+                                      styleClass="app-combo"/>
 
-                            <CheckBox fx:id="salePredictionsCheck"
-                                      text="Show sale predictions"
-                                      GridPane.columnIndex="0"
-                                      GridPane.rowIndex="2"
-                                      selected="true"
-                                      styleClass="app-check"/>
+                            <Label text="AI Features"
+                                   GridPane.columnIndex="0"
+                                   GridPane.rowIndex="2"
+                                   styleClass="muted-label"/>
 
-                            <CheckBox fx:id="valueSuggestionsCheck"
-                                      text="Show value suggestions"
-                                      GridPane.columnIndex="1"
-                                      GridPane.rowIndex="2"
-                                      selected="true"
-                                      styleClass="app-check"/>
+                            <VBox spacing="10"
+                                  GridPane.columnIndex="1"
+                                  GridPane.rowIndex="2">
+                                <CheckBox fx:id="salePredictionsCheck"
+                                          text="Show sale predictions"
+                                          selected="true"/>
 
-                            <CheckBox fx:id="pantryRemindersCheck"
-                                      text="Enable pantry reminders"
-                                      GridPane.columnIndex="0"
-                                      GridPane.rowIndex="3"
-                                      selected="true"
-                                      styleClass="app-check"/>
+                                <CheckBox fx:id="valueSuggestionsCheck"
+                                          text="Show value suggestions"
+                                          selected="true"/>
+
+                                <CheckBox fx:id="pantryRemindersCheck"
+                                          text="Enable pantry reminders"
+                                          selected="true"/>
+                            </VBox>
                         </GridPane>
 
-                        <HBox spacing="10">
-                            <Button text="Save Changes" onAction="#handleSaveChanges" styleClass="primary-button"/>
-                            <Button text="Reset to Defaults" onAction="#handleResetDefaults" styleClass="ghost-button"/>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button text="Save Changes"
+                                    onAction="#handleSaveChanges"
+                                    styleClass="primary-button"/>
+
+                            <Button text="Reset to Defaults"
+                                    onAction="#handleResetDefaults"
+                                    styleClass="secondary-button"/>
                         </HBox>
 
                         <Label fx:id="statusLabel"
-                               text="Keep this page simple for the checkpoint. It supports the user_preferences side of your database design."
+                               text="Settings ready."
                                wrapText="true"
-                               styleClass="muted-label"/>
+                               styleClass="status-pill"/>
                     </VBox>
                 </VBox>
             </content>

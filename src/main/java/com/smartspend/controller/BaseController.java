@@ -8,9 +8,15 @@ import javafx.scene.Node;
 public abstract class BaseController {
 
     protected void open(ActionEvent event, String fxml, String title) {
+        if (event == null || event.getSource() == null) {
+            System.err.println("Cannot open " + fxml + ": missing navigation event source.");
+            return;
+        }
+
         try {
             SceneNavigator.switchScene((Node) event.getSource(), fxml, title);
         } catch (Exception e) {
+            System.err.println("Failed to open " + fxml + ": " + e.getMessage());
             e.printStackTrace();
         }
     }

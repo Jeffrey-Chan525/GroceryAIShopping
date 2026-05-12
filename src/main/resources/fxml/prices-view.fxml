@@ -58,7 +58,6 @@
     <VBox prefWidth="330" spacing="12" styleClass="surface-card">
         <Label text="Insight Summary" styleClass="section-title" />
         <Label text="Aldi has been consistently cheapest over the last month. Coles had the deepest temporary discount during Week 3, which is useful for your sale-prediction story." wrapText="true" styleClass="muted-label" />
-        <Label text="This page can be shown as evidence for price_history support in your schema." wrapText="true" styleClass="muted-label" />
     </VBox>
 </HBox>
 

@@ -50,52 +50,77 @@ public class ShoppingListController extends BaseController {
         loadItemsFromBackend();
 
         filteredItems = new FilteredList<>(allItems, item -> true);
-        itemsTable.setItems(filteredItems);
 
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        if (itemsTable != null) {
+            itemsTable.setItems(filteredItems);
+        }
 
-        globalSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            searchField.setText(newValue);
-            applyFilters();
-        });
+        if (searchField != null) {
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        }
+
+        if (globalSearchField != null) {
+            globalSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (searchField != null) {
+                    searchField.setText(newValue);
+                }
+
+                applyFilters();
+            });
+        }
     }
 
     private void setupTableColumns() {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
-        brandColumn.setCellValueFactory(new PropertyValueFactory<>("brand"));
-        unitColumn.setCellValueFactory(new PropertyValueFactory<>("defaultUnit"));
+        if (nameColumn != null) {
+            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        }
+
+        if (categoryColumn != null) {
+            categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        }
+
+        if (brandColumn != null) {
+            brandColumn.setCellValueFactory(new PropertyValueFactory<>("brand"));
+        }
+
+        if (unitColumn != null) {
+            unitColumn.setCellValueFactory(new PropertyValueFactory<>("defaultUnit"));
+        }
     }
 
     private void setupFilters() {
-        categoryFilterCombo.setItems(FXCollections.observableArrayList(
-                "All categories",
-                "Dairy",
-                "Meat",
-                "Pantry",
-                "Fruit",
-                "Vegetables",
-                "Frozen",
-                "Snacks",
-                "Drinks",
-                "Uncategorized"
-        ));
-        categoryFilterCombo.setValue("All categories");
+        if (categoryFilterCombo != null) {
+            categoryFilterCombo.setItems(FXCollections.observableArrayList(
+                    "All categories",
+                    "Dairy",
+                    "Meat",
+                    "Pantry",
+                    "Fruit",
+                    "Vegetables",
+                    "Frozen",
+                    "Snacks",
+                    "Drinks",
+                    "Uncategorized"
+            ));
 
-        storeFilterCombo.setItems(FXCollections.observableArrayList(
-                "All stores",
-                "Aldi",
-                "Coles",
-                "Woolworths",
-                "Manual Entry"
-        ));
-        storeFilterCombo.setValue("All stores");
+            categoryFilterCombo.setValue("All categories");
+            categoryFilterCombo.setButtonCell(createComboCell());
+            categoryFilterCombo.setCellFactory(list -> createComboCell());
+        }
 
-        categoryFilterCombo.setButtonCell(createComboCell());
-        categoryFilterCombo.setCellFactory(list -> createComboCell());
+        if (storeFilterCombo != null) {
+            storeFilterCombo.setItems(FXCollections.observableArrayList(
+                    "All stores",
+                    "Aldi",
+                    "Coles",
+                    "Woolworths",
+                    "Manual Entry"
+            ));
 
-        storeFilterCombo.setButtonCell(createComboCell());
-        storeFilterCombo.setCellFactory(list -> createComboCell());
+            storeFilterCombo.setValue("All stores");
+            storeFilterCombo.setButtonCell(createComboCell());
+            storeFilterCombo.setCellFactory(list -> createComboCell());
+        }
     }
 
     private void loadItemsFromBackend() {
@@ -167,14 +192,27 @@ public class ShoppingListController extends BaseController {
 
         ComboBox<String> categoryCombo = new ComboBox<>();
         categoryCombo.setItems(FXCollections.observableArrayList(
-                "Dairy", "Meat", "Pantry", "Fruit", "Vegetables", "Frozen", "Snacks", "Drinks", "Uncategorized"
+                "Dairy",
+                "Meat",
+                "Pantry",
+                "Fruit",
+                "Vegetables",
+                "Frozen",
+                "Snacks",
+                "Drinks",
+                "Uncategorized"
         ));
+
         categoryCombo.setValue("Uncategorized");
 
         ComboBox<String> storeCombo = new ComboBox<>();
         storeCombo.setItems(FXCollections.observableArrayList(
-                "Aldi", "Coles", "Woolworths", "Manual Entry"
+                "Aldi",
+                "Coles",
+                "Woolworths",
+                "Manual Entry"
         ));
+
         storeCombo.setValue("Manual Entry");
 
         TextField unitField = new TextField();
@@ -272,9 +310,17 @@ public class ShoppingListController extends BaseController {
             return;
         }
 
-        String searchText = searchField.getText() == null ? "" : searchField.getText().trim().toLowerCase();
-        String selectedCategory = categoryFilterCombo.getValue();
-        String selectedStore = storeFilterCombo.getValue();
+        String searchText = searchField == null || searchField.getText() == null
+                ? ""
+                : searchField.getText().trim().toLowerCase();
+
+        String selectedCategory = categoryFilterCombo == null
+                ? "All categories"
+                : categoryFilterCombo.getValue();
+
+        String selectedStore = storeFilterCombo == null
+                ? "All stores"
+                : storeFilterCombo.getValue();
 
         filteredItems.setPredicate(item -> {
             boolean matchesSearch = searchText.isBlank()

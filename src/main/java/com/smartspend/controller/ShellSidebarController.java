@@ -22,13 +22,13 @@ public class ShellSidebarController {
     public void initialize() {
         ToggleGroup group = new ToggleGroup();
 
-        navDashboard.setToggleGroup(group);
-        navMyItems.setToggleGroup(group);
-        navPriceCompare.setToggleGroup(group);
-        navCartBudget.setToggleGroup(group);
-        navAiAdvisor.setToggleGroup(group);
-        navPriceHistory.setToggleGroup(group);
-        navSettings.setToggleGroup(group);
+        addToGroup(navDashboard, group);
+        addToGroup(navMyItems, group);
+        addToGroup(navPriceCompare, group);
+        addToGroup(navCartBudget, group);
+        addToGroup(navAiAdvisor, group);
+        addToGroup(navPriceHistory, group);
+        addToGroup(navSettings, group);
 
         group.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             if (newToggle == null && oldToggle != null) {
@@ -36,23 +36,38 @@ public class ShellSidebarController {
             }
         });
 
-        navDashboard.setSelected(true);
+        if (navDashboard != null) {
+            navDashboard.setSelected(true);
+        }
+
         loadDashboard();
     }
 
-    @FXML private void loadDashboard()    { loadView("Dashboard.fxml"); }
-    @FXML private void loadShoppingList() { loadView("ShoppingList.fxml"); }
-    @FXML private void loadPriceCompare() { loadView("PriceCompare.fxml"); }
-    @FXML private void loadCartBudget()   { loadView("CartBudget.fxml"); }
-    @FXML private void loadAiAdvisor()    { loadView("AiAdvisor.fxml"); }
-    @FXML private void loadPriceHistory() { loadView("PriceHistory.fxml"); }
-    @FXML private void loadSettings()     { loadView("Settings.fxml"); }
+    private void addToGroup(ToggleButton button, ToggleGroup group) {
+        if (button != null) {
+            button.setToggleGroup(group);
+        }
+    }
+
+    @FXML private void loadDashboard()    { loadView("dashboard-view.fxml"); }
+    @FXML private void loadShoppingList() { loadView("shopping-list-view.fxml"); }
+    @FXML private void loadPriceCompare() { loadView("comparison-view.fxml"); }
+    @FXML private void loadCartBudget()   { loadView("budget-view.fxml"); }
+    @FXML private void loadAiAdvisor()    { loadView("ai-chat-view.fxml"); }
+    @FXML private void loadPriceHistory() { loadView("prices-view.fxml"); }
+    @FXML private void loadSettings()     { loadView("settings-view.fxml"); }
 
     private void loadView(String fxml) {
+        if (rootPane == null) {
+            System.err.println("Cannot load " + fxml + ": rootPane is not connected.");
+            return;
+        }
+
         try {
             Node view = FXMLLoader.load(getClass().getResource("/fxml/" + fxml));
             rootPane.setCenter(view);
         } catch (Exception e) {
+            System.err.println("Failed to load /fxml/" + fxml + ": " + e.getMessage());
             e.printStackTrace();
         }
     }

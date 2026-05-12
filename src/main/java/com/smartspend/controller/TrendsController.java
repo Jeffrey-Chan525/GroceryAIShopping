@@ -1,4 +1,4 @@
 package com.smartspend.controller;
 
-public class TrendsController {
+public class TrendsController extends BaseController {
 }

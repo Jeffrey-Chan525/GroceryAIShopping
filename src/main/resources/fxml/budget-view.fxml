@@ -62,7 +62,7 @@
             <TextField promptText="Search within SmartSpend"
                        prefWidth="260"
                        styleClass="search-field"/>
-            <Button text="Alerts" styleClass="secondary-button"/>
+            <Button text="Notifications" styleClass="secondary-button"/>
         </HBox>
     </top>
 
@@ -107,10 +107,6 @@
                             <Label text="Preferred Store" GridPane.columnIndex="2" GridPane.rowIndex="0" styleClass="field-label"/>
                             <ComboBox fx:id="preferredStoreCombo" promptText="Aldi" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="app-combo" prefWidth="180"/>
                         </GridPane>
-
-                        <Label text="This page ties directly into your user_preferences table and supports the AI budgeting theme."
-                               wrapText="true"
-                               styleClass="muted-label"/>
 
                         <HBox spacing="10">
                             <Button text="Save Budget" onAction="#handleSaveBudget" styleClass="primary-button"/>
