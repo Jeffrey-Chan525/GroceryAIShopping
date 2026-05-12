@@ -1,4 +1,4 @@
-package com.smartspend.model;
+package com.smartspend.model.AI;
 
 import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.service.UserMessage;
