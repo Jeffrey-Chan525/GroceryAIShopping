@@ -84,6 +84,7 @@ public class ComparisonController extends BaseController {
     @FXML private Label bestDealSubLabel;
     @FXML private Label splitShopLabel;
     @FXML private Label splitShopSubLabel;
+    @FXML private Label statusLabel;
 
     @FXML private TableView<ComparisonRow> comparisonTable;
     @FXML private TableColumn<ComparisonRow, String> itemColumn;
@@ -122,7 +123,7 @@ public class ComparisonController extends BaseController {
             loadComparisonDataFromDb();
         } catch (Exception e) {
             showError("Could not connect to database: " + e.getMessage());
-            loadFallbackData;
+            loadFallbackData();
         }
     }
 
@@ -185,26 +186,27 @@ public class ComparisonController extends BaseController {
                     storePrices.put(price.getStoreName(), price.getPrice());
                 }
             }
-        }
 
-        String colesPrice = fo rmatPrice(storePrices.get("Coles"));
-        String woolworthsPrice = formatPrice(storePrices.get("Woolworths"));
-        String aldiPrice = formatPrice(storePrices.get("Aldi"));
 
-        // Find cheapest store for this item
-        String cheapestStore = priceComparisonService.findCheapestStore(storePrices);
-        double cheapestPrice = cheapestStore != null ? storePrices.get(cheapestStore) : 0.0;
-        String reason = cheapestStore != null
-                ? String.format("%s has the lowest price at $%.2f.", cheapestStore, cheapestPrice)
-                : "No prices found.";
+            String colesPrice = formatPrice(storePrices.get("Coles"));
+            String woolworthsPrice = formatPrice(storePrices.get("Woolworths"));
+            String aldiPrice = formatPrice(storePrices.get("Aldi"));
 
-        rows.add(new ComparisonRow(itemName, colesPrice, woolworthsPrice, aldiPrice, cheapestStore != null ? cheapestStore : "-", reason));
+            // Find cheapest store for this item
+            String cheapestStore = priceComparisonService.findCheapestStore(storePrices);
+            double cheapestPrice = cheapestStore != null ? storePrices.get(cheapestStore) : 0.0;
+            String reason = cheapestStore != null
+                    ? String.format("%s has the lowest price at $%.2f.", cheapestStore, cheapestPrice)
+                    : "No prices found.";
 
-        // Track overall best individual deal
-        if (cheapestPrice < bestDealPrice) {
-            bestDealPrice = cheapestPrice;
-            bestDealItem = itemName;
-            bestDealStore = cheapestStore;
+            rows.add(new ComparisonRow(itemName, colesPrice, woolworthsPrice, aldiPrice, cheapestStore != null ? cheapestStore : "-", reason));
+
+            // Track overall best individual deal
+            if (cheapestPrice < bestDealPrice) {
+                bestDealPrice = cheapestPrice;
+                bestDealItem = itemName;
+                bestDealStore = cheapestStore;
+            }
         }
 
         comparisonTable.setItems(FXCollections.observableArrayList(rows));
@@ -241,7 +243,7 @@ public class ComparisonController extends BaseController {
     // Helpers
 
     /**
-     * Formats a price as a currency string, or returns "N/A" if the price is available.
+     * Formats a price as a currency string, or returns "N/A" if the price not is available.
      *
      * @param price the price value, or null if the store does not have the item.
      * @return formatted price string, or "N/A" if the price is not available.
