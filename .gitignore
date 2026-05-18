@@ -21,3 +21,8 @@ Thumbs.db
 
 # Maven
 *.class
+
+# CLAUDE
+CLAUDE.md
+
+
