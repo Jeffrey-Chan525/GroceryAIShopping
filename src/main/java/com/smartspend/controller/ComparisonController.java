@@ -104,10 +104,26 @@ public class ComparisonController extends BaseController {
     private ShoppingListDao shoppingListDao;
     private ItemDao itemDao;
 
+    // Initialization
+
+    /**
+     * Set up the table and load the comparison data from the database.
+     */
+
     @FXML
     public void initialize() {
         setupTable();
-        loadComparisonData();
+
+        try {
+            Connection connection = DatabaseManager.getConnection();
+            priceDao = new PriceDao(connection);
+            shoppingListDao = new ShoppingListDao(connection);
+            itemDao = new ItemDao(connection);
+            loadComparisonDataFromDb();
+        } catch (Exception e) {
+            showError("Could not connect to database: " + e.getMessage());
+            loadFallbackData;
+        }
     }
 
     private void setupTable() {
