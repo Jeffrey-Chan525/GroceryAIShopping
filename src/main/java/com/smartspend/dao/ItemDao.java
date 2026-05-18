@@ -86,6 +86,7 @@ public class ItemDao implements DAO<Item> {
         try{
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(ITEM_ID, value.getId());
+            statement.execute();
         } catch (SQLException e){
             log.error("An error has occurred when deleting an Item: ", e);
         }
