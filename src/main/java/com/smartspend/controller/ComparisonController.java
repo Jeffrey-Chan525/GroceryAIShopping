@@ -212,7 +212,7 @@ public class ComparisonController extends BaseController {
         // Calculate basket totals using shopping List
         Map<String, Double> basketTotals = priceComparisonService.getStoreTotals(allItems, allPrices);
 
-        if (basketTotals.isEmpty()) {
+        if (!basketTotals.isEmpty()) {
             String cheapestBasketStore = priceComparisonService.findCheapestStore(basketTotals);
             double cheapestBasketTotal = basketTotals.get(cheapestBasketStore);
 
