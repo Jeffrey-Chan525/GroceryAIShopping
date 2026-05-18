@@ -93,7 +93,16 @@ public class ComparisonController extends BaseController {
     @FXML private TableColumn<ComparisonRow, String> bestStoreColumn;
     @FXML private TableColumn<ComparisonRow, String> reasonColumn;
 
+    // Dependencies
+
+    /**
+     * Connect to the database and retrieve the comparison data.
+     */
     private final PriceComparisonService priceComparisonService = new PriceComparisonService();
+
+    private PriceDao priceDao;
+    private ShoppingListDao shoppingListDao;
+    private ItemDao itemDao;
 
     @FXML
     public void initialize() {
