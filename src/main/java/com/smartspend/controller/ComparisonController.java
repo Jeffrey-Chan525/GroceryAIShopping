@@ -27,6 +27,12 @@ import java.util.Map;
 
 public class ComparisonController extends BaseController {
 
+    // Inner model for tableview rows
+
+    /**
+     * Represents a single row in the price comparison table.
+     * One row = one grocery item, with prices at each store.
+     */
     public static class ComparisonRow {
         private final SimpleStringProperty item;
         private final SimpleStringProperty coles;
@@ -35,12 +41,12 @@ public class ComparisonController extends BaseController {
         private final SimpleStringProperty bestStore;
         private final SimpleStringProperty reason;
 
-        public ComparisonRow(String item, double coles, double woolworths, double aldi,
+        public ComparisonRow(String item, String coles, String woolworths, String aldi,
                              String bestStore, String reason) {
             this.item = new SimpleStringProperty(item);
-            this.coles = new SimpleStringProperty(String.format("$%.2f", coles));
-            this.woolworths = new SimpleStringProperty(String.format("$%.2f", woolworths));
-            this.aldi = new SimpleStringProperty(String.format("$%.2f", aldi));
+            this.coles = new SimpleStringProperty(coles);
+            this.woolworths = new SimpleStringProperty(woolworths);
+            this.aldi = new SimpleStringProperty(aldi);
             this.bestStore = new SimpleStringProperty(bestStore);
             this.reason = new SimpleStringProperty(reason);
         }
@@ -69,6 +75,8 @@ public class ComparisonController extends BaseController {
             return reason.get();
         }
     }
+
+    // FXML Fields
 
     @FXML private Label lowestStoreLabel;
     @FXML private Label lowestBasketLabel;
