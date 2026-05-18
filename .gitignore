@@ -1,0 +1,23 @@
+# Build output
+target/
+
+# Database files
+*.db
+*.sqlite
+
+# Environment / secrets
+.env
+*.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Maven
+*.class
