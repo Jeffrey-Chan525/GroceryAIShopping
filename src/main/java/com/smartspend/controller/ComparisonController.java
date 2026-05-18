@@ -1,12 +1,26 @@
 package com.smartspend.controller;
 
 import com.smartspend.service.PriceComparisonService;
+
+import com.smartspend.dao.ItemDao;
+import com.smartspend.dao.PriceDao;
+import com.smartspend.dao.ShoppingListDao;
+import com.smartspend.model.Item;
+import com.smartspend.model.Price;
+import com.smartspend.model.ShoppingListEntry;
+import com.smartspend.util.DatabaseManager;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+
+import java.util.List;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
