@@ -126,6 +126,11 @@ public class ComparisonController extends BaseController {
         }
     }
 
+    // Table setup
+
+    /**
+     * Binds each TableColumn to the matching property in the ComparisonRow class.
+     */
     private void setupTable() {
         itemColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getItem()));
         colesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getColes()));
@@ -135,48 +140,172 @@ public class ComparisonController extends BaseController {
         reasonColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getReason()));
     }
 
-    private void loadComparisonData() {
-        ComparisonRow milk = buildRow("Whole milk 2L", 3.20, 3.10, 2.80);
-        ComparisonRow chicken = buildRow("Chicken breast 500g", 6.49, 7.00, 7.20);
-        ComparisonRow pasta = buildRow("Pasta 500g", 1.80, 1.60, 1.20);
-        ComparisonRow yoghurt = buildRow("Greek yoghurt 1kg", 4.50, 3.90, 3.90);
+    // Data loading from DB
 
-        comparisonTable.setItems(FXCollections.observableArrayList(
-                milk,
-                chicken,
-                pasta,
-                yoghurt
-        ));
+    /**
+     * Loads all prices and shopping list entries from the database and populates the comparison table.
+     */
 
-        Map<String, Double> basketTotals = new LinkedHashMap<>();
-        basketTotals.put("Coles", 3.20 + 6.49 + 1.80 + 4.50);
-        basketTotals.put("Woolworths", 3.10 + 7.00 + 1.60 + 3.90);
-        basketTotals.put("Aldi", 2.80 + 7.20 + 1.20 + 3.90);
+    private void loadComparisonDataFromDb() {
 
-        String cheapestBasketStore = priceComparisonService.findCheapestStore(basketTotals);
-        double cheapestBasketTotal = basketTotals.get(cheapestBasketStore);
+        List<Price> allPrices = priceDao.getAll();
+        List<ShoppingListEntry> allItems = shoppingListDao.getAll();
 
-        lowestStoreLabel.setText(cheapestBasketStore);
-        lowestBasketLabel.setText(String.format("$%.2f for the full basket", cheapestBasketTotal));
+        if (allPrices.isEmpty()) {
+            showError("No Price data found in database. Add items via the Dashboard first.");
+            loadFallbackData();
+            return;
+        }
 
-        bestDealLabel.setText("Pasta at Aldi");
-        bestDealSubLabel.setText("Cheapest individual item compared across stores");
+        // Table rows
+        List<ComparisonRow> rows = new ArrayList<>();
 
-        splitShopLabel.setText("Aldi + Coles");
-        splitShopSubLabel.setText("Aldi is best overall, but Coles has the best chicken price");
+        // Collect unique item IDs from prices
+        List<Integer> itemIds = new ArrayList<>();
+        for (Price price : allPrices) {
+            if (!itemIds.contains(price.getItemId())) {
+                itemIds.add(price.getItemId());
+            }
+        }
+
+        // Track best individual deal
+        String bestDealItem = "-";
+        String bestDealStore = "-";
+        double bestDealPrice = Double.MAX_VALUE;
+
+        for (int itemId : itemIds) {
+            //Get item name from ItemDao
+            Item item = itemDao.get(itemId);
+            String itemName = (item != null) ? item.getName() : "Item #" + itemId;
+
+            // Get prices per store for this item
+            Map<String, Double> storePrices = new LinkedHashMap<>();
+            for (Price price : allPrices) {
+                if (price.getItemId() == itemId) {
+                    storePrices.put(price.getStoreName(), price.getPrice());
+                }
+            }
+        }
+
+        String colesPrice = formatPrice(storePrices.get("Coles"));
+        String woolworthsPrice = formatPrice(storePrices.get("Woolworths"));
+        String aldiPrice = formatPrice(storePrices.get("Aldi"));
+
+        // Find cheapest store for this item
+        String cheapestStore = priceComparisonService.findCheapestStore(storePrices);
+        double cheapestPrice = cheapestStore != null ? storePrices.get(cheapestStore) : 0.0;
+        String reason = cheapestStore != null
+                ? String.format("%s has the lowest price at $%.2f.", cheapestStore, cheapestPrice)
+                : "No prices found.";
+
+        rows.add(new ComparisonRow(itemName, colesPrice, woolworthsPrice, aldiPrice, cheapestStore != null ? cheapestStore : "-", reason));
+
+        // Track overall best individual deal
+        if (cheapestPrice < bestDealPrice) {
+            bestDealPrice = cheapestPrice;
+            bestDealItem = itemName;
+            bestDealStore = cheapestStore;
+        }
+
+        comparisonTable.setItems(FXCollections.observableArrayList(rows));
+
+        // Calculate basket totals using shopping List
+        Map<String, Double> basketTotals = priceComparisonService.getStoreTotals(allItems, allPrices);
+
+        if (basketTotals.isEmpty()) {
+            String cheapestBasketStore = priceComparisonService.findCheapestStore(basketTotals);
+            double cheapestBasketTotal = basketTotals.get(cheapestBasketStore);
+
+            lowestStoreLabel.setText(cheapestBasketStore);
+            lowestBasketLabel.setText(String.format("$%.2f for the full basket", cheapestBasketTotal));
+
+            // split shop
+            String splitSuggestion = buildSplitShopSuggestion(basketTotals, cheapestBasketStore);
+            splitShopLabel.setText(splitSuggestion);
+            splitShopSubLabel.setText("Buying select items at the cheaper store saves more");
+        } else {
+            // No shopping list items (show overall cheapest from price table)
+            lowestStoreLabel.setText("Add items to your shopping list for basket totals");
+            lowestBasketLabel.setText("Using all available prices instead");
+        }
+
+        // Best individual deal
+        bestDealLabel.setText(bestDealItem + " at " + bestDealStore);
+        bestDealSubLabel.setText(String.format("Cheapest individual item at $%.2f", bestDealPrice));
+
+        if (statusLabel != null) {
+            statusLabel.setText("Loaded " + rows.size() + " item(s) from database");
+        }
     }
 
-    private ComparisonRow buildRow(String item, double coles, double woolworths, double aldi) {
-        Map<String, Double> prices = new LinkedHashMap<>();
-        prices.put("Coles", coles);
-        prices.put("Woolworths", woolworths);
-        prices.put("Aldi", aldi);
+    // Helpers
 
-        String cheapestStore = priceComparisonService.findCheapestStore(prices);
-        double cheapestPrice = prices.get(cheapestStore);
+    /**
+     * Formats a price as a currency string, or returns "N/A" if the price is available.
+     *
+     * @param price the price value, or null if the store does not have the item.
+     * @return formatted price string, or "N/A" if the price is not available.
+     */
 
-        String reason = String.format("%s has the lowest price at $%.2f.", cheapestStore, cheapestPrice);
-
-        return new ComparisonRow(item, coles, woolworths, aldi, cheapestStore, reason);
+    private String formatPrice(Double price) {
+        return (price != null) ? String.format("$%.2f", price) : "N/A";
     }
-}
+
+    /**
+     * Builds a simple split shop suggestion based on the basket totals.
+     * Recommends the cheapest store
+     *
+     * @param basketTotals
+     * @param cheapestStore
+     * @return suggestion string
+     */
+
+    private String buildSplitShopSuggestion(Map<String, Double> basketTotals, String cheapestStore) {
+        String secondStore = null;
+        double secondLowest = Double.MAX_VALUE;
+
+        for (Map.Entry<String, Double> entry : basketTotals.entrySet()) {
+            if (!entry.getKey().equals(cheapestStore) && entry.getValue() < secondLowest) {
+                secondLowest = entry.getValue();
+                secondStore = entry.getKey();
+            }
+        }
+
+        if (secondStore != null) {
+            double saving = secondLowest - basketTotals.get(cheapestStore);
+            return String.format("%s + %s (save ~$%.2f vs %s alone)", cheapestStore, secondStore, saving, secondStore);
+        }
+        return cheapestStore;
+    }
+        /**
+         * Shows an error message in the status label.
+         *
+         * @param message the error message to display
+         */
+        private void showError(String message) {
+            if (statusLabel != null) {
+                statusLabel.setText(message);
+            }
+            System.err.println("ComparisonController: " + message);
+        }
+
+        /**
+         * Loads hardcoded fallback data when the database is unavailable.
+         * This ensures the UI is never blank during a demo.
+         */
+        private void loadFallbackData() {
+            List<ComparisonRow> fallback = List.of(
+                    new ComparisonRow("Whole milk 2L",      "$3.20", "$3.10", "$2.80", "Aldi",        "Aldi has the lowest price at $2.80."),
+                    new ComparisonRow("Chicken breast 500g","$6.49", "$7.00", "$7.20", "Coles",       "Coles has the lowest price at $6.49."),
+                    new ComparisonRow("Pasta 500g",         "$1.80", "$1.60", "$1.20", "Aldi",        "Aldi has the lowest price at $1.20."),
+                    new ComparisonRow("Greek yoghurt 1kg",  "$4.50", "$3.90", "$3.90", "Woolworths",  "Woolworths has the lowest price at $3.90.")
+            );
+            comparisonTable.setItems(FXCollections.observableArrayList(fallback));
+            lowestStoreLabel.setText("Aldi");
+            lowestBasketLabel.setText("$15.10 for the full basket (demo data)");
+            bestDealLabel.setText("Pasta at Aldi");
+            bestDealSubLabel.setText("Cheapest individual item at $1.20");
+            splitShopLabel.setText("Aldi + Coles");
+            splitShopSubLabel.setText("Aldi is cheapest overall, Coles wins on chicken");
+        }
+    }
