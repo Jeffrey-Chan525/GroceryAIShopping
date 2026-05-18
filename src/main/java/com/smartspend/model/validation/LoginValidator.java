@@ -17,9 +17,11 @@ public class LoginValidator extends UserEntryValidator{
     public ValidationResult check(UserRegistrationDTO userRegistrationDTO) {
         String email = userRegistrationDTO.getEmail();
         String password= userRegistrationDTO.getPassword();
-        if (userRegistrationDTO.getEmail() == null) {return new  ValidationResult(false, "You must type in an Email");}
+        if (email == null || email.isBlank()) {
+            return new ValidationResult(false, "You must enter an email address");
+        }
         try{
-            if (userAuthenticationService.IsUserRegistered(email)){
+            if (!userAuthenticationService.IsUserRegistered(email)){
                 return new ValidationResult(false, "The email you entered is not registered");
             }
             if (!userAuthenticationService.isPasswordCorrect(email, password)) {
