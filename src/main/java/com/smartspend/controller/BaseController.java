@@ -15,7 +15,7 @@ public abstract class BaseController {
         }
     }
 
-    @FXML protected void goLogin(ActionEvent event) { open(event, "/fxml/login-view.fxml", "SmartSpend - Login"); }
+    @FXML protected void goLogin(ActionEvent event) { open(event, "/fxml/Login.fxml", "SmartSpend - Login"); }
     @FXML protected void goDashboard(ActionEvent event) { open(event, "/fxml/dashboard-view.fxml", "SmartSpend - Dashboard"); }
     @FXML protected void goShoppingList(ActionEvent event) { open(event, "/fxml/shopping-list-view.fxml", "SmartSpend - Shopping List"); }
     @FXML protected void goComparison(ActionEvent event) { open(event, "/fxml/comparison-view.fxml", "SmartSpend - Price Comparison"); }

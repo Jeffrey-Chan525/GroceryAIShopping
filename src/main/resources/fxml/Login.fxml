@@ -7,11 +7,11 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.smartspend.controller.LoginController"
       prefWidth="1000" prefHeight="650"
-      style="-fx-background-color: #f5f7f2;">
+      style="-fx-background-color: linear-gradient(to bottom right, #f4fbf5, #eef6ff);">
 
     <!-- Left Panel - Branding -->
     <VBox prefWidth="340" prefHeight="650"
-          style="-fx-background-color: #2d6a4f; -fx-padding: 50 40 50 40;">
+          style="-fx-background-color: linear-gradient(to bottom right, #0f3d2e, #1f6b52 60%, #2d8a63); -fx-padding: 50 40 50 40;">
 
         <!-- Logo -->
         <VBox spacing="4">
@@ -29,21 +29,21 @@
                        style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-family: 'Segoe UI';"/>
                 <Label text="Compare prices across Aldi, Coles &amp; Woolworths to always get the best deal."
                        wrapText="true"
-                       style="-fx-text-fill: #95d5b2; -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
+                       style="-fx-text-fill: rgba(255,255,255,0.78); -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
             </VBox>
             <VBox spacing="6">
                 <Label text="🤖  AI-powered tips"
                        style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-family: 'Segoe UI';"/>
                 <Label text="Get personalised suggestions based on your shopping habits."
                        wrapText="true"
-                       style="-fx-text-fill: #95d5b2; -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
+                       style="-fx-text-fill: rgba(255,255,255,0.78); -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
             </VBox>
             <VBox spacing="6">
                 <Label text="📋  Smart pantry"
                        style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-family: 'Segoe UI';"/>
                 <Label text="Track what you have so you never buy the same thing twice."
                        wrapText="true"
-                       style="-fx-text-fill: #95d5b2; -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
+                       style="-fx-text-fill: rgba(255,255,255,0.78); -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
             </VBox>
         </VBox>
 
@@ -52,7 +52,7 @@
         <!-- Don't have account -->
         <HBox spacing="6" alignment="CENTER_LEFT">
             <Label text="Don't have an account?"
-                   style="-fx-text-fill: #95d5b2; -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
+                   style="-fx-text-fill: rgba(255,255,255,0.78); -fx-font-size: 12px; -fx-font-family: 'Segoe UI';"/>
             <Hyperlink text="Sign up"
                        fx:id="signUpLink"
                        onAction="#handleSignUp"
@@ -62,16 +62,16 @@
 
     <!-- Right Panel - Form -->
     <VBox HBox.hgrow="ALWAYS" prefHeight="650"
-          style="-fx-background-color: #f5f7f2; -fx-padding: 60 70 60 70;">
+          style="-fx-background-color: transparent; -fx-padding: 60 70 60 70;">
 
         <Region VBox.vgrow="ALWAYS"/>
 
         <!-- Header -->
         <VBox spacing="6">
             <Label text="Welcome back"
-                   style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #1b4332; -fx-font-family: 'Segoe UI';"/>
+                   style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #123728; -fx-font-family: 'Segoe UI';"/>
             <Label text="Sign in to your SmartSpend account"
-                   style="-fx-font-size: 13px; -fx-text-fill: #6b7c6e; -fx-font-family: 'Segoe UI';"/>
+                   style="-fx-font-size: 13px; -fx-text-fill: #5d7368; -fx-font-family: 'Segoe UI';"/>
         </VBox>
 
         <Region prefHeight="36"/>
@@ -81,25 +81,25 @@
 
             <VBox spacing="6">
                 <Label text="Email address"
-                       style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #374740; -fx-font-family: 'Segoe UI';"/>
+                       style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #183f2e; -fx-font-family: 'Segoe UI';"/>
                 <TextField fx:id="emailField"
                            promptText="jane@example.com"
-                           style="-fx-background-color: white; -fx-border-color: #dce8e0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 14; -fx-font-size: 13px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #1b4332;"/>
+                           style="-fx-background-color: white; -fx-border-color: #d6e3db; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 11 14; -fx-font-size: 13px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #183f2e;"/>
             </VBox>
 
             <VBox spacing="6">
                 <HBox>
                     <Label text="Password"
-                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #374740; -fx-font-family: 'Segoe UI';"/>
+                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #183f2e; -fx-font-family: 'Segoe UI';"/>
                     <Region HBox.hgrow="ALWAYS"/>
                     <Hyperlink text="Forgot password?"
                                fx:id="forgotLink"
                                onAction="#handleForgotPassword"
-                               style="-fx-text-fill: #2d6a4f; -fx-font-size: 11px; -fx-font-family: 'Segoe UI'; -fx-border-color: transparent; -fx-padding: 0;"/>
+                               style="-fx-text-fill: #15543d; -fx-font-size: 11px; -fx-font-family: 'Segoe UI'; -fx-border-color: transparent; -fx-padding: 0;"/>
                 </HBox>
                 <PasswordField fx:id="passwordField"
                                promptText="Your password"
-                               style="-fx-background-color: white; -fx-border-color: #dce8e0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 14; -fx-font-size: 13px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #1b4332;"/>
+                               style="-fx-background-color: white; -fx-border-color: #d6e3db; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 11 14; -fx-font-size: 13px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #183f2e;"/>
             </VBox>
 
             <!-- Error label -->
@@ -117,7 +117,7 @@
                 text="Sign in"
                 onAction="#handleLogin"
                 maxWidth="Infinity"
-                style="-fx-background-color: #2d6a4f; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-font-family: 'Segoe UI'; -fx-background-radius: 8; -fx-padding: 13 0; -fx-cursor: hand;"/>
+                style="-fx-background-color: linear-gradient(to right, #17a865, #0f8a56); -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-font-family: 'Segoe UI'; -fx-background-radius: 14; -fx-padding: 13 0; -fx-cursor: hand;"/>
 
         <Region VBox.vgrow="ALWAYS"/>
 

@@ -57,7 +57,6 @@
         <Label text="AI tip" styleClass="tip-label"/>
         <Label text="Switch milk &amp; eggs to Aldi — saves \$4.20. Pasta at 3-month low, stock up." styleClass="tip-text"/>
     </VBox>
-
     <Label text="RECENT ITEMS" styleClass="section-label"/>
     <TableView fx:id="itemsTable" VBox.vgrow="ALWAYS" styleClass="clean-table">
         <columns>

@@ -39,8 +39,8 @@ public class DashboardController extends BaseController {
 
     @FXML
     public void initialize() {
-        budgetLabel.setText("Weekly Budget\n$100.00");
-        totalLabel.setText("Basket Total\n$72.40");
+        budgetLabel.setText("$100.00");
+        totalLabel.setText("$72.40");
         briefingLabel.setText(recommendationService.buildFrugalBriefing("Aldi", 72.40, 100.00));
         statusLabel.setText("Ready. Search real products or add a local item.");
 
@@ -51,6 +51,8 @@ public class DashboardController extends BaseController {
         } catch (Exception e) {
             statusLabel.setText("Database error: " + e.getMessage());
         }
+
+
     }
 
     @FXML

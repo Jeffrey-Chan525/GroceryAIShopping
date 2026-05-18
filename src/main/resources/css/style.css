@@ -35,13 +35,24 @@
     -fx-font-weight: 700;
 }
 
-.showcase-card, .auth-card, .surface-card, .metric-card, .sidebar-card {
+/* === Base card styling === */
+.showcase-card, .auth-card, .surface-card, .sidebar-card {
     -fx-background-color: rgba(255,255,255,0.92);
     -fx-background-radius: 24px;
     -fx-border-radius: 24px;
     -fx-border-color: rgba(17, 68, 48, 0.08);
     -fx-effect: dropshadow(gaussian, rgba(7, 30, 23, 0.10), 22, 0.18, 0, 8);
     -fx-padding: 22px;
+}
+
+/* Metric cards are tighter to keep the big value readable */
+.metric-card {
+    -fx-background-color: rgba(255,255,255,0.92);
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(17, 68, 48, 0.08);
+    -fx-effect: dropshadow(gaussian, rgba(7, 30, 23, 0.10), 18, 0.16, 0, 6);
+    -fx-padding: 18px;
 }
 
 .auth-card {
@@ -55,7 +66,7 @@
 }
 
 .page-title {
-    -fx-font-size: 32px;
+    -fx-font-size: 30px;
 }
 
 .page-subtitle, .muted-label {
@@ -69,7 +80,7 @@
 
 .brand {
     -fx-text-fill: white;
-    -fx-font-size: 28px;
+    -fx-font-size: 26px;
     -fx-font-weight: 800;
 }
 
@@ -80,9 +91,9 @@
 
 .nav-button, .ghost-button, .secondary-button, .primary-button {
     -fx-cursor: hand;
-    -fx-background-radius: 16px;
-    -fx-border-radius: 16px;
-    -fx-padding: 12 16;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 11 16;
     -fx-font-weight: 700;
 }
 
@@ -91,6 +102,7 @@
     -fx-text-fill: white;
     -fx-border-color: transparent;
     -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 13px;
 }
 
 .nav-button:hover {
@@ -130,27 +142,31 @@
     -fx-background-radius: 14px;
     -fx-border-radius: 14px;
     -fx-border-color: #d6e3db;
-    -fx-padding: 12 14;
+    -fx-padding: 10 14;
 }
 
-.section-title, .metric-title, .sidebar-card-title, .field-label {
+.section-title, .sidebar-card-title, .field-label {
     -fx-text-fill: #183f2e;
     -fx-font-weight: 800;
     -fx-font-size: 16px;
 }
 
+/* Metric title is smaller and slightly muted to give the value room to breathe */
 .metric-title {
-    -fx-font-size: 14px;
+    -fx-text-fill: #3e6353;
+    -fx-font-weight: 700;
+    -fx-font-size: 13px;
 }
 
+/* Reduced from 34px so $100.00 fits cleanly in a ~300px card */
 .metric-value {
     -fx-text-fill: #123728;
-    -fx-font-size: 34px;
+    -fx-font-size: 28px;
     -fx-font-weight: 900;
 }
 
 .metric-value.small {
-    -fx-font-size: 24px;
+    -fx-font-size: 22px;
 }
 
 .hero-copy {
@@ -161,21 +177,28 @@
 .status-pill {
     -fx-background-color: #edf8ef;
     -fx-background-radius: 999px;
-    -fx-padding: 10 14;
+    -fx-padding: 8 14;
     -fx-text-fill: #206143;
+    -fx-font-size: 13px;
 }
 
 .sidebar-card {
     -fx-background-color: rgba(255,255,255,0.10);
     -fx-border-color: rgba(255,255,255,0.08);
+    -fx-padding: 14px;
 }
 
 .sidebar-card-title, .sidebar-card-body {
     -fx-text-fill: white;
 }
 
+.sidebar-card-title {
+    -fx-font-size: 14px;
+}
+
 .sidebar-card-body {
     -fx-opacity: 0.82;
+    -fx-font-size: 12px;
 }
 
 .content-scroll {
@@ -221,21 +244,22 @@
 
 .list-view.soft-list, .list-view {
     -fx-background-color: white;
-    -fx-background-radius: 18px;
+    -fx-background-radius: 16px;
     -fx-border-color: #d8e5dd;
-    -fx-border-radius: 18px;
+    -fx-border-radius: 16px;
     -fx-padding: 6px;
 }
 
 .list-cell {
     -fx-background-color: transparent;
-    -fx-padding: 12 14;
+    -fx-padding: 10 14;
     -fx-text-fill: #214b39;
+    -fx-font-size: 13px;
 }
 
 .list-cell:filled:selected {
     -fx-background-color: #e9f8ef;
-    -fx-background-radius: 12px;
+    -fx-background-radius: 10px;
     -fx-text-fill: #0f3d2e;
 }
 
@@ -271,18 +295,9 @@
     -fx-background-color: #edf8ef;
 }
 
-.chart-card {
-    -fx-background-color: transparent;
-}
-
-.chart-plot-background {
-    -fx-background-color: white;
-    -fx-background-radius: 18px;
-}
-
-.chart-series-line {
-    -fx-stroke-width: 3px;
-}
+.chart-card { -fx-background-color: transparent; }
+.chart-plot-background { -fx-background-color: white; -fx-background-radius: 18px; }
+.chart-series-line { -fx-stroke-width: 3px; }
 
 .chat-area {
     -fx-background-color: white;
@@ -293,25 +308,28 @@
     -fx-font-size: 14px;
 }
 
-.scroll-pane {
-    -fx-background-color: transparent;
-}
+.scroll-pane { -fx-background-color: transparent; }
+.scroll-bar:vertical, .scroll-bar:horizontal { -fx-background-color: transparent; }
 
-.scroll-bar:vertical, .scroll-bar:horizontal {
-    -fx-background-color: transparent;
-}
+.progress-bar { -fx-accent: #16a361; }
 
-.progress-bar {
-    -fx-accent: #16a361;
+.budget-bar .track {
+    -fx-background-color: rgba(15, 61, 46, 0.10);
+    -fx-background-radius: 999px;
+}
+.budget-bar .bar {
+    -fx-background-radius: 999px;
+    -fx-background-insets: 0;
+    -fx-padding: 6px;
 }
 
 .app-input, .search-field, .app-combo {
-    -fx-min-height: 42px;
-    -fx-pref-height: 42px;
+    -fx-min-height: 40px;
+    -fx-pref-height: 40px;
 }
 
 .primary-button, .secondary-button, .ghost-button, .nav-button {
-    -fx-min-height: 42px;
+    -fx-min-height: 40px;
 }
 
 .app-check {
@@ -326,6 +344,7 @@
 .text-field {
     -fx-text-fill: #183f2e;
 }
+
 /* Fix selected ComboBox text being invisible */
 .combo-box.app-combo {
     -fx-background-color: white;
@@ -341,17 +360,9 @@
     -fx-padding: 0 8 0 8;
 }
 
-.combo-box.app-combo .text {
-    -fx-fill: #183f2e;
-}
-
-.combo-box.app-combo .arrow-button {
-    -fx-background-color: transparent;
-}
-
-.combo-box.app-combo .arrow {
-    -fx-background-color: #183f2e;
-}
+.combo-box.app-combo .text { -fx-fill: #183f2e; }
+.combo-box.app-combo .arrow-button { -fx-background-color: transparent; }
+.combo-box.app-combo .arrow { -fx-background-color: #183f2e; }
 
 .combo-box-popup .list-view {
     -fx-background-color: white;
