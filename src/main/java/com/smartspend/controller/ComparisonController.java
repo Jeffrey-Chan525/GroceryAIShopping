@@ -187,7 +187,7 @@ public class ComparisonController extends BaseController {
             }
         }
 
-        String colesPrice = formatPrice(storePrices.get("Coles"));
+        String colesPrice = fo rmatPrice(storePrices.get("Coles"));
         String woolworthsPrice = formatPrice(storePrices.get("Woolworths"));
         String aldiPrice = formatPrice(storePrices.get("Aldi"));
 

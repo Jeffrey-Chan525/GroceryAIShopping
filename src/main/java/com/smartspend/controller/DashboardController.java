@@ -1,11 +1,23 @@
 package com.smartspend.controller;
+
 import com.smartspend.api.ApiProduct;
 import com.smartspend.api.OpenFoodFactsService;
+
 import com.smartspend.dao.ItemDao;
+import com.smartspend.dao.PreferenceDao;
+import com.smartspend.dao.PriceDao;
+import com.smartspend.dao.ShoppingListDao;
+
 import com.smartspend.model.Item;
+import com.smartspend.model.ShoppingListEntry;
+import com.smartspend.model.UserPreferences;
+
 import com.smartspend.service.ProductImportService;
 import com.smartspend.service.RecommendationService;
+import com.smartspend.service.PriceComparisonService;
+
 import com.smartspend.util.DatabaseManager;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -17,9 +29,15 @@ import javafx.scene.control.TextField;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Controller for the dashboard screen
+ */
 public class DashboardController extends BaseController {
+
+    // FXML fields
     @FXML
     private Label budgetLabel;
     @FXML private Label totalLabel;
@@ -32,25 +50,99 @@ public class DashboardController extends BaseController {
     @FXML private ListView<String> localItemsListView;
     @FXML private Button searchButton;
 
+    // Services
     private final OpenFoodFactsService apiService = new OpenFoodFactsService();
     private final ProductImportService productImportService = new ProductImportService();
     private final RecommendationService recommendationService = new RecommendationService();
-    private ItemDao itemDao;
 
+    // DAOs
+    private ItemDao itemDao;
+    private PreferenceDao preferenceDao;
+    private PriceDao priceDao;
+    private ShoppingListDao shoppingListDao;
+
+    // Instances
+    private double userBudget = 100.0;
+    private String userPrimaryStore = "Aldi";
+    private final PriceComparisonService priceComparisonService = new PriceComparisonService();
+
+    // Initialization
+
+    /**
+     * connects to the database and load real budget and basket values.
+     */
     @FXML
     public void initialize() {
-        budgetLabel.setText("Weekly Budget\n$100.00");
-        totalLabel.setText("Basket Total\n$72.40");
-        briefingLabel.setText(recommendationService.buildFrugalBriefing("Aldi", 72.40, 100.00));
-        statusLabel.setText("Ready. Search real products or add a local item.");
-
         try {
             Connection connection = DatabaseManager.getConnection();
             itemDao = new ItemDao(connection);
+            preferenceDao = new PreferenceDao(connection);
+            priceDao = new PriceDao(connection);
+            shoppingListDao = new ShoppingListDao(connection);
+
+            loadBudgetFromDb();
+            loadBasketTotalFromDb();
             refreshLocalItems();
+
+            statusLabel.setText("Ready. Search real products or add an item.");
         } catch (Exception e) {
             statusLabel.setText("Database error: " + e.getMessage());
+            // Fallback
+            budgetLabel.setText("$100.00");
+            totalLabel.setText("$0.00");
+            briefingLabel.setText("Could not connect to database.");
         }
+    }
+
+    // DB loading methods
+
+    /**
+     * Loads the user's weekly budget from preferenceDAO and updates the budget label. Or else falls back to default.
+     */
+    private void loadBudgetFromDb() {
+        List<UserPreferences> prefs = preferenceDao.getAll();
+
+        if (!prefs.isEmpty()) {
+            UserPreferences userPrefs = prefs.get(0);
+            userBudget = userPrefs.getWeeklyBudget();  // store in instance variable
+            if (userPrefs.getPrimaryStore() != null) {
+                userPrimaryStore = userPrefs.getPrimaryStore(); // store in instance variable
+            }
+            budgetLabel.setText(String.format("$%.2f", userBudget));
+        } else {
+            budgetLabel.setText("$100.00");
+        }
+    }
+
+    /**
+     * Loads the user's basket total from priceDAO and updates the total label. Or else falls back to default.
+     */
+    private void loadBasketTotalFromDb() {
+        List<ShoppingListEntry> listItems = shoppingListDao.getAll();
+        List<com.smartspend.model.Price> allPrices = priceDao.getAll();
+
+        if (listItems.isEmpty() || allPrices.isEmpty()) {
+            totalLabel.setText("$0.00");
+            briefingLabel.setText("Add items to your shopping list to see your basket total.");
+            return;
+        }
+
+        Map<String, Double> storeTotals =
+                priceComparisonService.getStoreTotals(listItems, allPrices);
+
+        if (storeTotals.isEmpty()) {
+            totalLabel.setText("$0.00");
+            briefingLabel.setText("No price data found for your shopping list items.");
+            return;
+        }
+
+        String cheapestStore = priceComparisonService.findCheapestStore(storeTotals);
+        double basketTotal   = storeTotals.get(cheapestStore);
+
+        totalLabel.setText(String.format("$%.2f", basketTotal));
+        briefingLabel.setText(
+                recommendationService.buildFrugalBriefing(cheapestStore, basketTotal, userBudget)
+        );
     }
 
     @FXML
