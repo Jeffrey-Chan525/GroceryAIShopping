@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.chart.*?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.smartspend.controller.PantryController" prefWidth="1440" prefHeight="900" styleClass="app-root">
@@ -37,8 +36,8 @@
                 <Label text="Track what is already at home so students avoid duplicate purchases." styleClass="page-subtitle" />
             </VBox>
             <Region HBox.hgrow="ALWAYS" />
-            <TextField promptText="Search within SmartSpend" prefWidth="260" styleClass="search-field" />
-            <Button text="Notifications" styleClass="secondary-button" />
+            <Button text="+ Add Item" onAction="#handleAddPantryItem" styleClass="primary-button" />
+            <Button text="Delete Selected" onAction="#handleDeletePantryItem" styleClass="secondary-button" />
         </HBox>
     </top>
     <center>
@@ -46,26 +45,30 @@
             <content>
                 <VBox spacing="22" styleClass="content-area">
                     <padding><Insets top="28" right="28" bottom="28" left="28"/></padding>
-                    
-<HBox spacing="18">
-    <VBox HBox.hgrow="ALWAYS" spacing="14" styleClass="surface-card">
-        <Label text="Pantry Inventory" styleClass="section-title" />
-        <TableView prefHeight="460" styleClass="app-table">
-            <columns>
-                <TableColumn text="Item" prefWidth="260" />
-                <TableColumn text="Quantity" prefWidth="140" />
-                <TableColumn text="Best Before" prefWidth="170" />
-                <TableColumn text="Status" prefWidth="160" />
-                <TableColumn text="Suggested Use" prefWidth="260" />
-            </columns>
-        </TableView>
-    </VBox>
-    <VBox prefWidth="330" spacing="12" styleClass="surface-card">
-        <Label text="AI Pantry Coach" styleClass="section-title" />
-        <Label text="Use this area to later connect pantry stock to recipe or restock suggestions. For now, it gives you a polished screen to present your future direction." wrapText="true" styleClass="muted-label" />
-        <Button text="Move Completed Items Here" styleClass="secondary-button" />
-    </VBox>
-</HBox>
+
+                    <HBox spacing="18">
+                        <VBox HBox.hgrow="ALWAYS" spacing="14" styleClass="surface-card">
+                            <Label text="Pantry Inventory" styleClass="section-title" />
+                            <TableView fx:id="pantryTable" prefHeight="460" styleClass="app-table">
+                                <columns>
+                                    <TableColumn fx:id="itemColumn"        text="Item"          prefWidth="260" />
+                                    <TableColumn fx:id="quantityColumn"    text="Quantity"      prefWidth="140" />
+                                    <TableColumn fx:id="bestBeforeColumn"  text="Best Before"   prefWidth="170" />
+                                    <TableColumn fx:id="statusColumn"      text="Status"        prefWidth="160" />
+                                    <TableColumn fx:id="suggestedUseColumn" text="Suggested Use" prefWidth="260" />
+                                </columns>
+                                <placeholder>
+                                    <Label text="No pantry items yet. Click '+ Add Item' to get started." styleClass="muted-label" />
+                                </placeholder>
+                            </TableView>
+                        </VBox>
+                        <VBox prefWidth="330" spacing="12" styleClass="surface-card">
+                            <Label text="AI Pantry Coach" styleClass="section-title" />
+                            <Label text="Use this area to connect pantry stock to recipe or restock suggestions." wrapText="true" styleClass="muted-label" />
+                            <Button text="+ Add Item to Pantry" onAction="#handleAddPantryItem" styleClass="primary-button" maxWidth="Infinity" />
+                            <Button text="Delete Selected Item" onAction="#handleDeletePantryItem" styleClass="secondary-button" maxWidth="Infinity" />
+                        </VBox>
+                    </HBox>
 
                 </VBox>
             </content>
